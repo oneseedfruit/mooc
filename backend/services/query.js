@@ -10,4 +10,4 @@ const query = async (conn, q, params) => new Promise(
     conn.query(q, params, handler);
 });
 
-module.exports = query;
+module.exports = { query };

@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
 conn.query('SELECT TABLE_NAME FROM information_schema.tables WHERE table_schema = ? AND table_name = ?', [databaseName, accountsTableName], (error, results, fields) => {	
-	if (results.length <= 0) {
+	if (results && results.length <= 0) {
 		conn.query('CREATE TABLE IF NOT EXISTS ' + 
 							accountsTableName + 
 								'(`id` int(11) NOT NULL, ' + 

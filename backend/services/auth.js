@@ -8,7 +8,7 @@ const auth = async (req, res, next, conn, accountsTableName) => {
 	if (isLogout) {
 		const sessionId = req.body.sessionId;		
 
-		await query(conn, 'UPDATE ' + accountsTableName 
+		await query.query(conn, 'UPDATE ' + accountsTableName 
 		+ ' SET sessionid = "' + 0 
 		+ '" WHERE sessionId = "' + sessionId + '";');
 		
@@ -19,13 +19,13 @@ const auth = async (req, res, next, conn, accountsTableName) => {
 		const password = req.body.password;
 
 		if (username && password) {
-            const loginResults = await query(conn, 'SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password]);
+            const loginResults = await query.query(conn, 'SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password]);
             
             if (loginResults.length > 0) {
                 req.session.loggedin = true;
 
                 const sessionId = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
-                await query(conn, 'UPDATE ' + accountsTableName 
+                await query.query(conn, 'UPDATE ' + accountsTableName 
                                 + ' SET sessionid = "' + sessionId 
                                 + '" WHERE username = "' + username + '";');                                    									
                 res.send({ username, sessionId });
