@@ -16,29 +16,38 @@ const initdb = () => {
         database : databaseName
     });
 
-    conn.query('SELECT TABLE_NAME FROM information_schema.tables WHERE table_schema = ? AND table_name = ?', [databaseName, accountsTableName], (error, results, fields) => {	
-        if (results && results.length <= 0) {
-            conn.query('CREATE TABLE IF NOT EXISTS ' + 
-                                accountsTableName + 
-                                    '(`id` int(11) NOT NULL, ' + 
-                                    '`username` varchar(50) NOT NULL, ' + 
-                                    '`password` varchar(255) NOT NULL, ' + 
-                                    '`email` varchar(100) NOT NULL, ' + 
-                                    '`type` int(11) NOT NULL, ' +
-                                    '`sessionid` nvarchar(256) DEFAULT 0)' + 
-                                'ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;');
-            conn.query("INSERT INTO `accounts` (`id`, `username`, `password`, `email`, `type`, `sessionid`) VALUES " + 
-                            "(1, '" + 
-                                firstUserName + "', '"+ 
-                                firstUserPassword +"', '"+ 
-                                firstUserEmail+"', "+ 
-                                0 + ", " +
-                                0 +
-                                ");");
-            conn.query('ALTER TABLE `accounts` ADD PRIMARY KEY (`id`);');
-            conn.query('ALTER TABLE `accounts` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;');
-        }
-    });
+    conn.query("SELECT TABLE_NAME FROM information_schema.tables" +
+              " WHERE table_schema = ? AND table_name = ?", 
+              [databaseName, accountsTableName], 
+        (error, results, fields) => {	
+            if (results && results.length <= 0) {
+                conn.query("CREATE TABLE IF NOT EXISTS `" + accountsTableName + "` ("+
+                        "`id` int(11) NOT NULL, " + 
+                        "`username` varchar(50) NOT NULL, " + 
+                        "`password` varchar(255) NOT NULL, " + 
+                        "`email` varchar(100) NOT NULL, " + 
+                        "`type` int(11) NOT NULL, " +
+                        "`sessionid` nvarchar(256) DEFAULT 0"+
+                    ") ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;");
+                conn.query("INSERT INTO `" + accountsTableName + "` (" + 
+                        "`id`, " +
+                        "`username`, " + 
+                        "`password`, " + 
+                        "`email`, " + 
+                        "`type`, " + 
+                        "`sessionid`" + 
+                    ") VALUES (" + 
+                        "1, " + 
+                        "'" + firstUserName + "', "+ 
+                        "'"+ firstUserPassword + "', "+ 
+                        "'"+ firstUserEmail + "', "+ 
+                        "0, " +
+                        "0 "+
+                    ");");
+                conn.query("ALTER TABLE `" + accountsTableName + "` ADD PRIMARY KEY (`id`);");
+                conn.query("ALTER TABLE `" + accountsTableName + "` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;");
+            }
+        });
 
     return conn;
 }
