@@ -97,6 +97,7 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
     const theme = useTheme();
     const [open, setOpen] = useState(false);
     const [pageIndex, setPageIndex] = useState(0);
+    const [profileData, setProfileData] = useState(null);
     
     const pages = [
         {
@@ -105,7 +106,9 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
         },
         {             
             show:
-                <UserProfile setNotification={ setNotification }
+                <UserProfile profileData={ profileData }
+                             setProfileData={ setProfileData }
+                             setNotification={ setNotification }
                              setIsError={ setIsError } />
         }
     ];

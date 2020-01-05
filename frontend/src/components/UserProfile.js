@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { Container, CssBaseline, Typography, Divider } from '@material-ui/core';
+import React, { useEffect } from 'react';
+import { Container, CssBaseline, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import profile from '../services/getProfile';
 
-const UserProfile = ({ setNotification, setIsError }) => {    
-    const [profileData, setProfileData] = useState(null);
-
+const UserProfile = ({ profileData, setProfileData, setNotification, setIsError }) => {    
     const useStyles = makeStyles(theme => ({
         content: {
           marginTop: theme.spacing(8),
@@ -21,12 +19,12 @@ const UserProfile = ({ setNotification, setIsError }) => {
             try {             
                 const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'));
                 if (loggedUser && loggedUser.sessionId) {
-                    const profileData = await profile.getProfile({
+                    const data = await profile.getProfile({
                         sessionId: loggedUser.sessionId
-                    });
-                    
-                    setProfileData(profileData);
-                    return;             
+                    });                    
+
+                    setProfileData(data);
+                    return;
                 }
             } catch (exception) {
                 setNotification('Error acquiring user profile details.');
@@ -38,7 +36,7 @@ const UserProfile = ({ setNotification, setIsError }) => {
             }
         };
         getData();
-    }, [setNotification, setIsError]);
+    }, [setProfileData, setNotification, setIsError]);
 
     return (
         <Container component="main" maxWidth="xl">
