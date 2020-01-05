@@ -30,7 +30,7 @@ import HomePage from './HomePage';
 import UserProfile from './UserProfile';
 
 const MainLayout = ({ setNotification, setIsError, setUser }) => {
-    const drawerWidth = 240;
+    const drawerWidth = 200;
 
     const useStyles = makeStyles(theme => ({
         root: {
@@ -89,7 +89,7 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
         },
         content: {
             flexGrow: 1,
-            padding: theme.spacing(7),
+            padding: theme.spacing(9),
         },
     })); 
 
@@ -192,9 +192,9 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
                 }),
             }}
             >
-            <div className={classes.toolbar}>
+            <div className={classes.toolbar}>                
                 <IconButton onClick={handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                 </IconButton>
             </div>
             <Divider />
@@ -206,14 +206,14 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
                 <ListItem button key="My Profile" onClick={ handleGoToPage(1) }>
                     <ListItemIcon><ProfileIcon /></ListItemIcon>
                     <ListItemText primary="My Profile" />
-                </ListItem>            
+                </ListItem>                
                 <ListItem button key="Logout" onClick={ handleLogout } >
                     <ListItemIcon><ExitIcon /></ListItemIcon>
                     <ListItemText primary="Logout" />
                 </ListItem>            
             </List>
             </Drawer>
-            <main className={classes.content}>            
+            <main className={classes.content}>
                 { pages[pageIndex].show }
             </main>
         </div>

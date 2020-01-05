@@ -25,7 +25,8 @@ const UserProfile = ({ setNotification, setIsError }) => {
                         sessionId: loggedUser.sessionId
                     });
                     
-                    setProfileData(profileData);                
+                    setProfileData(profileData);
+                    return;             
                 }
             } catch (exception) {
                 setNotification('Error acquiring user profile details.');
@@ -45,7 +46,7 @@ const UserProfile = ({ setNotification, setIsError }) => {
             <div className={classes.content}>
                 <Typography variant="h6" gutterBottom>
                     <div>Username: { profileData && profileData.length > 0 ? profileData[0].username : '' }</div>
-                    <div>Email: { profileData && profileData.length > 0 ? profileData[0].email : '' }</div>
+                    <div>Email: { profileData && profileData.length > 0 ? profileData[0].email : '' }</div>                    
                     <div>Account type: { profileData && profileData.length > 0 ? profileData[0].type : '' }</div>
                 </Typography>
             </div>
