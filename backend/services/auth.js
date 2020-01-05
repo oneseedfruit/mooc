@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const uuid = require('node-uuid');
 const query = require('./query');
@@ -15,20 +16,18 @@ const auth = async (req, res, next, conn, accountsTableName) => {
 		res.end();
 	}
 	else if (!isLogout) {
-		const username = req.body.username;
-		const password = req.body.password;
-
-		if (username && password) {
-            const loginResults = await query.query(conn, 'SELECT * FROM accounts WHERE username = ? AND password = ?', [username, password]);
-            
-            if (loginResults.length > 0) {
+		if (req.body.username && req.body.password) {
+            const loginResults = await query.query(conn, 'SELECT password FROM accounts WHERE username = ?', [req.body.username]);
+			const isMatching = loginResults.length > 0 ? bcrypt.compareSync(req.body.password, loginResults[0].password, 10) : false;				
+									
+            if (isMatching) {
                 req.session.loggedin = true;
 
                 const sessionId = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
                 await query.query(conn, 'UPDATE ' + accountsTableName 
                                 + ' SET sessionid = "' + sessionId 
-                                + '" WHERE username = "' + username + '";');                                    									
-                res.send({ username, sessionId });
+                                + '" WHERE username = "' + req.body.username + '";');                                    									
+                res.send({ username: req.body.username, sessionId });
             } else {
                 res.status(401).send('Incorrect Username and/or Password!');
             }			

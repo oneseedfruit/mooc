@@ -30,11 +30,16 @@ const UserProfile = ({ user, setNotification, setIsError }) => {
     useEffect(() => {
         const getData = async () => {        
             try {             
-                const profileData = await profile.getProfile({
-                    sessionId: user.sessionId
-                });
-                
-                setProfileData(profileData);                
+                const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'));
+                if (loggedUser && loggedUser.sessionId) {
+                    const profileData = await profile.getProfile({
+                        sessionId: loggedUser.sessionId
+                    });
+                    
+                    setProfileData(profileData);                }
+                else {
+                    throw "";
+                }
             } catch (exception) {
                 setNotification('Wrong credentials');
                 setIsError(true);

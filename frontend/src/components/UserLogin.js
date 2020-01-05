@@ -118,13 +118,13 @@ const UserLogin = ({ user, setUser, onLoggedIn, setNotification, setIsError }) =
         <Container component="main" maxWidth="xs">
         <>{ onLoggedIn(user) }</>
             <CssBaseline /> 
-            <div className={classes.paper}>
+            {/* <div className={classes.paper}> */}
                 <Button variant="contained" 
                         color="primary" 
                         className={classes.submit} 
                         onClick={ handleLogout } 
-                        fullWidth>logout</Button>
-            </div>
+                        >logout</Button>
+            {/* </div> */}
         </Container>
     );
 };

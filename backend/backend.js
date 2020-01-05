@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const cors = require('cors')
 const mysql = require('mysql');
 const express = require('express');
@@ -14,7 +15,7 @@ const PORT = 3001;
 const databaseName = 'db';
 const accountsTableName = 'accounts';
 const firstUserName = 'admin';
-const firstUserPassword = 'password';
+const firstUserPassword = bcrypt.hashSync('admin', 10);
 const firstUserEmail = 'admin@admin.com';
 
 const conn = mysql.createConnection({
