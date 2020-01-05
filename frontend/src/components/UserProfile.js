@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, TextField, Grid, Container, CssBaseline } from '@material-ui/core';
+import { Container, CssBaseline, Typography, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import profile from '../services/getProfile';
 
@@ -7,23 +7,12 @@ const UserProfile = ({ setNotification, setIsError }) => {
     const [profileData, setProfileData] = useState(null);
 
     const useStyles = makeStyles(theme => ({
-        paper: {
+        content: {
           marginTop: theme.spacing(8),
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-        },
-        avatar: {
-          margin: theme.spacing(1),
-          backgroundColor: theme.palette.secondary.main,
-        },
-        form: {
-          width: '100%', // Fix IE 11 issue.
-          marginTop: theme.spacing(1),
-        },
-        submit: {
-          margin: theme.spacing(3, 0, 2),
-        },
+        }
       }));
     const classes = useStyles();
 
@@ -38,9 +27,6 @@ const UserProfile = ({ setNotification, setIsError }) => {
                     
                     setProfileData(profileData);                
                 }
-                else {
-                    throw "";
-                }
             } catch (exception) {
                 setNotification('Error acquiring user profile details.');
                 setIsError(true);
@@ -54,12 +40,14 @@ const UserProfile = ({ setNotification, setIsError }) => {
     }, [setNotification, setIsError]);
 
     return (
-        <Container component="main" maxWidth="xs">
-        <CssBaseline /> 
-            <div className={classes.paper}>
-                Welcome, { profileData && profileData.length > 0 ? profileData[0].username : '' }! 
-                Email: { profileData && profileData.length > 0 ? profileData[0].email : '' } 
-                Type: { profileData && profileData.length > 0 ? profileData[0].type : '' } 
+        <Container component="main" maxWidth="xl">
+        <CssBaseline />         
+            <div className={classes.content}>
+                <Typography variant="h6" gutterBottom>
+                    <div>Username: { profileData && profileData.length > 0 ? profileData[0].username : '' }</div>
+                    <div>Email: { profileData && profileData.length > 0 ? profileData[0].email : '' }</div>
+                    <div>Account type: { profileData && profileData.length > 0 ? profileData[0].type : '' }</div>
+                </Typography>
             </div>
         </Container>
     );

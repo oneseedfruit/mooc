@@ -96,7 +96,7 @@ const UserLogin = ({ user, setUser, onLoggedIn, setNotification, setIsError }) =
         );
 
     return (   
-        <div>{ onLoggedIn(user) }</div>
+        <div>{ onLoggedIn }</div>
     );
 };
 
