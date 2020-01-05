@@ -58,34 +58,6 @@ const UserLogin = ({ user, setUser, onLoggedIn, setNotification, setIsError }) =
         }
     };
 
-    const handleLogout = async event => { 
-        event.preventDefault();        
-        try { 
-            await loginService.login({
-                isLogout: true, sessionId: user.sessionId
-            });
-            
-            const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'));
-
-            window.localStorage.removeItem('loggedUser');
-            window.localStorage.clear();
-            setUser(null);
-            setNotification(`${ loggedUser ? loggedUser.username : 'User' } logout successfully.`);
-            setIsError(true);
-            setTimeout(() => {
-                setNotification(null);
-                setIsError(false);
-            }, 5000);
-        } catch (exception) {
-            setNotification('Logout failed.');
-            setIsError(true);
-            setTimeout(() => {
-                setNotification(null);
-                setIsError(false);
-            }, 5000);
-        }
-    };
-
     if (user === null || user === '')
         return (
             <Container component="main" maxWidth="xs">
@@ -124,17 +96,7 @@ const UserLogin = ({ user, setUser, onLoggedIn, setNotification, setIsError }) =
         );
 
     return (   
-        <Container component="main" maxWidth="xs">
-        <>{ onLoggedIn(user) }</>
-            <CssBaseline /> 
-            {/* <div className={classes.paper}> */}
-                <Button variant="contained" 
-                        color="primary" 
-                        className={classes.submit} 
-                        onClick={ handleLogout } 
-                        >logout</Button>
-            {/* </div> */}
-        </Container>
+        <div>{ onLoggedIn(user) }</div>
     );
 };
 

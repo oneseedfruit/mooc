@@ -3,7 +3,7 @@ import { Button, TextField, Grid, Container, CssBaseline } from '@material-ui/co
 import { makeStyles } from '@material-ui/core/styles';
 import profile from '../services/getProfile';
 
-const UserProfile = ({ user, setNotification, setIsError }) => {    
+const UserProfile = ({ setNotification, setIsError }) => {    
     const [profileData, setProfileData] = useState(null);
 
     const useStyles = makeStyles(theme => ({
@@ -36,7 +36,8 @@ const UserProfile = ({ user, setNotification, setIsError }) => {
                         sessionId: loggedUser.sessionId
                     });
                     
-                    setProfileData(profileData);                }
+                    setProfileData(profileData);                
+                }
                 else {
                     throw "";
                 }
@@ -50,15 +51,15 @@ const UserProfile = ({ user, setNotification, setIsError }) => {
             }
         };
         getData();
-    }, [user, setNotification, setIsError]);
+    }, [setNotification, setIsError]);
 
     return (
         <Container component="main" maxWidth="xs">
         <CssBaseline /> 
             <div className={classes.paper}>
-                Welcome, { profileData != null ? profileData[0].username : '' }! 
-                Email: { profileData != null ? profileData[0].email : '' } 
-                Type: { profileData != null ? profileData[0].type : '' } 
+                Welcome, { profileData && profileData.length > 0 ? profileData[0].username : '' }! 
+                Email: { profileData && profileData.length > 0 ? profileData[0].email : '' } 
+                Type: { profileData && profileData.length > 0 ? profileData[0].type : '' } 
             </div>
         </Container>
     );
