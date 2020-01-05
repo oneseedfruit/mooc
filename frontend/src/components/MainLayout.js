@@ -22,6 +22,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import HomeIcon from '@material-ui/icons/Home';
 import ProfileIcon from '@material-ui/icons/AccountCircle';
+import ClassesIcon from '@material-ui/icons/School';
+import UserAdminIcon from '@material-ui/icons/SupervisorAccount';
+import CourseAdminIcon from '@material-ui/icons/LibraryBooks';
 import ExitIcon from '@material-ui/icons/ExitToAppRounded';
 
 import loginService from '../services/login';
@@ -133,7 +136,7 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
   
             await loginService.login({
                 isLogout: true, sessionId: loggedUser.sessionId
-            });            
+            });
   
             window.localStorage.removeItem('loggedUser');
             window.localStorage.clear();
@@ -209,11 +212,23 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
                 <ListItem button key="My Profile" onClick={ handleGoToPage(1) }>
                     <ListItemIcon><ProfileIcon /></ListItemIcon>
                     <ListItemText primary="My Profile" />
-                </ListItem>                
+                </ListItem>
+                <ListItem button key="My Classes" >
+                    <ListItemIcon><ClassesIcon /></ListItemIcon>
+                    <ListItemText primary="My Classes" />
+                </ListItem>
+                <ListItem button key="User Admin" >
+                    <ListItemIcon><UserAdminIcon /></ListItemIcon>
+                    <ListItemText primary="User Admin" />
+                </ListItem>
+                <ListItem button key="Course Admin" >
+                    <ListItemIcon><CourseAdminIcon /></ListItemIcon>
+                    <ListItemText primary="Course Admin" />
+                </ListItem>
                 <ListItem button key="Logout" onClick={ handleLogout } >
                     <ListItemIcon><ExitIcon /></ListItemIcon>
                     <ListItemText primary="Logout" />
-                </ListItem>            
+                </ListItem>
             </List>
             </Drawer>
             <main className={classes.content}>
