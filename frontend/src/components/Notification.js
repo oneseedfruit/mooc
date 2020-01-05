@@ -1,4 +1,6 @@
 import React from 'react';
+import { Snackbar, Fade } from '@material-ui/core';
+
 
 const Notification = ({ message, isError }) => {
     if (message === null) {
@@ -6,9 +8,15 @@ const Notification = ({ message, isError }) => {
     }
 
     return (
-        <div className={ isError ? "error" : "message" }>
-            { message }
-        </div>
+        <Snackbar
+            open={message !== null}
+            onClose={() => true}
+            TransitionComponent={ Fade }
+            ContentProps={{
+                'aria-describedby': 'message-id',
+            }}
+            message={<span id="message-id">{ message }</span>}            
+        />
     );
 };
 

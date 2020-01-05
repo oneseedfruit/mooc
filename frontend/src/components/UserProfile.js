@@ -41,7 +41,7 @@ const UserProfile = ({ user, setNotification, setIsError }) => {
                     throw "";
                 }
             } catch (exception) {
-                setNotification('Wrong credentials');
+                setNotification('Error acquiring user profile details.');
                 setIsError(true);
                 setTimeout(() => {
                     setNotification(null);

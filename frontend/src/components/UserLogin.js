@@ -43,13 +43,13 @@ const UserLogin = ({ user, setUser, onLoggedIn, setNotification, setIsError }) =
             setUsername('');
             setPassword('');
 
-            setNotification(`${ username } logged in`);
+            setNotification(`${ username } login successfully.`);
             setIsError(false);
             setTimeout(() => {
                 setNotification(null);                
             }, 5000);
         } catch (exception) {
-            setNotification('Wrong credentials');
+            setNotification('Wrong credentials. Login failed.');
             setIsError(true);
             setTimeout(() => {
                 setNotification(null);
@@ -64,12 +64,20 @@ const UserLogin = ({ user, setUser, onLoggedIn, setNotification, setIsError }) =
             await loginService.login({
                 isLogout: true, sessionId: user.sessionId
             });
+            
+            const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'));
 
             window.localStorage.removeItem('loggedUser');
             window.localStorage.clear();
             setUser(null);
+            setNotification(`${ loggedUser ? loggedUser.username : 'User' } logout successfully.`);
+            setIsError(true);
+            setTimeout(() => {
+                setNotification(null);
+                setIsError(false);
+            }, 5000);
         } catch (exception) {
-            setNotification('Can\'t logout');
+            setNotification('Logout failed.');
             setIsError(true);
             setTimeout(() => {
                 setNotification(null);
@@ -103,9 +111,10 @@ const UserLogin = ({ user, setUser, onLoggedIn, setNotification, setIsError }) =
                                         name="password"
                                         onChange={({ target }) => setPassword(target.value)}
                                         margin="normal"
+                                        type="password"
                                         required
                                         fullWidth
-                                        autoComplete="current-password"
+                                        autoComplete="password"
                             />                  
                         </Grid>                    
                         <Button variant="contained" color="primary" className={classes.submit} type="submit" fullWidth>login</Button>                    

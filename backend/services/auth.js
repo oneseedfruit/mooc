@@ -16,9 +16,12 @@ const auth = async (req, res, next, conn, accountsTableName) => {
 		res.end();
 	}
 	else if (!isLogout) {
-		if (req.body.username && req.body.password) {
-            const loginResults = await query.query(conn, 'SELECT password FROM accounts WHERE username = ?', [req.body.username]);
-			const isMatching = loginResults.length > 0 ? bcrypt.compareSync(req.body.password, loginResults[0].password, 10) : false;				
+		const reqUsername = req.body.username;
+		const reqPassword = req.body.password;
+		
+		if (reqUsername && reqPassword) {
+            const loginResults = await query.query(conn, 'SELECT password FROM accounts WHERE username = ?', [reqUsername]);
+			const isMatching = loginResults.length > 0 ? bcrypt.compareSync(reqPassword, loginResults[0].password, 10) : false;				
 									
             if (isMatching) {
                 req.session.loggedin = true;
@@ -26,8 +29,8 @@ const auth = async (req, res, next, conn, accountsTableName) => {
                 const sessionId = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
                 await query.query(conn, 'UPDATE ' + accountsTableName 
                                 + ' SET sessionid = "' + sessionId 
-                                + '" WHERE username = "' + req.body.username + '";');                                    									
-                res.send({ username: req.body.username, sessionId });
+                                + '" WHERE username = "' + reqUsername + '";');                                    									
+                res.send({ username: reqUsername, sessionId });
             } else {
                 res.status(401).send('Incorrect Username and/or Password!');
             }			
