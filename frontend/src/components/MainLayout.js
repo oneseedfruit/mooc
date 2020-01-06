@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -27,11 +27,12 @@ import CourseAdminIcon from '@material-ui/icons/LibraryBooks';
 import ExitIcon from '@material-ui/icons/ExitToAppRounded';
 
 import loginService from '../services/login';
+import account from '../services/account';
 
 import HomePage from './HomePage';
 import UserProfile from './UserProfile';
 
-const MainLayout = ({ setNotification, setIsError, setUser }) => {
+const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
     const drawerWidth = 200;
 
     const useStyles = makeStyles(theme => ({
@@ -97,10 +98,38 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
 
     const classes = useStyles();
     const theme = useTheme();
+
     const [open, setOpen] = useState(false);
     const [pageIndex, setPageIndex] = useState(0);
+    
+    const [permissions, setPermissions] = useState(null);
     const [profileData, setProfileData] = useState(null);
     
+    useEffect(() => {
+        if (permissions != null) {
+            return;
+        }
+        const getProfileData = async () => {        
+            try {                                    
+                const data = await account.getPermissions({
+                    sessionId
+                });                
+                
+                setPermissions(data);
+                
+                return;                
+            } catch (exception) {
+                setNotification('Error acquiring user permissions.');
+                setIsError(true);
+                setTimeout(() => {
+                    setNotification(null);
+                    setIsError(false);
+                }, 5000);
+            }
+        };
+        getProfileData();
+    }, [sessionId, permissions, setNotification, setIsError]);
+
     const pages = [
         {
             show: 
@@ -108,13 +137,13 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
         },
         {             
             show:
-                <UserProfile profileData={ profileData }
+                <UserProfile sessionId={ sessionId }
+                             profileData={ profileData }
                              setProfileData={ setProfileData }
                              setNotification={ setNotification }
                              setIsError={ setIsError } />
         }
     ];
-
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -135,7 +164,7 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
             const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'));
   
             await loginService.login({
-                isLogout: true, sessionId: loggedUser.sessionId
+                isLogout: true, sessionId
             });
   
             window.localStorage.removeItem('loggedUser');
@@ -216,14 +245,21 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
                         <ListItemIcon><ClassesIcon /></ListItemIcon>
                         <ListItemText primary="My Classes" />
                     </ListItem>
-                    <ListItem button key="User Admin" >
-                        <ListItemIcon><UserAdminIcon /></ListItemIcon>
-                        <ListItemText primary="User Admin" />
-                    </ListItem>
-                    <ListItem button key="Course Admin" >
-                        <ListItemIcon><CourseAdminIcon /></ListItemIcon>
-                        <ListItemText primary="Course Admin" />
-                    </ListItem>
+
+                    { permissions !== null ? permissions.isAdmin ?
+                        <>
+                            <ListItem button key="User Admin" >
+                                <ListItemIcon><UserAdminIcon /></ListItemIcon>
+                                <ListItemText primary="User Admin" />
+                            </ListItem>
+                            <ListItem button key="Course Admin" >
+                                <ListItemIcon><CourseAdminIcon /></ListItemIcon>
+                                <ListItemText primary="Course Admin" />
+                            </ListItem> 
+                        </>
+                        : '' : ''
+                    }
+
                     <ListItem button key="Logout" onClick={ handleLogout } >
                         <ListItemIcon><ExitIcon /></ListItemIcon>
                         <ListItemText primary="Logout" />

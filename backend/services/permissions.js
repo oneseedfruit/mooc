@@ -1,8 +1,8 @@
 const query = require('./query');
 
-const profile = async (req, res, next, conn, accountsTableName) => {
+const permissions = async (req, res, next, conn, accountsTableName) => {
     const get = await query.query(conn, 
-                    'SELECT userid,username,email FROM ' + accountsTableName + 
+                    'SELECT userid FROM ' + accountsTableName + 
                     ' WHERE sessionId = ? ;', [req.body.sessionId]
                 ).catch(console.log);
     
@@ -11,11 +11,11 @@ const profile = async (req, res, next, conn, accountsTableName) => {
                     ' WHERE userid = ? ;', [get[0].userid]
                 ).catch(console.log);
                 
-    const data = { ...get[0], ...get2[0] };
+    const data = get2[0];
     
     res.send(data);
     res.end();
 
 };
 
-module.exports = profile;
+module.exports = permissions;

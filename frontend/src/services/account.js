@@ -6,4 +6,9 @@ const getProfile = async sessionId => {
   return response.data;
 };
 
-export default { getProfile };
+const getPermissions = async sessionId => {
+  const response = await axios.post(`${baseUrl}/permissions`, sessionId);  
+  return response.data;
+};
+
+export default { getProfile, getPermissions };

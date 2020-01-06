@@ -9,6 +9,7 @@ const app = express();
 const initdb = require('./services/initdb');
 const auth = require('./services/auth');
 const profile = require('./services/profile');
+const permissions = require('./services/permissions');
 
 const conn = initdb();
 const accountsTableName = 'accounts';
@@ -27,5 +28,6 @@ app.use(bodyParser.json());
 
 app.post('/auth', (req, res, next) => auth(req, res, next, conn, accountsTableName));
 app.post('/profile', (req, res, next) => profile(req, res, next, conn, accountsTableName));
+app.post('/permissions', (req, res, next) => permissions(req, res, next, conn, accountsTableName));
 
 app.listen(PORT, () => console.log('listening on: ', PORT));

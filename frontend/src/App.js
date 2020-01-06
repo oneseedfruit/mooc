@@ -6,13 +6,16 @@ import MainLayout from './components/MainLayout';
 const App = () => {
   const [notification, setNotification] = useState(null);
   const [isError, setIsError] = useState(false);
-  const [user, setUser] = useState(null);
+
+  const [user, setUser] = useState(null);   
+  const [sessionId, setSessionId] = useState(null);
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
+      setSessionId(user.sessionId);
     }
   }, []);  
   
@@ -23,7 +26,10 @@ const App = () => {
                  setUser={ setUser }
                  setNotification={ setNotification } 
                  setIsError={ setIsError }
-                 onLoggedIn={ MainLayout({ setNotification, setIsError, setUser }) } />
+                 onLoggedIn={ MainLayout({ sessionId,
+                                           setNotification, 
+                                           setIsError, 
+                                           setUser }) } />
     </div>
   );
 };
