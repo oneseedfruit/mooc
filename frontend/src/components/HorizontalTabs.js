@@ -10,15 +10,14 @@ const a11yProps = index => {
   };
 };
 
-const useStyles = makeStyles(theme => ({
-  root: {
-    flexGrow: 1,
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-  }  
-}));
-
 const HorizontalTabs = ({ tabs, tabPanels }) => {
+  const useStyles = makeStyles(theme => ({
+    root: {
+      flexGrow: 1,
+      width: '100%',
+      backgroundColor: theme.palette.background.paper,
+    }  
+  }));
   const classes = useStyles();
   const [value, setValue] = useState(0);
 

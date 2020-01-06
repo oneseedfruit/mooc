@@ -180,55 +180,55 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
                 <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" noWrap>
-
+                    
                 </Typography>
             </Toolbar>
             </AppBar>
             <Drawer
-            variant="permanent"
-            className={clsx(classes.drawer, {
-                [classes.drawerOpen]: open,
-                [classes.drawerClose]: !open,
-            })}
-            classes={{
-                paper: clsx({
-                [classes.drawerOpen]: open,
-                [classes.drawerClose]: !open,
-                }),
-            }}
+                variant="permanent"
+                className={clsx(classes.drawer, {
+                    [classes.drawerOpen]: open,
+                    [classes.drawerClose]: !open,
+                })}
+                classes={{
+                    paper: clsx({
+                    [classes.drawerOpen]: open,
+                    [classes.drawerClose]: !open,
+                    }),
+                }}
             >
-            <div className={classes.toolbar}>                
-                <IconButton onClick={handleDrawerClose}>
-                    {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                </IconButton>
-            </div>
-            <Divider />
-            <List>
-                <ListItem button key="Home" onClick={ handleGoToPage(0) }>
-                    <ListItemIcon><HomeIcon /></ListItemIcon>
-                    <ListItemText primary="Home" />
-                </ListItem>            
-                <ListItem button key="My Profile" onClick={ handleGoToPage(1) }>
-                    <ListItemIcon><ProfileIcon /></ListItemIcon>
-                    <ListItemText primary="My Profile" />
-                </ListItem>
-                <ListItem button key="My Classes" >
-                    <ListItemIcon><ClassesIcon /></ListItemIcon>
-                    <ListItemText primary="My Classes" />
-                </ListItem>
-                <ListItem button key="User Admin" >
-                    <ListItemIcon><UserAdminIcon /></ListItemIcon>
-                    <ListItemText primary="User Admin" />
-                </ListItem>
-                <ListItem button key="Course Admin" >
-                    <ListItemIcon><CourseAdminIcon /></ListItemIcon>
-                    <ListItemText primary="Course Admin" />
-                </ListItem>
-                <ListItem button key="Logout" onClick={ handleLogout } >
-                    <ListItemIcon><ExitIcon /></ListItemIcon>
-                    <ListItemText primary="Logout" />
-                </ListItem>
-            </List>
+                <div className={classes.toolbar}>                
+                    <IconButton onClick={handleDrawerClose}>
+                        {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                    </IconButton>
+                </div>
+                <Divider />
+                <List>
+                    <ListItem button key="Home" onClick={ handleGoToPage(0) }>
+                        <ListItemIcon><HomeIcon /></ListItemIcon>
+                        <ListItemText primary="Home" />
+                    </ListItem>            
+                    <ListItem button key="My Profile" onClick={ handleGoToPage(1) }>
+                        <ListItemIcon><ProfileIcon /></ListItemIcon>
+                        <ListItemText primary="My Profile" />
+                    </ListItem>
+                    <ListItem button key="My Classes" >
+                        <ListItemIcon><ClassesIcon /></ListItemIcon>
+                        <ListItemText primary="My Classes" />
+                    </ListItem>
+                    <ListItem button key="User Admin" >
+                        <ListItemIcon><UserAdminIcon /></ListItemIcon>
+                        <ListItemText primary="User Admin" />
+                    </ListItem>
+                    <ListItem button key="Course Admin" >
+                        <ListItemIcon><CourseAdminIcon /></ListItemIcon>
+                        <ListItemText primary="Course Admin" />
+                    </ListItem>
+                    <ListItem button key="Logout" onClick={ handleLogout } >
+                        <ListItemIcon><ExitIcon /></ListItemIcon>
+                        <ListItemText primary="Logout" />
+                    </ListItem>
+                </List>
             </Drawer>
             <main className={classes.content}>
                 { pages[pageIndex].show }

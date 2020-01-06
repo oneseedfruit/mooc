@@ -34,9 +34,8 @@ const UserProfile = ({ profileData, setProfileData, setNotification, setIsError 
             [
                 <Tab key={0} label="Me" {...a11yProps(0)} />,
                 <Tab key={1} label="Item" {...a11yProps(1)} />,
-                <Tab key={2} label="Item" {...a11yProps(1)} />,
-                <Tab key={3} label="Item" {...a11yProps(1)} />,
-                <Tab key={4} label="Item" {...a11yProps(1)} />
+                <Tab key={2} label="Item" {...a11yProps(2)} />,
+                <Tab key={3} label="Item" {...a11yProps(3)} />,                
             ]
         );
     };
@@ -50,7 +49,13 @@ const UserProfile = ({ profileData, setProfileData, setNotification, setIsError 
                     {/* <div>Account type: { profileData && profileData.length > 0 ? profileData[0].permissions : '' }</div> */}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    Item Two
+                    Item
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                    Meti
+                </TabPanel>
+                <TabPanel value={value} index={3}>
+                    :D
                 </TabPanel>
             </>
         );
