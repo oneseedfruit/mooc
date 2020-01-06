@@ -3,7 +3,7 @@ import { Button, TextField, Grid, Container, CssBaseline } from '@material-ui/co
 import { makeStyles } from '@material-ui/core/styles';
 import loginService from '../services/login';
 
-const UserLogin = ({ user, setUser, onLoggedIn, setNotification, setIsError }) => {
+const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, setIsError }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -36,6 +36,7 @@ const UserLogin = ({ user, setUser, onLoggedIn, setNotification, setIsError }) =
             );
             
             setUser(user);
+            setSessionId(user.sessionId);
             setUsername('');
             setPassword('');
 
@@ -92,7 +93,7 @@ const UserLogin = ({ user, setUser, onLoggedIn, setNotification, setIsError }) =
         );
 
     return (   
-        <div>{ onLoggedIn }</div>
+        <>{ onLoggedIn }</>
     );
 };
 

@@ -106,17 +106,14 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
     const [profileData, setProfileData] = useState(null);
     
     useEffect(() => {
-        if (permissions != null) {
-            return;
-        }
         const getProfileData = async () => {        
             try {                                    
                 const data = await account.getPermissions({
                     sessionId
-                });                
+                });
                 
                 setPermissions(data);
-                
+
                 return;                
             } catch (exception) {
                 setNotification('Error acquiring user permissions.');
@@ -127,9 +124,9 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
                 }, 5000);
             }
         };
-        getProfileData();
-    }, [sessionId, permissions, setNotification, setIsError]);
-
+        getProfileData();        
+    }, [sessionId, setNotification, setIsError]);
+    
     const pages = [
         {
             show: 
@@ -161,8 +158,7 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
     const handleLogout = async event => { 
         event.preventDefault();        
         try { 
-            const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'));
-  
+            const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'));  
             await loginService.login({
                 isLogout: true, sessionId
             });

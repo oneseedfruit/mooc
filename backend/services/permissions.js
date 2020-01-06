@@ -1,21 +1,14 @@
 const query = require('./query');
 
-const permissions = async (req, res, next, conn, accountsTableName) => {
-    const get = await query.query(conn, 
-                    'SELECT userid FROM ' + accountsTableName + 
-                    ' WHERE sessionId = ? ;', [req.body.sessionId]
-                ).catch(console.log);
+const permissions = async (req, res, next, conn, accountsTableName) => {    
+    const data = await query.query(conn, 
+            'SELECT ac.userid, p.isAdmin FROM ' + accountsTableName + ' ac ' +            
+            'JOIN permissions p ON ac.userid = p.permid ' +
+            'WHERE sessionId = ? ;', [req.body.sessionId]
+        ).catch(console.log);
     
-    const get2 = await query.query(conn, 
-                    'SELECT isAdmin FROM permissions' + 
-                    ' WHERE userid = ? ;', [get[0].userid]
-                ).catch(console.log);
-                
-    const data = get2[0];
-    
-    res.send(data);
+    res.send(data[0]);
     res.end();
-
 };
 
 module.exports = permissions;

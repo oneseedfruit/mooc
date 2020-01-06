@@ -14,16 +14,17 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser');
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      setUser(user);
+      setUser(user);      
       setSessionId(user.sessionId);
     }
-  }, []);  
+  }, []);
   
   return (
     <div className="App">      
       <Notification message={ notification } isError={ isError } />
       <UserLogin user={ user }
                  setUser={ setUser }
+                 setSessionId={ setSessionId }
                  setNotification={ setNotification } 
                  setIsError={ setIsError }
                  onLoggedIn={ MainLayout({ sessionId,

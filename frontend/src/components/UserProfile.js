@@ -10,8 +10,10 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
     useEffect(() => {
         const getProfileData = async () => {        
             try {
-                setNotification('Retrieving user profile...');
-                setIsError(false);
+                if (profileData !== null) {
+                    setNotification('Retrieving user profile...');
+                    setIsError(false);
+                }
 
                 const data1 = await account.getProfile({
                     sessionId
