@@ -13,6 +13,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
     const [newPassword, setNewPassword] = useState('');
     const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
     const [newEmail, setNewEmail] = useState('');
+    const [newName, setNewName] = useState('');
 
     const useStyles = makeStyles(theme => ({
         paper: {
@@ -142,7 +143,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
 
         try {             
             const regUser = await account.register({
-                newUsername, newPassword, newEmail
+                newUsername, newPassword, newEmail, newName
             });
 
             window.localStorage.setItem(
@@ -176,7 +177,18 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
             <CssBaseline /> 
                 <div className={classes.paper}>
                     <form className={classes.form} onSubmit={ handleRegister }>
-                        <Grid container>                            
+                        <Grid container>            
+                            <TextField  id="standard-basic" 
+                                        label="name" 
+                                        value={ newName }
+                                        name="name"
+                                        onChange={({ target }) => setNewName(target.value)}
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        autoComplete="newName"
+                                        autoFocus
+                            />                
                             <TextField  id="standard-basic" 
                                         label="username" 
                                         value={ newUsername }

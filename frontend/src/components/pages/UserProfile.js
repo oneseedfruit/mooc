@@ -12,6 +12,7 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
     const [updatePassword, setUpdatePassword] = useState('');
     const [updatePasswordConfirm, setUpdatePasswordConfirm] = useState('');
     const [updateEmail, setUpdateEmail] = useState('');
+    const [updateName, setUpdateName] = useState('');
     
     const getProfileData = useCallback(async () => {        
         try {                                
@@ -68,7 +69,7 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
             return;
         }
 
-        if (updatePassword.length < 8 || updatePasswordConfirm < 8) {
+        if (updatePassword.length > 0 && (updatePassword.length < 8 || updatePasswordConfirm < 8)) {
             setNotification("Password length too short!");
             setIsError(true);
             setTimeout(() => {
@@ -91,7 +92,8 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
         }
 
         try {             
-            await account.updateAccount({                
+            const a = await account.updateAccount({       
+                name: updateName,         
                 username: (profileData ? profileData.username : ''),
                 newEmail: updateEmail,
                 oldPassword,
@@ -119,9 +121,11 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
     const Tabs = a11yProps => {
         return (
             [
-                <Tab key={0} label="My Profile" {...a11yProps(0)} />,                            
+                <Tab key={0} label={ profileData ? profileData.name : "My Profile" } {...a11yProps(0)} />,                            
                 <Tab key={1} label="Edit Account" {...a11yProps(1)} onClick={ 
                     () => { 
+                        if (profileData && updateName === '') 
+                            setUpdateName(profileData.name);
                         if (profileData && updateEmail === '') 
                             setUpdateEmail(profileData.email);
                         setOldPassword('');
@@ -137,8 +141,8 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
         return (
             <>                
                 <TabPanel value={value} index={0}>
-                    <Container component="main" maxWidth="sm">
-                    {/* <CssBaseline />                         */}
+                    <Container component="main" maxWidth="sm">                    
+
                         <Grid container>Username: { profileData ? profileData.username : '' }</Grid>
                         <Grid container>Email: { profileData ? profileData.email : '' }</Grid>
                         <Divider />
@@ -161,6 +165,17 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
                         <div className={classes.paper}>
                             <form className={classes.form} onSubmit={ handleUpdateAccount }>
                                 <Grid container>
+                                    <TextField  id="standard-basic" 
+                                                label="name" 
+                                                value={ updateName }
+                                                name="newName"
+                                                onChange={({ target }) => setUpdateName(target.value)}
+                                                margin="normal"
+                                                required
+                                                fullWidth
+                                                autoComplete="newName"
+                                                autoFocus
+                                    />
                                     <TextField  id="standard-basic" 
                                                 label="username" 
                                                 value={ profileData ? profileData.username : '' }
@@ -200,8 +215,7 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
                                                 name="newPassword"
                                                 onChange={({ target }) => setUpdatePassword(target.value)}
                                                 margin="normal"
-                                                type="password"
-                                                required
+                                                type="password"                                                
                                                 fullWidth
                                                 autoComplete="password"
                                     />
@@ -211,8 +225,7 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
                                                 name="newPasswordConfirm"
                                                 onChange={({ target }) => setUpdatePasswordConfirm(target.value)}
                                                 margin="normal"
-                                                type="password"
-                                                required
+                                                type="password"                                                
                                                 fullWidth
                                                 autoComplete="password"
                                     />

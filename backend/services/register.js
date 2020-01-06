@@ -6,7 +6,8 @@ const query = require('./query');
 const register = async (req, res, next, conn, accountsTableName) => {
 	const reqNewUsername = req.body.newUsername;
 	const reqNewPassword = req.body.newPassword;
-	const reqNewEmail = req.body.newEmail;							
+	const reqNewEmail = req.body.newEmail;
+	const reqNewName = req.body.newName;
 	
 	const checkUsername = await query.query(conn, 
 		'SELECT username FROM ' + accountsTableName + ' WHERE username = "' + reqNewUsername + '";'
@@ -33,11 +34,13 @@ const register = async (req, res, next, conn, accountsTableName) => {
 				"`username`, " + 
 				"`password`, " + 
 				"`email`, " +                         
+				"`name`, " +  
 				"`sessionid`" + 
 			") VALUES (" +                     
 				"'" + reqNewUsername + "', "+ 
 				"'" + bcrypt.hashSync(reqNewPassword, 10) + "', "+ 
 				"'"+ reqNewEmail + "', "+ 
+				"'"+ reqNewName + "', "+ 
 				"'" + sessionId + "'" +
 			");"
 		).catch(console.log);

@@ -5,15 +5,17 @@ const query = require('./query');
 
 const updateAccount = async (req, res, next, conn, accountsTableName, permissionsTableName) => {
 	const reqNewUsername = req.body.username;
+	const reqNewName = req.body.name;
 	const reqNewEmail = req.body.newEmail;
 	const reqOldPassword = req.body.oldPassword;
-	const reqNewPassword = bcrypt.hashSync(req.body.newPassword, 10);
 	const reqSessionId = req.body.sessionId;	
 	
 	const matchSessionId = await query.query(conn, 
 		"SELECT username, password FROM " + accountsTableName + " " +
 		"WHERE sessionId = '" + reqSessionId + "';"
 	).catch(console.log);
+		
+	const reqNewPassword = req.body.newPassword != '' ? bcrypt.hashSync(req.body.newPassword, 10) : matchSessionId[0].password;
 
 	if (!matchSessionId) {
 		res.status(401).send('Session lost! Please logout and login again.');
@@ -42,6 +44,7 @@ const updateAccount = async (req, res, next, conn, accountsTableName, permission
 		const updateAcc = await query.query(conn,
 			"UPDATE " + accountsTableName + " " +
 			"SET " + 
+				"name = '" + reqNewName + "' ," +
 				"email = '" + reqNewEmail + "', " +
 				"password = '" + reqNewPassword + "' " +
 			"WHERE sessionId = '" + reqSessionId + "';"

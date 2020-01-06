@@ -30,6 +30,7 @@ const initdb = () => {
                         "`username` varchar(50) NOT NULL, " + 
                         "`password` varchar(255) NOT NULL, " + 
                         "`email` varchar(100) NOT NULL, " +                         
+                        "`name` varchar(100) NOT NULL, " +        
                         "`sessionid` nvarchar(256) DEFAULT 0"+
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
@@ -101,14 +102,16 @@ const initdb = () => {
 
                 conn.query(
                     "INSERT INTO `" + accountsTableName + "` (" +                     
-                        "`username`, " + 
-                        "`password`, " + 
-                        "`email`, " +                         
+                        "`username`, " +
+                        "`password`, " +
+                        "`email`, " +
+                        "`name`, " +
                         "`sessionid`" + 
                     ") VALUES (" +                     
                         "'" + firstUserName + "', "+ 
                         "'"+ firstUserPassword + "', "+ 
                         "'"+ firstUserEmail + "', "+ 
+                        "'" + firstUserName + "', "+ 
                         "0 "+
                     ");"
                 );
@@ -127,12 +130,14 @@ const initdb = () => {
                     "INSERT INTO `" + accountsTableName + "` (" +                     
                         "`username`, " + 
                         "`password`, " + 
-                        "`email`, " +                     
+                        "`email`, " +
+                        "`name`, " +           
                         "`sessionid`" + 
                     ") VALUES (" +                     
                         "'" + "blergh" + "', "+ 
                         "'"+ "blergh" + "', "+ 
                         "'"+ "blergh" + "', "+                     
+                        "'"+ "blergh" + "', "+    
                         "0 "+
                     ");"
                 );
@@ -141,12 +146,14 @@ const initdb = () => {
                     "INSERT INTO `" + accountsTableName + "` (" +                     
                         "`username`, " + 
                         "`password`, " + 
-                        "`email`, " +                     
+                        "`email`, " +
+                        "`name`, " +
                         "`sessionid`" + 
                     ") VALUES (" +                     
                         "'" + "flergh" + "', "+ 
                         "'"+ "flergh" + "', "+ 
                         "'"+ "flergh" + "', "+                     
+                        "'"+ "flergh" + "', "+        
                         "0 "+
                     ");"
                 );
