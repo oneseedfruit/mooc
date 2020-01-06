@@ -6,6 +6,11 @@ const login = async credentials => {
   return response.data;
 };
 
+const register = async details => {
+  const response = await axios.post(`${baseUrl}/register`, details);
+  return response.data;
+};
+
 const getProfile = async sessionId => {
   const response = await axios.post(`${baseUrl}/profile`, sessionId);  
   return response.data;
@@ -16,4 +21,4 @@ const getPermissions = async sessionId => {
   return response.data;
 };
 
-export default { login, getProfile, getPermissions };
+export default { login, register, getProfile, getPermissions };

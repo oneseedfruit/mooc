@@ -16,6 +16,7 @@ const permissions = async (req, res, next, conn, accountsTableName, permissionsT
     
     res.send(data[0]);
     res.end();
+    return;
 };
 
 module.exports = permissions;

@@ -7,7 +7,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     
-    const [register, setRegister] = useState(false);
+    const [reg, setReg] = useState(false);
 
     const [newUsername, setNewUsername] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -52,8 +52,8 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
             setTimeout(() => {
                 setNotification(null);                
             }, 5000);
-        } catch (exception) {
-            setNotification('Wrong credentials. Login failed.');
+        } catch (exception) {            
+            setNotification(exception.response.data);
             setIsError(true);
             setTimeout(() => {
                 setNotification(null);
@@ -62,7 +62,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
         }
     };
 
-    if ((user === null || user === '') && !register)
+    if ((user === null || user === '') && !reg)
         return (
             <Container component="main" maxWidth="xs">
             <CssBaseline /> 
@@ -94,7 +94,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
                             />                  
                         </Grid>                    
                         <Button variant="contained" color="primary" className={classes.submit} type="submit" fullWidth>login</Button>
-                        <Link href="#" onClick={ () => setRegister(true) }>
+                        <Link href="#" onClick={ () => setReg(true) }>
                             register new account
                         </Link>
                     </form>
@@ -139,19 +139,19 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
             return;
         }
 
-        try { 
-            const user = await account.login({
+        try {             
+            const regUser = await account.register({
                 newUsername, newPassword, newEmail
             });
 
-            window.localStorage.setItem(
-                'loggedUser', JSON.stringify(user)
-            );
+            // window.localStorage.setItem(
+            //     'loggedUser', JSON.stringify(user)
+            // );
             
-            setUser(user);
-            setSessionId(user.sessionId);
-            setUsername('');
-            setPassword('');
+            // setUser(user);
+            // setSessionId(user.sessionId);
+            // setUsername('');
+            // setPassword('');
 
             setNotification(`${ username } registered successfully.`);
             setIsError(false);
@@ -159,7 +159,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
                 setNotification(null);                
             }, 5000);
         } catch (exception) {
-            setNotification('Registration failed.');
+            setNotification(exception.response.data);
             setIsError(true);
             setTimeout(() => {
                 setNotification(null);
@@ -168,7 +168,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
         }
     };
 
-    if (register)
+    if (reg)
         return (
             <Container component="main" maxWidth="xs">
             <CssBaseline /> 
@@ -221,7 +221,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
                             />
                         </Grid>                    
                         <Button variant="contained" color="primary" className={classes.submit} type="submit" fullWidth>register</Button>
-                        <Link href="#" onClick={ () => setRegister(false) }>
+                        <Link href="#" onClick={ () => setReg(false) }>
                             back to login
                         </Link>
                     </form>
@@ -229,7 +229,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
             </Container>
         );
 
-    if (!register) 
+    if (!reg) 
         return (   
             <>{ onLoggedIn }</>
         );    

@@ -8,6 +8,7 @@ const app = express();
 
 const initdb = require('./services/initdb');
 const auth = require('./services/auth');
+const register = require('./services/register');
 const profile = require('./services/profile');
 const permissions = require('./services/permissions');
 
@@ -29,6 +30,7 @@ app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
 app.post('/auth', (req, res, next) => auth(req, res, next, conn, accountsTableName));
+app.post('/register', (req, res, next) => register(req, res, next, conn, accountsTableName, permissionsTableName));
 app.post('/profile', (req, res, next) => profile(req, res, next, conn, accountsTableName, permissionsTableName));
 app.post('/permissions', (req, res, next) => permissions(req, res, next, conn, accountsTableName, permissionsTableName));
 

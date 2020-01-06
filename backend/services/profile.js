@@ -9,6 +9,7 @@ const profile = async (req, res, next, conn, accountsTableName, permissionsTable
 
     res.send(data[0]);
     res.end();
+    return;
 };
 
 module.exports = profile;

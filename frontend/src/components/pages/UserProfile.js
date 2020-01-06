@@ -22,7 +22,7 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
                 
                 return;
             
-            } catch (exception) {
+            } catch (exception) {                
                 setNotification('Error acquiring user profile details.');
                 setIsError(true);
                 setTimeout(() => {

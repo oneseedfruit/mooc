@@ -15,7 +15,7 @@ const auth = async (req, res, next, conn, accountsTableName) => {
 			'" WHERE sessionId = "' + sessionId + '";'
 		);
 		
-		res.end();
+		res.status(200).end();
 	}
 	else if (!isLogout) {
 		const reqUsername = req.body.username;
@@ -36,12 +36,12 @@ const auth = async (req, res, next, conn, accountsTableName) => {
 				);
                 res.send({ username: reqUsername, sessionId });
             } else {
-                res.status(401).send('Incorrect Username and/or Password!');
+                res.status(401).send('Incorrect username and/or password!');
             }			
             res.end();
 			
 		} else {
-			res.status(401).send('Please enter Username and Password!');
+			res.status(401).send('Please enter username and password!');
 			res.end();
 		}
 	}

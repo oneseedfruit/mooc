@@ -54,6 +54,10 @@ const initdb = () => {
                     "ALTER TABLE `" + accountsTableName + 
                     "` MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
                 );
+                conn.query(
+                    "ALTER TABLE `" + accountsTableName + 
+                    "` MODIFY `username` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_general_cs;"
+                );
                 
                 conn.query(
                     "ALTER TABLE `" + permissionsTableName + 
