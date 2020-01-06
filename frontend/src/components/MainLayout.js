@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -106,28 +106,29 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
     
     const [permissions, setPermissions] = useState(null);
     const [profileData, setProfileData] = useState(null);
-    
-    useEffect(() => {
-        const getProfileData = async () => {        
-            try {                                    
-                const data = await account.getPermissions({
-                    sessionId
-                });
-                
-                setPermissions(data);
 
-                return;                
-            } catch (exception) {
-                setNotification('Error acquiring user permissions.');
-                setIsError(true);
-                setTimeout(() => {
-                    setNotification(null);
-                    setIsError(false);
-                }, 5000);
-            }
-        };
-        getProfileData();        
+    const getProfileData = useCallback(async () => {        
+        try {                                    
+            const data = await account.getPermissions({
+                sessionId
+            });
+            
+            setPermissions(data);
+
+            return;                
+        } catch (exception) {
+            setNotification('Error acquiring user permissions.');
+            setIsError(true);
+            setTimeout(() => {
+                setNotification(null);
+                setIsError(false);
+            }, 5000);
+        }
     }, [sessionId, setNotification, setIsError]);
+
+    useEffect(() => {         
+        getProfileData();    
+    }, [getProfileData]);
 
     const pages = [
         {

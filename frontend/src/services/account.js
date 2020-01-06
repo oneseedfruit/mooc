@@ -11,6 +11,11 @@ const register = async details => {
   return response.data;
 };
 
+const updateAccount = async details => {
+  const response = await axios.post(`${baseUrl}/updateaccount`, details);
+  return response.data
+};
+
 const getProfile = async sessionId => {
   const response = await axios.post(`${baseUrl}/profile`, sessionId);  
   return response.data;
@@ -21,4 +26,4 @@ const getPermissions = async sessionId => {
   return response.data;
 };
 
-export default { login, register, getProfile, getPermissions };
+export default { login, register, updateAccount, getProfile, getPermissions };

@@ -3,7 +3,7 @@ const crypto = require('crypto');
 const uuid = require('node-uuid');
 const query = require('./query');
 
-const register = async (req, res, next, conn, accountsTableName, permissionsTableName) => {
+const register = async (req, res, next, conn, accountsTableName) => {
 	const reqNewUsername = req.body.newUsername;
 	const reqNewPassword = req.body.newPassword;
 	const reqNewEmail = req.body.newEmail;							
@@ -13,8 +13,7 @@ const register = async (req, res, next, conn, accountsTableName, permissionsTabl
 	).catch(console.log);
 
 	if (checkUsername[0]) {
-		res.status(401).send(`Username "${reqNewUsername}" has already been taken!`);
-		res.end();
+		res.status(401).send(`Username "${reqNewUsername}" has already been taken!`);		
 		return;
 	}
 
@@ -23,8 +22,7 @@ const register = async (req, res, next, conn, accountsTableName, permissionsTabl
 	).catch(console.log);
 
 	if(checkEmail[0]) {
-		res.status(401).send(`Email address "${reqNewEmail}" has already been taken!`);
-		res.end();
+		res.status(401).send(`Email address "${reqNewEmail}" has already been taken!`);		
 		return;
 	}
 

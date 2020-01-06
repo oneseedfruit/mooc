@@ -33,6 +33,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
 
     const handleLogin = async event => {
         event.preventDefault();
+        
         try { 
             const user = await account.login({
                 username, password, isLogout: false

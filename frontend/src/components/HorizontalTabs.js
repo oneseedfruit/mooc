@@ -15,7 +15,7 @@ const HorizontalTabs = ({ tabs, tabPanels }) => {
     root: {
       flexGrow: 1,
       width: '100%',
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: theme.palette.background.paper,      
     }  
   }));
   const classes = useStyles();

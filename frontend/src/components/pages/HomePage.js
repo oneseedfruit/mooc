@@ -7,7 +7,7 @@ const HomePage = () => {
     const Tabs = a11yProps => {
         return (
             [
-                <Tab key={0} label="Home" {...a11yProps(0)} />,                
+                <Tab key={0} label="Home" {...a11yProps(0)} />,                                
             ]
         );
     };

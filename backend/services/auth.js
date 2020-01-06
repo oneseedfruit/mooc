@@ -41,8 +41,7 @@ const auth = async (req, res, next, conn, accountsTableName) => {
             res.end();
 			
 		} else {
-			res.status(401).send('Please enter username and password!');
-			res.end();
+			res.status(401).send('Please enter username and password!');			
 		}
 	}
 };

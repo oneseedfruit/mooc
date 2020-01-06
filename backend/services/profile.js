@@ -7,8 +7,7 @@ const profile = async (req, res, next, conn, accountsTableName, permissionsTable
             'WHERE sessionId = ? ;', [req.body.sessionId]
         ).catch(console.log);
 
-    res.send(data[0]);
-    res.end();
+    res.send(data[0]);    
     return;
 };
 
