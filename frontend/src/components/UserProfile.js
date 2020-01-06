@@ -44,7 +44,7 @@ const UserProfile = ({ profileData, setProfileData, setNotification, setIsError 
             <div className={classes.content}>
                 <Typography variant="h6" gutterBottom>
                     <div>Username: { profileData ? profileData.username : '' }</div>
-                    <div>Email: { profileData ? profileData.email : '' }</div>                    
+                    <div>Email: { profileData ? profileData.email : '' }</div>
                     {/* <div>Account type: { profileData && profileData.length > 0 ? profileData[0].permissions : '' }</div> */}
                 </Typography>
             </div>
