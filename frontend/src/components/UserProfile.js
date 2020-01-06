@@ -1,19 +1,10 @@
 import React, { useEffect } from 'react';
-import { Container, CssBaseline, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import profile from '../services/getProfile';
+import HorizontalTabs from './HorizontalTabs';
+import Tab from '@material-ui/core/Tab';
+import TabPanel from './TabPanel';
 
 const UserProfile = ({ profileData, setProfileData, setNotification, setIsError }) => {    
-    const useStyles = makeStyles(theme => ({
-        content: {
-          marginTop: theme.spacing(8),
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        }
-      }));
-    const classes = useStyles();
-
     useEffect(() => {
         const getData = async () => {        
             try {             
@@ -38,17 +29,35 @@ const UserProfile = ({ profileData, setProfileData, setNotification, setIsError 
         getData();
     }, [setProfileData, setNotification, setIsError]);
 
-    return (
-        <Container component="main" maxWidth="xl">
-        <CssBaseline />         
-            <div className={classes.content}>
-                <Typography variant="h6" gutterBottom>
+    const Tabs = a11yProps => {
+        return (
+            [
+                <Tab key={0} label="Me" {...a11yProps(0)} />,
+                <Tab key={1} label="Item" {...a11yProps(1)} />,
+                <Tab key={2} label="Item" {...a11yProps(1)} />,
+                <Tab key={3} label="Item" {...a11yProps(1)} />,
+                <Tab key={4} label="Item" {...a11yProps(1)} />
+            ]
+        );
+    };
+
+    const TabPanels = value => {        
+        return (
+            <>
+                <TabPanel value={value} index={0}>                    
                     <div>Username: { profileData ? profileData.username : '' }</div>
                     <div>Email: { profileData ? profileData.email : '' }</div>
                     {/* <div>Account type: { profileData && profileData.length > 0 ? profileData[0].permissions : '' }</div> */}
-                </Typography>
-            </div>
-        </Container>
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    Item Two
+                </TabPanel>
+            </>
+        );
+    };
+
+    return (        
+        <HorizontalTabs tabs={ Tabs } tabPanels={ TabPanels } />
     );
 };
 

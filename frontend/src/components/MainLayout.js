@@ -7,7 +7,6 @@ import Drawer from '@material-ui/core/Drawer';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -90,9 +89,9 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
             padding: theme.spacing(0, 1),
             ...theme.mixins.toolbar,
         },
-        content: {
-            flexGrow: 1,
-            padding: theme.spacing(9),
+        content: {                        
+            paddingTop: theme.spacing(7),
+            paddingLeft: theme.spacing(7)
         },
     })); 
 
@@ -127,6 +126,7 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
 
     const handleGoToPage = page => () => {
         setPageIndex(page);
+        setOpen(false);
     };
 
     const handleLogout = async event => { 
@@ -160,8 +160,7 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
     };  
 
     return (
-        <div className="App">        
-            <CssBaseline />
+        <div className="App">            
             <AppBar
                 position="fixed"
                 className={clsx(classes.appBar, {
@@ -170,13 +169,13 @@ const MainLayout = ({ setNotification, setIsError, setUser }) => {
             >
             <Toolbar>
                 <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                onClick={handleDrawerOpen}
-                edge="start"
-                className={clsx(classes.menuButton, {
-                    [classes.hide]: open,
-                })}
+                    color="inherit"
+                    aria-label="open drawer"
+                    onClick={handleDrawerOpen}
+                    edge="start"
+                    className={clsx(classes.menuButton, {
+                        [classes.hide]: open,
+                    })}
                 >
                 <MenuIcon />
                 </IconButton>

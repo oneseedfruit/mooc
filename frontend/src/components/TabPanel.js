@@ -6,17 +6,18 @@ import Box from '@material-ui/core/Box';
 const TabPanel = props => {
     const { children, value, index, ...other } = props;
 
-    return (
+    return (        
         <Typography
             component="div"
             role="tabpanel"
             hidden={value !== index}
-            id={`vertical-tabpanel-${index}`}
-            aria-labelledby={`vertical-tab-${index}`}
-            {...other}
+            id={`scrollable-auto-tabpanel-${index}`}
+            aria-labelledby={`scrollable-auto-tab-${index}`}
+            {...other}            
+            gutterBottom
             >
             {value === index && <Box p={3}>{children}</Box>}
-        </Typography>
+        </Typography> 
     );
 };
   

@@ -1,5 +1,5 @@
 import React from 'react';
-import VerticalTabs from './VerticalTabs';
+import HorizontalTabs from './HorizontalTabs';
 import Tab from '@material-ui/core/Tab';
 import TabPanel from './TabPanel';
 
@@ -7,8 +7,7 @@ const HomePage = () => {
     const Tabs = a11yProps => {
         return (
             [
-                <Tab key={0} label="Item One" {...a11yProps(0)} />,
-                <Tab key={1} label="Item Two" {...a11yProps(1)} />
+                <Tab key={0} label="Home" {...a11yProps(0)} />,                
             ]
         );
     };
@@ -19,15 +18,12 @@ const HomePage = () => {
                 <TabPanel value={value} index={0}>
                     Welcome home!
                 </TabPanel>
-                <TabPanel value={value} index={1}>
-                    Item Two
-                </TabPanel>
             </>
         );
     };
 
     return (
-        <VerticalTabs tabs={ Tabs } tabPanels={ TabPanels } />
+        <HorizontalTabs tabs={ Tabs } tabPanels={ TabPanels } />
     );
 };
 
