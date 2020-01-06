@@ -28,6 +28,26 @@ const register = async (req, res, next, conn, accountsTableName, permissionsTabl
 		return;
 	}
 
+	const sessionId = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
+	
+	const insertNewUser = await query.query(conn,
+			"INSERT INTO `" + accountsTableName + "` (" +                     
+				"`username`, " + 
+				"`password`, " + 
+				"`email`, " +                         
+				"`sessionid`" + 
+			") VALUES (" +                     
+				"'" + reqNewUsername + "', "+ 
+				"'" + bcrypt.hashSync(reqNewPassword, 10) + "', "+ 
+				"'"+ reqNewEmail + "', "+ 
+				"'" + sessionId + "'" +
+			");"
+		).catch(console.log);
+
+	if (insertNewUser) {
+		res.status(200).send({ username: reqNewUsername, sessionId });		
+	}
+
 	res.end();
 };
 

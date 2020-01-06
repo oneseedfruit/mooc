@@ -144,16 +144,17 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
                 newUsername, newPassword, newEmail
             });
 
-            // window.localStorage.setItem(
-            //     'loggedUser', JSON.stringify(user)
-            // );
+            window.localStorage.setItem(
+                'loggedUser', JSON.stringify(regUser)
+            );
             
-            // setUser(user);
-            // setSessionId(user.sessionId);
-            // setUsername('');
-            // setPassword('');
+            setUser(regUser);
+            setSessionId(regUser.sessionId);
+            setUsername('');
+            setPassword('');
+            setReg(false);
 
-            setNotification(`${ username } registered successfully.`);
+            setNotification(`Registered successfully! Login in...`);
             setIsError(false);
             setTimeout(() => {
                 setNotification(null);                
