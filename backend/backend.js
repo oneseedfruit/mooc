@@ -12,7 +12,9 @@ const profile = require('./services/profile');
 const permissions = require('./services/permissions');
 
 const conn = initdb();
+
 const accountsTableName = 'accounts';
+const permissionsTableName = 'permissions'
 
 const PORT = 3001;
 
@@ -27,7 +29,7 @@ app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
 app.post('/auth', (req, res, next) => auth(req, res, next, conn, accountsTableName));
-app.post('/profile', (req, res, next) => profile(req, res, next, conn, accountsTableName));
-app.post('/permissions', (req, res, next) => permissions(req, res, next, conn, accountsTableName));
+app.post('/profile', (req, res, next) => profile(req, res, next, conn, accountsTableName, permissionsTableName));
+app.post('/permissions', (req, res, next) => permissions(req, res, next, conn, accountsTableName, permissionsTableName));
 
 app.listen(PORT, () => console.log('listening on: ', PORT));

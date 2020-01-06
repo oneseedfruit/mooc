@@ -37,7 +37,11 @@ const initdb = () => {
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + permissionsTableName + "` ("+
                         "`permid` int(11) NOT NULL, " + 
-                        "`isAdmin` bool NOT NULL, " +
+                        "`canManageUsers` bool NOT NULL, " +
+                        "`canModerateUsers` bool NOT NULL, " +
+                        "`canManageCourses` bool NOT NULL, " +
+                        "`canManageOwnClasses` bool NOT NULL, " +
+                        "`canManageAllClasses` bool NOT NULL, " +
                         "`userid` int(11) NOT NULL DEFAULT 1" + 
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
@@ -70,8 +74,16 @@ const initdb = () => {
                     "AFTER INSERT ON " + accountsTableName + " FOR EACH ROW " +
                         "BEGIN " +                             
                             "INSERT INTO `" + permissionsTableName + "` (" +                                 
-                                "`isAdmin` " +  
+                                "`canManageUsers`, " +  
+                                "`canModerateUsers`, " +
+                                "`canManageCourses`,  " +
+                                "`canManageOwnClasses`, " +
+                                "`canManageAllClasses` " +
                             ") VALUES (" +                                 
+                                "0, "+
+                                "0, "+
+                                "0, "+
+                                "0, "+
                                 "0 "+
                             "); " +
                             "UPDATE " + permissionsTableName + " " +
@@ -98,7 +110,13 @@ const initdb = () => {
                 );
                 conn.query(
                     "UPDATE " + permissionsTableName + " " +
-                    "SET isAdmin = 1;"
+                    "SET " + 
+                        "canManageUsers = 1, "+
+                        "canModerateUsers = 1, "+
+                        "canManageCourses = 1, "+
+                        "canManageOwnClasses = 1, "+
+                        "canManageAllClasses = 1 "+
+                    "WHERE userid = 1;"
                 );                
                 
                 conn.query(

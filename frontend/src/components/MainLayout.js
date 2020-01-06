@@ -126,7 +126,7 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
         };
         getProfileData();        
     }, [sessionId, setNotification, setIsError]);
-    
+
     const pages = [
         {
             show: 
@@ -242,7 +242,7 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
                         <ListItemText primary="My Classes" />
                     </ListItem>
 
-                    { permissions !== null ? permissions.isAdmin ?
+                    { permissions !== null ? permissions.canManageUsers ?
                         <>
                             <ListItem button key="User Admin" >
                                 <ListItemIcon><UserAdminIcon /></ListItemIcon>

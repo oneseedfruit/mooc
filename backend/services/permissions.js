@@ -1,9 +1,16 @@
 const query = require('./query');
 
-const permissions = async (req, res, next, conn, accountsTableName) => {    
+const permissions = async (req, res, next, conn, accountsTableName, permissionsTableName) => {    
     const data = await query.query(conn, 
-            'SELECT ac.userid, p.isAdmin FROM ' + accountsTableName + ' ac ' +            
-            'JOIN permissions p ON ac.userid = p.permid ' +
+            'SELECT ' + 
+                'ac.userid, ' +
+                'p.canManageUsers, ' +
+                'p.canModerateUsers, ' +
+                'p.canManageCourses, ' +
+                'p.canManageOwnClasses, ' +
+                'p.canManageAllClasses ' +
+            'FROM ' + accountsTableName + ' ac ' +
+            'JOIN ' + permissionsTableName + ' p ON ac.userid = p.permid ' +
             'WHERE sessionId = ? ;', [req.body.sessionId]
         ).catch(console.log);
     
