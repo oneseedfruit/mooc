@@ -26,7 +26,6 @@ import UserAdminIcon from '@material-ui/icons/SupervisorAccount';
 import CourseAdminIcon from '@material-ui/icons/LibraryBooks';
 import ExitIcon from '@material-ui/icons/ExitToAppRounded';
 
-import loginService from '../services/login';
 import account from '../services/account';
 
 import HomePage from './pages/HomePage';
@@ -174,7 +173,7 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
         event.preventDefault();        
         try { 
             const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'));  
-            await loginService.login({
+            await account.login({
                 isLogout: true, sessionId
             });
   

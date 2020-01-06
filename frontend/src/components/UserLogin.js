@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
-import { Button, TextField, Grid, Container, CssBaseline } from '@material-ui/core';
+import { Link, Button, TextField, Grid, Container, CssBaseline } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import loginService from '../services/login';
+import account from '../services/account';
 
 const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, setIsError }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    
+    const [register, setRegister] = useState(false);
+
+    const [newUsername, setNewUsername] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
+    const [newEmail, setNewEmail] = useState('');
 
     const useStyles = makeStyles(theme => ({
         paper: {
@@ -27,7 +34,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
     const handleLogin = async event => {
         event.preventDefault();
         try { 
-            const user = await loginService.login({
+            const user = await account.login({
                 username, password, isLogout: false
             });
 
@@ -55,14 +62,14 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
         }
     };
 
-    if (user === null || user === '')
+    if ((user === null || user === '') && !register)
         return (
             <Container component="main" maxWidth="xs">
             <CssBaseline /> 
                 <div className={classes.paper}>
                     <form className={classes.form} onSubmit={ handleLogin }>
                         <Grid container>                            
-                            <TextField id="standard-basic" 
+                            <TextField  id="standard-basic" 
                                         label="username" 
                                         value={ username }
                                         name="username"
@@ -74,7 +81,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
                                         autoFocus
                             />
                         
-                            <TextField id="standard-basic" 
+                            <TextField  id="standard-basic" 
                                         label="password"
                                         value={ password }
                                         name="password"
@@ -86,15 +93,148 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
                                         autoComplete="password"
                             />                  
                         </Grid>                    
-                        <Button variant="contained" color="primary" className={classes.submit} type="submit" fullWidth>login</Button>                    
+                        <Button variant="contained" color="primary" className={classes.submit} type="submit" fullWidth>login</Button>
+                        <Link href="#" onClick={ () => setRegister(true) }>
+                            register new account
+                        </Link>
                     </form>
                 </div>
             </Container>
         );
 
-    return (   
-        <>{ onLoggedIn }</>
-    );
+
+    const handleRegister = async event => {
+        event.preventDefault();
+
+        if (!newEmail.includes("@") || !newEmail.includes(".")) {
+            setNotification("Invalid email!");
+            setIsError(true);
+            setTimeout(() => {
+                setNotification(null);
+                setIsError(false);
+            }, 5000);
+
+            return;
+        }
+
+        if (newPassword.length < 8 || newPasswordConfirm < 8) {
+            setNotification("Password length too short!");
+            setIsError(true);
+            setTimeout(() => {
+                setNotification(null);      
+                setIsError(false);          
+            }, 5000);
+
+            return;
+        }
+
+        if (newPassword !== newPasswordConfirm) {
+            setNotification("Passwords don't match!");
+            setIsError(true);
+            setTimeout(() => {
+                setNotification(null);        
+                setIsError(false);        
+            }, 5000);
+
+            return;
+        }
+
+        try { 
+            const user = await account.login({
+                newUsername, newPassword, newEmail
+            });
+
+            window.localStorage.setItem(
+                'loggedUser', JSON.stringify(user)
+            );
+            
+            setUser(user);
+            setSessionId(user.sessionId);
+            setUsername('');
+            setPassword('');
+
+            setNotification(`${ username } registered successfully.`);
+            setIsError(false);
+            setTimeout(() => {
+                setNotification(null);                
+            }, 5000);
+        } catch (exception) {
+            setNotification('Registration failed.');
+            setIsError(true);
+            setTimeout(() => {
+                setNotification(null);
+                setIsError(false);
+            }, 5000);
+        }
+    };
+
+    if (register)
+        return (
+            <Container component="main" maxWidth="xs">
+            <CssBaseline /> 
+                <div className={classes.paper}>
+                    <form className={classes.form} onSubmit={ handleRegister }>
+                        <Grid container>                            
+                            <TextField  id="standard-basic" 
+                                        label="username" 
+                                        value={ newUsername }
+                                        name="newUsername"
+                                        onChange={({ target }) => setNewUsername(target.value)}
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        autoComplete="newUsername"
+                                        autoFocus
+                            />
+                            <TextField  id="standard-basic" 
+                                        label="email address" 
+                                        value={ newEmail }
+                                        name="newEmail"
+                                        onChange={({ target }) => setNewEmail(target.value)}
+                                        margin="normal"
+                                        required
+                                        fullWidth
+                                        autoComplete="email"
+                                        autoFocus
+                            />
+                            <TextField  id="standard-basic" 
+                                        label="password"
+                                        value={ newPassword }
+                                        name="newPassword"
+                                        onChange={({ target }) => setNewPassword(target.value)}
+                                        margin="normal"
+                                        type="password"
+                                        required
+                                        fullWidth
+                                        autoComplete="password"
+                            />
+                            <TextField  id="standard-basic" 
+                                        label="confirm password"
+                                        value={ newPasswordConfirm }
+                                        name="newPasswordConfirm"
+                                        onChange={({ target }) => setNewPasswordConfirm(target.value)}
+                                        margin="normal"
+                                        type="password"
+                                        required
+                                        fullWidth
+                                        autoComplete="password"
+                            />
+                        </Grid>                    
+                        <Button variant="contained" color="primary" className={classes.submit} type="submit" fullWidth>register</Button>
+                        <Link href="#" onClick={ () => setRegister(false) }>
+                            back to login
+                        </Link>
+                    </form>
+                </div>
+            </Container>
+        );
+
+    if (!register) 
+        return (   
+            <>{ onLoggedIn }</>
+        );    
+
+    return null;
 };
 
 export default UserLogin;
