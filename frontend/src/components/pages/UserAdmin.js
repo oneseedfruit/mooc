@@ -1,13 +1,13 @@
 import React from 'react';
-import HorizontalTabs from './HorizontalTabs';
+import HorizontalTabs from '../HorizontalTabs';
 import Tab from '@material-ui/core/Tab';
-import TabPanel from './TabPanel';
+import TabPanel from '../TabPanel';
 
-const HomePage = () => {
+const UserAdmin = () => {
     const Tabs = a11yProps => {
         return (
             [
-                <Tab key={0} label="Home" {...a11yProps(0)} />,                
+                <Tab key={0} label="User Admin" {...a11yProps(0)} />,                
             ]
         );
     };
@@ -16,7 +16,7 @@ const HomePage = () => {
         return (
             <>
                 <TabPanel value={value} index={0}>
-                    Welcome home!
+                    Manage users here.
                 </TabPanel>
             </>
         );
@@ -27,4 +27,4 @@ const HomePage = () => {
     );
 };
 
-export default HomePage;
+export default UserAdmin;

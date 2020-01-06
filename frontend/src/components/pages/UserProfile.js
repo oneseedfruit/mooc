@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import HorizontalTabs from './HorizontalTabs';
+import HorizontalTabs from '../HorizontalTabs';
 import Tab from '@material-ui/core/Tab';
-import TabPanel from './TabPanel';
+import TabPanel from '../TabPanel';
 import { Divider } from '@material-ui/core';
 
-import account from '../services/account';
+import account from '../../services/account';
 
 const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, setIsError }) => {    
     useEffect(() => {
@@ -59,7 +59,7 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
                             <li>Can manage all classes?: {(profileData ? profileData.canManageAllClasses ? "Yes": "No" : '')}</li>
                         </ul>                   
                     </div>
-                </TabPanel>                
+                </TabPanel>
             </>
         );
     };

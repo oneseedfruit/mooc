@@ -29,8 +29,11 @@ import ExitIcon from '@material-ui/icons/ExitToAppRounded';
 import loginService from '../services/login';
 import account from '../services/account';
 
-import HomePage from './HomePage';
-import UserProfile from './UserProfile';
+import HomePage from './pages/HomePage';
+import UserProfile from './pages/UserProfile';
+import Classes from './pages/Classes';
+import UserAdmin from './pages/UserAdmin';
+import CourseAdmin from './pages/CourseAdmin';
 
 const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
     const drawerWidth = 200;
@@ -139,6 +142,18 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
                              setProfileData={ setProfileData }
                              setNotification={ setNotification }
                              setIsError={ setIsError } />
+        },
+        {
+            show:
+                <Classes />
+        },
+        {
+            show:
+                <UserAdmin />
+        },
+        {
+            show:
+                <CourseAdmin />
         }
     ];
 
@@ -237,18 +252,24 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
                         <ListItemIcon><ProfileIcon /></ListItemIcon>
                         <ListItemText primary="My Profile" />
                     </ListItem>
-                    <ListItem button key="My Classes" >
+                    <ListItem button key="My Classes" onClick={ handleGoToPage(2) }>
                         <ListItemIcon><ClassesIcon /></ListItemIcon>
                         <ListItemText primary="My Classes" />
                     </ListItem>
 
                     { permissions !== null ? permissions.canManageUsers ?
                         <>
-                            <ListItem button key="User Admin" >
+                            <ListItem button key="User Admin" onClick={ handleGoToPage(3) }>
                                 <ListItemIcon><UserAdminIcon /></ListItemIcon>
                                 <ListItemText primary="User Admin" />
                             </ListItem>
-                            <ListItem button key="Course Admin" >
+                        </>
+                        : '' : ''
+                    }
+
+                    { permissions !== null ? permissions.canManageCourses ?
+                        <>
+                            <ListItem button key="Course Admin" onClick={ handleGoToPage(4) }>
                                 <ListItemIcon><CourseAdminIcon /></ListItemIcon>
                                 <ListItemText primary="Course Admin" />
                             </ListItem> 
