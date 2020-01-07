@@ -188,7 +188,7 @@ const initdb = () => {
                         "`description` varchar(50) NOT NULL, " +
                         "`startdate` date NOT NULL, " +
                         "`enddate` date NOT NULL, " +
-                        "`courseid` int(11) NOT NULL" +
+                        "`courseid` int(11) NOT NULL, " +
                         "`userid` int(11) NOT NULL" +
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
