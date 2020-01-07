@@ -30,6 +30,9 @@ const initdb = () => {
         " WHERE table_schema = ? AND table_name = ?", [databaseName, user_accounts_tb], 
         (error, results, fields) => {	
             if (results && results.length <= 0) {
+
+
+                
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + user_accounts_tb + "` ("+
                         "`user_id` int(11) NOT NULL DEFAULT 1, " + 
@@ -40,20 +43,6 @@ const initdb = () => {
                         "`sessionid` nvarchar(256) DEFAULT 0"+
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
-
-                conn.query(
-                    "CREATE TABLE IF NOT EXISTS `" + user_permissions_tb + "` ("+
-                        "`perm_id` int(11) NOT NULL, " + 
-                        "`can_manage_users` bool NOT NULL DEFAULT 0, " +
-                        "`can_moderate_users` bool NOT NULL DEFAULT 0, " +
-                        "`can_manage_courses` bool NOT NULL DEFAULT 0, " +
-                        "`can_manage_own_classes` bool NOT NULL DEFAULT 0, " +
-                        "`can_manage_all_classes` bool NOT NULL DEFAULT 0, " +
-                        "`user_id` int(11) NOT NULL DEFAULT 1" + 
-                    ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
-                );
-
-
                 conn.query(
                     "ALTER TABLE `" + user_accounts_tb + 
                     "` ADD PRIMARY KEY (`user_id`);"
@@ -66,8 +55,20 @@ const initdb = () => {
                     "ALTER TABLE `" + user_accounts_tb + 
                     "` MODIFY `username` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_cs;"
                 );
-                
 
+
+
+                conn.query(
+                    "CREATE TABLE IF NOT EXISTS `" + user_permissions_tb + "` ("+
+                        "`perm_id` int(11) NOT NULL, " + 
+                        "`can_manage_users` bool NOT NULL DEFAULT 0, " +
+                        "`can_moderate_users` bool NOT NULL DEFAULT 0, " +
+                        "`can_manage_courses` bool NOT NULL DEFAULT 0, " +
+                        "`can_manage_own_classes` bool NOT NULL DEFAULT 0, " +
+                        "`can_manage_all_classes` bool NOT NULL DEFAULT 0, " +
+                        "`user_id` int(11) NOT NULL DEFAULT 1" + 
+                    ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
+                );
                 conn.query(
                     "ALTER TABLE `" + user_permissions_tb + 
                     "` ADD PRIMARY KEY (`perm_id`);"
@@ -82,6 +83,7 @@ const initdb = () => {
                     "FOREIGN KEY (`user_id`) " +
                     "REFERENCES `" + user_accounts_tb + "`(`user_id`) ON UPDATE CASCADE;"
                 );
+
 
 
                 conn.query(
@@ -111,6 +113,7 @@ const initdb = () => {
                 );
 
 
+
                 conn.query(
                     "INSERT INTO `" + user_accounts_tb + "` (" +                     
                         "`username`, " +
@@ -138,6 +141,7 @@ const initdb = () => {
                 );                
                 
 
+
                 conn.query(
                     "INSERT INTO `" + user_accounts_tb + "` (" +                     
                         "`username`, " + 
@@ -154,6 +158,8 @@ const initdb = () => {
                     ");"
                 );
 
+
+
                 conn.query(
                     "INSERT INTO `" + user_accounts_tb + "` (" +                     
                         "`username`, " + 
@@ -169,7 +175,6 @@ const initdb = () => {
                         "0 "+
                     ");"
                 );
-
             }
         });
     
