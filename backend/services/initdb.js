@@ -18,7 +18,9 @@ const initdb = () => {
     const accountsTableName = "accounts";
     const permissionsTableName = "permissions";
     const coursesTableName = "courses";
+    const prereqsTableName = "prereqs";
     const classesTableName = "classes";
+    const classesInfoTableName = "classesinfo";
 
     conn.query(
         "SELECT TABLE_NAME FROM information_schema.tables" +
@@ -48,37 +50,36 @@ const initdb = () => {
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
 
+
                 conn.query(
                     "ALTER TABLE `" + accountsTableName + 
                     "` ADD PRIMARY KEY (`userid`);"
                 );
-
                 conn.query(
                     "ALTER TABLE `" + accountsTableName + 
                     "` MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
                 );
-
                 conn.query(
                     "ALTER TABLE `" + accountsTableName + 
                     "` MODIFY `username` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_general_cs;"
                 );
                 
+
                 conn.query(
                     "ALTER TABLE `" + permissionsTableName + 
                     "` ADD PRIMARY KEY (`permid`);"
                 );
-
                 conn.query(
                     "ALTER TABLE `" + permissionsTableName + 
                     "` MODIFY `permid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
                 );
-
                 conn.query(
                     "ALTER TABLE `" + permissionsTableName + 
                     "` ADD CONSTRAINT `fk" + permissionsTableName + "_" + accountsTableName + "_userid` " + 
                     "FOREIGN KEY (`userid`) " +
                     "REFERENCES `" + accountsTableName + "`(`userid`) ON UPDATE CASCADE;"
                 );
+
 
                 conn.query(
                     "CREATE TRIGGER insert_permissions " +
@@ -106,6 +107,7 @@ const initdb = () => {
                         "END; "
                 );
 
+
                 conn.query(
                     "INSERT INTO `" + accountsTableName + "` (" +                     
                         "`username`, " +
@@ -121,7 +123,6 @@ const initdb = () => {
                         "0 "+
                     ");"
                 );
-
                 conn.query(
                     "UPDATE " + permissionsTableName + " " +
                     "SET " + 
@@ -133,6 +134,7 @@ const initdb = () => {
                     "WHERE userid = 1;"
                 );                
                 
+
                 conn.query(
                     "INSERT INTO `" + accountsTableName + "` (" +                     
                         "`username`, " + 
@@ -177,17 +179,21 @@ const initdb = () => {
                     "CREATE TABLE IF NOT EXISTS `" + coursesTableName + "` ("+
                         "`courseid` int(11) NOT NULL, " + 
                         "`title` varchar(50) NOT NULL, " +
-                        "`description` mediumtext NOT NULL, " +
-                        "`prereqid` int(11) NOT NULL, " + 
+                        "`description` mediumtext NOT NULL, " +                        
                         "`userid` int(11) NOT NULL" +
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
 
                 conn.query(
+                    "CREATE TABLE IF NOT EXISTS `" + prereqsTableName + "` ("+
+                        "`prereqid` int(11) NOT NULL, " +
+                        "`courseid` int(11) NOT NULL" + 
+                    ") ENGINE=InnoDB DEFAULT CHARSET=utf8;"
+                );
+
+                conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + classesTableName + "` ("+
-                        "`classid` int(11) NOT NULL, " + 
-                        "`title` varchar(50) NOT NULL, " +
-                        "`description` mediumtext NOT NULL, " +
+                        "`classid` int(11) NOT NULL, " +                         
                         "`startdate` date NOT NULL, " +
                         "`enddate` date NOT NULL, " +
                         "`courseid` int(11) NOT NULL, " +
@@ -196,15 +202,21 @@ const initdb = () => {
                 );
 
                 conn.query(
-                    "ALTER TABLE `" + coursesTableName + 
-                    "` ADD PRIMARY KEY (`courseid`);"
+                    "CREATE TABLE IF NOT EXISTS `" + classesInfoTableName + "` ("+
+                        "`classid` int(11) NOT NULL, " + 
+                        "`title` varchar(50) NOT NULL, " +
+                        "`description` mediumtext NOT NULL" +                        
+                    ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
 
                 conn.query(
-                    "ALTER TABLE `" + classesTableName + 
-                    "` ADD PRIMARY KEY (`classid`);"
+                    "ALTER TABLE `" + coursesTableName + 
+                    "` ADD PRIMARY KEY (`courseid`);"
                 );
-
+                conn.query(
+                    "ALTER TABLE `" + coursesTableName + 
+                    "` MODIFY `courseid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
+                );
                 conn.query(
                     "ALTER TABLE `" + coursesTableName + 
                     "` ADD CONSTRAINT `fk" + coursesTableName + "_" + accountsTableName + "_userid` " + 
@@ -212,25 +224,48 @@ const initdb = () => {
                     "REFERENCES `" + accountsTableName + "`(`userid`) ON UPDATE CASCADE;"
                 );
 
+
                 conn.query(
-                    "ALTER TABLE `" + coursesTableName + 
-                    "` ADD CONSTRAINT `fk" + coursesTableName + "_prereqid_" + coursesTableName + "_courseid` " + 
+                    "ALTER TABLE `" + prereqsTableName + 
+                    "` ADD CONSTRAINT `fk" + prereqsTableName + "_prereqid_" + coursesTableName + "_courseid` " + 
                     "FOREIGN KEY (`prereqid`) " +
                     "REFERENCES `" + coursesTableName + "`(`courseid`) ON UPDATE CASCADE;"
                 );
+                conn.query(
+                    "ALTER TABLE `" + prereqsTableName + 
+                    "` ADD CONSTRAINT `fk" + prereqsTableName + "_courseid_" + coursesTableName + "_courseid` " + 
+                    "FOREIGN KEY (`courseid`) " +
+                    "REFERENCES `" + coursesTableName + "`(`courseid`) ON UPDATE CASCADE;"
+                );
 
+
+                conn.query(
+                    "ALTER TABLE `" + classesTableName + 
+                    "` ADD PRIMARY KEY (`classid`);"
+                );
+                conn.query(
+                    "ALTER TABLE `" + classesTableName + 
+                    "` MODIFY `classid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
+                );
                 conn.query(
                     "ALTER TABLE `" + classesTableName + 
                     "` ADD CONSTRAINT `fk" + classesTableName + "_" + accountsTableName + "_userid` " + 
                     "FOREIGN KEY (`userid`) " +
                     "REFERENCES `" + accountsTableName + "`(`userid`) ON UPDATE CASCADE;"
                 );
-
                 conn.query(
                     "ALTER TABLE `" + classesTableName + 
                     "` ADD CONSTRAINT `fk" + classesTableName + "_" + coursesTableName + "_courseid` " + 
                     "FOREIGN KEY (`courseid`) " +
                     "REFERENCES `" + coursesTableName + "`(`courseid`) ON UPDATE CASCADE;"
+                );
+
+                
+                conn.query(
+                    "ALTER TABLE `" + classesInfoTableName + 
+                    "` ADD CONSTRAINT `fk" + classesInfoTableName + "_" + classesTableName + "_classid` " + 
+                    "FOREIGN KEY (`classid`) " +
+                    "REFERENCES `" + classesTableName + "`(`classid`) ON UPDATE CASCADE;"
                 );
             }
     });
