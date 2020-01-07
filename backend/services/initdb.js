@@ -27,7 +27,7 @@ const initdb = () => {
             if (results && results.length <= 0) {
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + accountsTableName + "` ("+
-                        "`userid` int(11) NOT NULL, " + 
+                        "`userid` int(11) NOT NULL DEFAULT 0, " + 
                         "`username` varchar(50) NOT NULL, " + 
                         "`password` varchar(255) NOT NULL, " + 
                         "`email` varchar(100) NOT NULL, " +                         
@@ -39,11 +39,11 @@ const initdb = () => {
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + permissionsTableName + "` ("+
                         "`permid` int(11) NOT NULL, " + 
-                        "`canManageUsers` bool NOT NULL, " +
-                        "`canModerateUsers` bool NOT NULL, " +
-                        "`canManageCourses` bool NOT NULL, " +
-                        "`canManageOwnClasses` bool NOT NULL, " +
-                        "`canManageAllClasses` bool NOT NULL, " +
+                        "`canManageUsers` bool NOT NULL DEFAULT 0, " +
+                        "`canModerateUsers` bool NOT NULL DEFAULT 0, " +
+                        "`canManageCourses` bool NOT NULL DEFAULT 0, " +
+                        "`canManageOwnClasses` bool NOT NULL DEFAULT 0, " +
+                        "`canManageAllClasses` bool NOT NULL DEFAULT 0, " +
                         "`userid` int(11) NOT NULL DEFAULT 1" + 
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
@@ -121,6 +121,7 @@ const initdb = () => {
                         "0 "+
                     ");"
                 );
+
                 conn.query(
                     "UPDATE " + permissionsTableName + " " +
                     "SET " + 
@@ -176,7 +177,8 @@ const initdb = () => {
                     "CREATE TABLE IF NOT EXISTS `" + coursesTableName + "` ("+
                         "`courseid` int(11) NOT NULL, " + 
                         "`title` varchar(50) NOT NULL, " +
-                        "`description` varchar(50) NOT NULL, " +
+                        "`description` mediumtext NOT NULL, " +
+                        "`prereqid` int(11) NOT NULL, " + 
                         "`userid` int(11) NOT NULL" +
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
@@ -185,7 +187,7 @@ const initdb = () => {
                     "CREATE TABLE IF NOT EXISTS `" + classesTableName + "` ("+
                         "`classid` int(11) NOT NULL, " + 
                         "`title` varchar(50) NOT NULL, " +
-                        "`description` varchar(50) NOT NULL, " +
+                        "`description` mediumtext NOT NULL, " +
                         "`startdate` date NOT NULL, " +
                         "`enddate` date NOT NULL, " +
                         "`courseid` int(11) NOT NULL, " +
@@ -208,6 +210,13 @@ const initdb = () => {
                     "` ADD CONSTRAINT `fk" + coursesTableName + "_" + accountsTableName + "_userid` " + 
                     "FOREIGN KEY (`userid`) " +
                     "REFERENCES `" + accountsTableName + "`(`userid`) ON UPDATE CASCADE;"
+                );
+
+                conn.query(
+                    "ALTER TABLE `" + coursesTableName + 
+                    "` ADD CONSTRAINT `fk" + coursesTableName + "_prereqid_" + coursesTableName + "_courseid` " + 
+                    "FOREIGN KEY (`prereqid`) " +
+                    "REFERENCES `" + coursesTableName + "`(`courseid`) ON UPDATE CASCADE;"
                 );
 
                 conn.query(

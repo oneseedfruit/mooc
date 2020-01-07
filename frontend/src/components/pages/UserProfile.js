@@ -85,7 +85,10 @@ const UserProfile = ({ sessionId, profileData, permissions, getProfileData, setN
                 setNotification(null);                
             }, 5000);
         } catch (exception) {
-            setNotification(exception.response.data);
+            if (exception.response === undefined)
+                setNotification("Can't connect to backend! Server down?");
+            else
+                setNotification(exception.response.data);
             setIsError(true);
             setTimeout(() => {
                 setNotification(null);

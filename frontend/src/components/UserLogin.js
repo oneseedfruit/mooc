@@ -54,8 +54,11 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
             setTimeout(() => {
                 setNotification(null);                
             }, 5000);
-        } catch (exception) {            
-            setNotification(exception.response.data);
+        } catch (exception) {           
+            if (exception.response === undefined) 
+                setNotification("Can't connect to backend! Server down?");
+            else
+                setNotification(exception.response.data);
             setIsError(true);
             setTimeout(() => {
                 setNotification(null);
@@ -162,7 +165,10 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
                 setNotification(null);                
             }, 5000);
         } catch (exception) {
-            setNotification(exception.response.data);
+            if (exception.response === undefined)
+                setNotification("Can't connect to backend! Server down?");
+            else
+                setNotification(exception.response.data);
             setIsError(true);
             setTimeout(() => {
                 setNotification(null);
