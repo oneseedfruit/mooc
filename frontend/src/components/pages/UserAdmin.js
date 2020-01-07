@@ -3,11 +3,8 @@ import { Tab, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import HorizontalTabs from '../HorizontalTabs';
 import TabPanel from '../TabPanel';
-
-import account from '../../services/account';
-
-import InfiniteScroll from "react-infinite-scroll-component";
 import PaginatedTable from '../CustomPaginationActionsTable';
+import account from '../../services/account';
 
 const UserAdmin = ({ allAccounts, setAllAccounts, setNotification, setIsError}) => {
     const useStyles = makeStyles(theme => ({
@@ -60,7 +57,7 @@ const UserAdmin = ({ allAccounts, setAllAccounts, setNotification, setIsError}) 
                 <TabPanel value={value} index={0}>
                     <Container component="main" maxWidth="xl">
                         <div className={classes.paper}>                            
-                            <PaginatedTable rows={ allAccounts ? allAccounts : [] }/>
+                            <PaginatedTable rows={ allAccounts ? allAccounts : [] } refresh={ getAllAccounts } />
                         </div>
                     </Container>
                 </TabPanel>

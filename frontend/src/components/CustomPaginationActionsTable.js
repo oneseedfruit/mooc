@@ -15,6 +15,8 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
+import Checkbox from '@material-ui/core/Checkbox';
+import account from '../services/account';
 
 const useStyles1 = makeStyles(theme => ({
   root: {
@@ -107,7 +109,7 @@ const useStyles2 = makeStyles({
   },
 });
 
-export default function CustomPaginationActionsTable({rows}) {
+export default function CustomPaginationActionsTable({rows, refresh}) {
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -123,6 +125,23 @@ export default function CustomPaginationActionsTable({rows}) {
     setPage(0);
   };
 
+  const handleCheck = ({ userid, perm, isChecked }) => async event => {    
+    isChecked = isChecked <= 0 ? 1 : 0;
+
+    try {                                    
+      await account.getPermissions({ userid, perm, isChecked });
+      refresh();
+    } catch (exception) {        
+    }
+    // setState({ ...state, [name]: event.target.checked });
+  };
+
+  const checkbox = (isChecked, userid, perm) => {
+    return (
+      <Checkbox checked={ isChecked > 0 ? true : false } onChange={ handleCheck({ userid, perm, isChecked })} value={ perm } />
+    );
+  }
+
   const columns = [
     { id: '#', label: '#', minWidth: 10 },    
     { id: 'name', label: 'name', minWidth: 10 },
@@ -133,7 +152,6 @@ export default function CustomPaginationActionsTable({rows}) {
     { id: 'canManageCourses', label: 'can manage courses', minWidth: 10 },
     { id: 'canManageOwnClasses', label: 'can manage own classes', minWidth: 10 },
     { id: 'canManageAllClasses', label: 'can manage all classes', minWidth: 10 },
-
   ];
 
   return (
@@ -162,11 +180,12 @@ export default function CustomPaginationActionsTable({rows}) {
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.username}</TableCell>
               <TableCell>{row.email}</TableCell>
-              <TableCell>{row.canManageUsers}</TableCell>
-              <TableCell>{row.canModerateUsers}</TableCell>
-              <TableCell>{row.canManageCourses}</TableCell>
-              <TableCell>{row.canManageOwnClasses}</TableCell>
-              <TableCell>{row.canManageAllClasses}</TableCell>
+
+              <TableCell>{checkbox(row.canManageUsers, row.userid, "canManageUsers")}</TableCell>
+              <TableCell>{checkbox(row.canModerateUsers, row.userid, "canModerateUsers")}</TableCell>
+              <TableCell>{checkbox(row.canManageCourses, row.userid, "canManageCourses")}</TableCell>
+              <TableCell>{checkbox(row.canManageOwnClasses, row.userid, "canManageOwnClasses")}</TableCell>
+              <TableCell>{checkbox(row.canManageAllClasses, row.userid, "canManageAllClasses")}</TableCell>
             </TableRow>
           ))}
 
