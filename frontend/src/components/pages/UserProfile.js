@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Divider, Button, TextField, Grid, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableRow from '@material-ui/core/TableRow';
+import TableCell from '@material-ui/core/TableCell';
 import HorizontalTabs from '../HorizontalTabs';
 import Tab from '@material-ui/core/Tab';
 import TabPanel from '../TabPanel';
@@ -113,20 +117,50 @@ const UserProfile = ({ sessionId, profileData, permissions, getProfileData, setN
         return (
             <>                
                 <TabPanel value={value} index={0}>
-                    <Container component="main" maxWidth="sm">
-                        <Grid container>Username: { profileData ? profileData.username : '' }</Grid>
-                        <Grid container>Email: { profileData ? profileData.email : '' }</Grid>
+                    <Container component="main" maxWidth="xs">
+                        <Table size="small">
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell align="right">Username: </TableCell>
+                                    <TableCell>
+                                        { profileData ? profileData.username : '' }
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell align="right">Email: </TableCell>
+                                    <TableCell>
+                                        { profileData ? profileData.email : '' }
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>                   
+                        
                         <Divider />
-                            <div>Permissions:</div>
-                            <div>
-                                <ul>
-                                    <li>Can manage users?:  {(permissions ? permissions.canManageUsers ? "Yes": "No" : '')}</li>
-                                    <li>Can moderate users?: {(permissions ? permissions.canModerateUsers ? "Yes": "No" : '')}</li>
-                                    <li>Can manage courses?: {(permissions ? permissions.canManageCourses ? "Yes": "No" : '')}</li>
-                                    <li>Can manage own classes?: {(permissions ? permissions.canManageOwnClasses ? "Yes": "No" : '')}</li>
-                                    <li>Can manage all classes?: {(permissions ? permissions.canManageAllClasses ? "Yes": "No" : '')}</li>
-                                </ul>                   
-                            </div>                        
+
+                        <Table size="small">
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell>Can manage users?:  </TableCell>
+                                    <TableCell align="left">{(permissions ? permissions.canManageUsers ? "Yes": "No" : '')}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Can moderate users?:  </TableCell>
+                                    <TableCell align="left">{(permissions ? permissions.canModerateUsers ? "Yes": "No" : '')}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Can manage courses?:  </TableCell>
+                                    <TableCell align="left">{(permissions ? permissions.canManageCourses ? "Yes": "No" : '')}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Can manage own classes?:  </TableCell>
+                                    <TableCell align="left">{(permissions ? permissions.canManageOwnClasses ? "Yes": "No" : '')}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Can manage all classes?:  </TableCell>
+                                    <TableCell align="left">{(permissions ? permissions.canManageAllClasses ? "Yes": "No" : '')}</TableCell>
+                                </TableRow>                                        
+                            </TableBody>
+                        </Table>
                     </Container>
                 </TabPanel>
 
