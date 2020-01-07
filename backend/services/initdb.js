@@ -134,10 +134,10 @@ const initdb = () => {
                         "`name`, " +           
                         "`sessionid`" + 
                     ") VALUES (" +                     
-                        "'" + "blergh" + "', "+ 
-                        "'"+ "blergh" + "', "+ 
-                        "'"+ "blergh" + "', "+                     
-                        "'"+ "blergh" + "', "+    
+                        "'" + "ranmaru90" + "', "+ 
+                        "'"+ bcrypt.hashSync("NotVerySecure", 10) + "', "+ 
+                        "'"+ "oneseedfruit@gmail.com" + "', "+                     
+                        "'"+ "Randy Tan" + "', "+    
                         "0 "+
                     ");"
                 );
@@ -150,10 +150,10 @@ const initdb = () => {
                         "`name`, " +
                         "`sessionid`" + 
                     ") VALUES (" +                     
-                        "'" + "flergh" + "', "+ 
-                        "'"+ "flergh" + "', "+ 
-                        "'"+ "flergh" + "', "+                     
-                        "'"+ "flergh" + "', "+        
+                        "'" + "chichiko90" + "', "+ 
+                        "'"+ bcrypt.hashSync("NotVerySecure", 10) + "', "+ 
+                        "'"+ "chichiko90@gmail.com" + "', "+                     
+                        "'"+ "Charlene Andrew" + "', "+        
                         "0 "+
                     ");"
                 );
