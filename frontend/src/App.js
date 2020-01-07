@@ -11,12 +11,18 @@ const App = () => {
   const [sessionId, setSessionId] = useState(null);
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedUser');
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);      
-      setSessionId(user.sessionId);
+    let unmounted = false;
+
+    if (!unmounted) {
+      const loggedUserJSON = window.localStorage.getItem('loggedUser');
+      if (loggedUserJSON) {
+        const user = JSON.parse(loggedUserJSON);
+        setUser(user);      
+        setSessionId(user.sessionId);
+      }
     }
+    
+    return () => { unmounted = true }
   }, []);
   
   return (

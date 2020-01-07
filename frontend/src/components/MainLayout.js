@@ -104,9 +104,10 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
     const [open, setOpen] = useState(false);
     const [pageIndex, setPageIndex] = useState(0);
     
+    const [allAccounts, setAllAccounts] = useState(null);
     const [permissions, setPermissions] = useState(null);
     const [profileData, setProfileData] = useState(null);
-    const [allAccounts, setAllAccounts] = useState(null);
+    const [allCourses, setAllCourses] = useState(null);
 
     const getProfileData = useCallback(async () => {        
         try {                                    
@@ -132,8 +133,11 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
         }
     }, [sessionId, setNotification, setIsError]);
 
-    useEffect(() => {         
-        getProfileData();    
+    useEffect(() => {
+        let unmounted = false;
+        if (!unmounted)
+            getProfileData();
+        return () => { unmounted = true }
     }, [getProfileData]);
 
     const pages = [
@@ -164,9 +168,8 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
         },
         {
             show:
-                <CourseAdmin allAccounts={ allAccounts }
-                             setAllAccounts={ setAllAccounts }
-                             getProfileData = { getProfileData }
+                <CourseAdmin allCourses={ allCourses }
+                             setAllCourses={ setAllCourses }                             
                              setNotification={ setNotification }
                              setIsError={ setIsError } />
         }

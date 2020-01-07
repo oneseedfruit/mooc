@@ -341,6 +341,32 @@ const initdb = () => {
                 );
 
 
+                conn.query(
+                    "INSERT INTO `" + courses_tb + "` (" +                        
+                        "`course_code`, " +
+                        "`title`, " +
+                        "`description`, " +                        
+                        "`user_id`" +
+                    ") VALUES (" +                     
+                        "'" + "SCSD2523" + "', "+ 
+                        "'Database', "+ 
+                        "'Counter-action rising! Are you ready for the punchline?!!', "+                     
+                        "'1'"+
+                    ");"
+                );
+                conn.query(
+                    "INSERT INTO `" + courses_tb + "` (" +                        
+                        "`course_code`, " +
+                        "`title`, " +
+                        "`description`, " +                        
+                        "`user_id`" +
+                    ") VALUES (" +                     
+                        "'" + "SCSJ1023" + "', "+ 
+                        "'Programming Techniques II', "+ 
+                        "'See plus plus? See plus plus!! OOP!!', "+                     
+                        "'2'"+
+                    ");"
+                );
             }
     });
     return conn;

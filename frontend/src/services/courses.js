@@ -6,5 +6,4 @@ const getAllCourses = async details => {
   return response.data
 };
 
-
 export default { getAllCourses };

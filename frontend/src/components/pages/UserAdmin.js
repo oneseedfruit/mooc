@@ -45,8 +45,11 @@ const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotificatio
         }
     }, [setAllAccounts, setNotification, setIsError]);
 
-    useEffect(() => {         
-        getAllAccounts();    
+    useEffect(() => {       
+        let unmounted = false;
+        if (!unmounted)  
+            getAllAccounts();
+        return () => { unmounted = true }
     }, [getAllAccounts]);
 
     const columns = [
