@@ -15,8 +15,6 @@ import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-import Checkbox from '@material-ui/core/Checkbox';
-import account from '../services/account';
 
 const useStyles1 = makeStyles(theme => ({
   root: {
@@ -83,33 +81,13 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-// function createData(name, calories, fat) {
-//   return { name, calories, fat };
-// }
-
-// const rows = [
-//   createData('Cupcake', 305, 3.7),
-//   createData('Donut', 452, 25.0),
-//   createData('Eclair', 262, 16.0),
-//   createData('Frozen yoghurt', 159, 6.0),
-//   createData('Gingerbread', 356, 16.0),
-//   createData('Honeycomb', 408, 3.2),
-//   createData('Ice cream sandwich', 237, 9.0),
-//   createData('Jelly Bean', 375, 0.0),
-//   createData('KitKat', 518, 26.0),
-//   createData('Lollipop', 392, 0.2),
-//   createData('Marshmallow', 318, 0),
-//   createData('Nougat', 360, 19.0),
-//   createData('Oreo', 437, 18.0),
-// ].sort((a, b) => (a.calories < b.calories ? -1 : 1));
-
 const useStyles2 = makeStyles({
   table: {
     minWidth: 400,
   },
 });
 
-export default function CustomPaginationActionsTable({rows, retrieve, refresh}) {
+const CustomPaginationActionsTable = ({rows, columns, size, customCells}) => {
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -125,39 +103,9 @@ export default function CustomPaginationActionsTable({rows, retrieve, refresh}) 
     setPage(0);
   };
 
-  const handleCheck = ({ user_id, perm, isChecked }) => async event => {    
-    isChecked = isChecked <= 0 ? 1 : 0;
-
-    try {                                    
-      await account.getPermissions({ user_id, perm, isChecked });
-      retrieve();
-      refresh();
-    } catch (exception) {        
-    }
-    // setState({ ...state, [name]: event.target.checked });
-  };
-
-  const checkbox = (isChecked, user_id, perm) => {
-    return (
-      <Checkbox checked={ isChecked > 0 ? true : false } onChange={ handleCheck({ user_id, perm, isChecked })} value={ perm } />
-    );
-  }
-
-  const columns = [
-    { id: '#', label: '#', minWidth: 10 },    
-    { id: 'name', label: 'name', minWidth: 10 },
-    { id: 'username', label: 'username', minWidth: 10 },
-    { id: 'email', label: 'email', minWidth: 10 },
-    { id: 'can_manage_users', label: 'can manage users', minWidth: 10 },
-    { id: 'can_moderate_users', label: 'can moderate users', minWidth: 10 },
-    { id: 'can_manage_courses', label: 'can manage courses', minWidth: 10 },
-    { id: 'can_manage_own_classes', label: 'can manage own classes', minWidth: 10 },
-    { id: 'can_manage_all_classes', label: 'can manage all classes', minWidth: 10 },
-  ];
-
   return (
     <TableContainer component={Paper}>
-      <Table stickyHeader size="small" className={classes.table} aria-label="custom pagination table">
+      <Table stickyHeader size={ size } className={classes.table} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
             {columns.map(column => (
@@ -182,11 +130,8 @@ export default function CustomPaginationActionsTable({rows, retrieve, refresh}) 
               <TableCell>{row.username}</TableCell>
               <TableCell>{row.email}</TableCell>
 
-              <TableCell>{checkbox(row.can_manage_users, row.user_id, "can_manage_users")}</TableCell>
-              <TableCell>{checkbox(row.can_moderate_users, row.user_id, "can_moderate_users")}</TableCell>
-              <TableCell>{checkbox(row.can_manage_courses, row.user_id, "can_manage_courses")}</TableCell>
-              <TableCell>{checkbox(row.can_manage_own_classes, row.user_id, "can_manage_own_classes")}</TableCell>
-              <TableCell>{checkbox(row.can_manage_all_classes, row.user_id, "can_manage_all_classes")}</TableCell>
+              { customCells(row) ? customCells(row) : '' }              
+
             </TableRow>
           ))}
 
@@ -218,3 +163,5 @@ export default function CustomPaginationActionsTable({rows, retrieve, refresh}) 
     </TableContainer>
   );
 }
+
+export default CustomPaginationActionsTable;
