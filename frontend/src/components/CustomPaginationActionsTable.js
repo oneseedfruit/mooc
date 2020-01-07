@@ -109,7 +109,7 @@ const useStyles2 = makeStyles({
   },
 });
 
-export default function CustomPaginationActionsTable({rows, refresh}) {
+export default function CustomPaginationActionsTable({rows, retrieve, refresh}) {
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -130,6 +130,7 @@ export default function CustomPaginationActionsTable({rows, refresh}) {
 
     try {                                    
       await account.getPermissions({ userid, perm, isChecked });
+      retrieve();
       refresh();
     } catch (exception) {        
     }

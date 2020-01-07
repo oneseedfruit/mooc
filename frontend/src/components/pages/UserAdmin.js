@@ -6,7 +6,7 @@ import TabPanel from '../TabPanel';
 import PaginatedTable from '../CustomPaginationActionsTable';
 import account from '../../services/account';
 
-const UserAdmin = ({ allAccounts, setAllAccounts, setNotification, setIsError}) => {
+const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotification, setIsError}) => {
     const useStyles = makeStyles(theme => ({
         paper: {        
             alignItems: 'left',
@@ -57,7 +57,7 @@ const UserAdmin = ({ allAccounts, setAllAccounts, setNotification, setIsError}) 
                 <TabPanel value={value} index={0}>
                     <Container component="main" maxWidth="xl">
                         <div className={classes.paper}>                            
-                            <PaginatedTable rows={ allAccounts ? allAccounts : [] } refresh={ getAllAccounts } />
+                            <PaginatedTable rows={ allAccounts ? allAccounts : [] } retrieve={ getAllAccounts } refresh={ getProfileData } />
                         </div>
                     </Container>
                 </TabPanel>
