@@ -144,23 +144,23 @@ const UserProfile = ({ sessionId, profileData, permissions, getProfileData, setN
                             <TableBody>
                                 <TableRow>
                                     <TableCell>Can manage users?:  </TableCell>
-                                    <TableCell align="left">{(permissions ? permissions.canManageUsers ? "Yes": "No" : '')}</TableCell>
+                                    <TableCell align="left">{(permissions ? permissions.can_manage_users ? "Yes": "No" : '')}</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>Can moderate users?:  </TableCell>
-                                    <TableCell align="left">{(permissions ? permissions.canModerateUsers ? "Yes": "No" : '')}</TableCell>
+                                    <TableCell align="left">{(permissions ? permissions.can_moderate_users ? "Yes": "No" : '')}</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>Can manage courses?:  </TableCell>
-                                    <TableCell align="left">{(permissions ? permissions.canManageCourses ? "Yes": "No" : '')}</TableCell>
+                                    <TableCell align="left">{(permissions ? permissions.can_manage_courses ? "Yes": "No" : '')}</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>Can manage own classes?:  </TableCell>
-                                    <TableCell align="left">{(permissions ? permissions.canManageOwnClasses ? "Yes": "No" : '')}</TableCell>
+                                    <TableCell align="left">{(permissions ? permissions.can_manage_own_classes ? "Yes": "No" : '')}</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>Can manage all classes?:  </TableCell>
-                                    <TableCell align="left">{(permissions ? permissions.canManageAllClasses ? "Yes": "No" : '')}</TableCell>
+                                    <TableCell align="left">{(permissions ? permissions.can_manage_all_classes ? "Yes": "No" : '')}</TableCell>
                                 </TableRow>                                        
                             </TableBody>
                         </Table>

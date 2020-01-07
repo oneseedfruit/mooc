@@ -32,7 +32,7 @@ const initdb = () => {
             if (results && results.length <= 0) {
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + user_accounts_tb + "` ("+
-                        "`userid` int(11) NOT NULL DEFAULT 1, " + 
+                        "`user_id` int(11) NOT NULL DEFAULT 1, " + 
                         "`username` varchar(255) NOT NULL, " + 
                         "`password` varchar(255) NOT NULL, " + 
                         "`email` varchar(100) NOT NULL, " +                         
@@ -43,24 +43,24 @@ const initdb = () => {
 
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + user_permissions_tb + "` ("+
-                        "`permid` int(11) NOT NULL, " + 
-                        "`canManageUsers` bool NOT NULL DEFAULT 0, " +
-                        "`canModerateUsers` bool NOT NULL DEFAULT 0, " +
-                        "`canManageCourses` bool NOT NULL DEFAULT 0, " +
-                        "`canManageOwnClasses` bool NOT NULL DEFAULT 0, " +
-                        "`canManageAllClasses` bool NOT NULL DEFAULT 0, " +
-                        "`userid` int(11) NOT NULL DEFAULT 1" + 
+                        "`perm_id` int(11) NOT NULL, " + 
+                        "`can_manage_users` bool NOT NULL DEFAULT 0, " +
+                        "`can_moderate_users` bool NOT NULL DEFAULT 0, " +
+                        "`can_manage_courses` bool NOT NULL DEFAULT 0, " +
+                        "`can_manage_own_classes` bool NOT NULL DEFAULT 0, " +
+                        "`can_manage_all_classes` bool NOT NULL DEFAULT 0, " +
+                        "`user_id` int(11) NOT NULL DEFAULT 1" + 
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
 
 
                 conn.query(
                     "ALTER TABLE `" + user_accounts_tb + 
-                    "` ADD PRIMARY KEY (`userid`);"
+                    "` ADD PRIMARY KEY (`user_id`);"
                 );
                 conn.query(
                     "ALTER TABLE `" + user_accounts_tb + 
-                    "` MODIFY `userid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
+                    "` MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
                 );
                 conn.query(
                     "ALTER TABLE `" + user_accounts_tb + 
@@ -70,17 +70,17 @@ const initdb = () => {
 
                 conn.query(
                     "ALTER TABLE `" + user_permissions_tb + 
-                    "` ADD PRIMARY KEY (`permid`);"
+                    "` ADD PRIMARY KEY (`perm_id`);"
                 );
                 conn.query(
                     "ALTER TABLE `" + user_permissions_tb + 
-                    "` MODIFY `permid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
+                    "` MODIFY `perm_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
                 );
                 conn.query(
                     "ALTER TABLE `" + user_permissions_tb + 
                     "` ADD CONSTRAINT `fk" + user_permissions_tb + "_" + user_accounts_tb + "_userid` " + 
-                    "FOREIGN KEY (`userid`) " +
-                    "REFERENCES `" + user_accounts_tb + "`(`userid`) ON UPDATE CASCADE;"
+                    "FOREIGN KEY (`user_id`) " +
+                    "REFERENCES `" + user_accounts_tb + "`(`user_id`) ON UPDATE CASCADE;"
                 );
 
 
@@ -89,11 +89,11 @@ const initdb = () => {
                     "AFTER INSERT ON " + user_accounts_tb + " FOR EACH ROW " +
                         "BEGIN " +                             
                             "INSERT INTO `" + user_permissions_tb + "` (" +                                 
-                                "`canManageUsers`, " +  
-                                "`canModerateUsers`, " +
-                                "`canManageCourses`,  " +
-                                "`canManageOwnClasses`, " +
-                                "`canManageAllClasses` " +
+                                "`can_manage_users`, " +  
+                                "`can_moderate_users`, " +
+                                "`can_manage_courses`,  " +
+                                "`can_manage_own_classes`, " +
+                                "`can_manage_all_classes` " +
                             ") VALUES (" +                                 
                                 "0, "+
                                 "0, "+
@@ -103,10 +103,10 @@ const initdb = () => {
                             "); " +
                             "UPDATE " + user_permissions_tb + " " +
                             "INNER JOIN " + user_accounts_tb + 
-                            " ON (" + user_permissions_tb + ".permid = " + 
-                                user_accounts_tb + ".userid) " +
-                            "SET " + user_permissions_tb + ".userid = " + 
-                                user_accounts_tb + ".userid; " +
+                            " ON (" + user_permissions_tb + ".perm_id = " + 
+                                user_accounts_tb + ".user_id) " +
+                            "SET " + user_permissions_tb + ".user_id = " + 
+                                user_accounts_tb + ".user_id; " +
                         "END; "
                 );
 
@@ -129,12 +129,12 @@ const initdb = () => {
                 conn.query(
                     "UPDATE " + user_permissions_tb + " " +
                     "SET " + 
-                        "canManageUsers = 1, "+
-                        "canModerateUsers = 1, "+
-                        "canManageCourses = 1, "+
-                        "canManageOwnClasses = 1, "+
-                        "canManageAllClasses = 1 "+
-                    "WHERE userid = 1;"
+                        "can_manage_users = 1, "+
+                        "can_moderate_users = 1, "+
+                        "can_manage_courses = 1, "+
+                        "can_manage_own_classes = 1, "+
+                        "can_manage_all_classes = 1 "+
+                    "WHERE user_id = 1;"
                 );                
                 
 
@@ -183,102 +183,102 @@ const initdb = () => {
 
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + courses_tb + "` ("+
-                        "`courseid` int(11) NOT NULL, " + 
+                        "`course_id` int(11) NOT NULL, " + 
                         "`title` varchar(255) NULL, " +
                         "`description` mediumtext NULL, " +                        
-                        "`userid` int(11) NOT NULL" +
+                        "`user_id` int(11) NOT NULL" +
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
                 conn.query(
                     "ALTER TABLE `" + courses_tb + 
-                    "` ADD PRIMARY KEY (`courseid`);"
+                    "` ADD PRIMARY KEY (`course_id`);"
                 );
                 conn.query(
                     "ALTER TABLE `" + courses_tb + 
-                    "` MODIFY `courseid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
+                    "` MODIFY `course_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
                 );
                 conn.query(
                     "ALTER TABLE `" + courses_tb + 
                     "` ADD CONSTRAINT `fk" + courses_tb + "_" + user_accounts_tb + "_userid` " + 
-                    "FOREIGN KEY (`userid`) " +
-                    "REFERENCES `" + user_accounts_tb + "`(`userid`) ON UPDATE CASCADE;"
+                    "FOREIGN KEY (`user_id`) " +
+                    "REFERENCES `" + user_accounts_tb + "`(`user_id`) ON UPDATE CASCADE;"
                 );
 
 
 
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + courses_prereqs_tb + "` ("+
-                        "`prereqid` int(11) NOT NULL, " +
-                        "`courseid` int(11) NOT NULL" + 
+                        "`prereq_id` int(11) NOT NULL, " +
+                        "`course_id` int(11) NOT NULL" + 
                     ") ENGINE=InnoDB DEFAULT CHARSET=utf8;"
                 );
                 conn.query(
                     "ALTER TABLE `" + courses_prereqs_tb + 
                     "` ADD CONSTRAINT `fk" + courses_prereqs_tb + "_prereqid_" + courses_tb + "_courseid` " + 
-                    "FOREIGN KEY (`prereqid`) " +
-                    "REFERENCES `" + courses_tb + "`(`courseid`) ON UPDATE CASCADE;"
+                    "FOREIGN KEY (`prereq_id`) " +
+                    "REFERENCES `" + courses_tb + "`(`course_id`) ON UPDATE CASCADE;"
                 );
                 conn.query(
                     "ALTER TABLE `" + courses_prereqs_tb + 
                     "` ADD CONSTRAINT `fk" + courses_prereqs_tb + "_courseid_" + courses_tb + "_courseid` " + 
-                    "FOREIGN KEY (`courseid`) " +
-                    "REFERENCES `" + courses_tb + "`(`courseid`) ON UPDATE CASCADE;"
+                    "FOREIGN KEY (`course_id`) " +
+                    "REFERENCES `" + courses_tb + "`(`course_id`) ON UPDATE CASCADE;"
                 );
 
 
 
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + contents_tb + "` ("+
-                        "`contentid` int(11) NOT NULL, " + 
+                        "`content_id` int(11) NOT NULL, " + 
                         "`content` text NULL" +
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
                 conn.query(
                     "ALTER TABLE `" + contents_tb + 
-                    "` ADD PRIMARY KEY (`contentid`);"
+                    "` ADD PRIMARY KEY (`content_id`);"
                 );
                 conn.query(
                     "ALTER TABLE `" + contents_tb + 
-                    "` MODIFY `contentid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
+                    "` MODIFY `content_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
                 );
 
 
 
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + class_sessions_tb + "` ("+
-                        "`classid` int(11) NOT NULL, " +                         
-                        "`startdate` date NULL, " +
-                        "`enddate` date NULL, " +
-                        "`courseid` int(11) NOT NULL, " +
-                        "`userid` int(11) NOT NULL" +
+                        "`class_id` int(11) NOT NULL, " +                         
+                        "`start_date` date NULL, " +
+                        "`end_date` date NULL, " +
+                        "`course_id` int(11) NOT NULL, " +
+                        "`user_id` int(11) NOT NULL" +
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
                 conn.query(
                     "ALTER TABLE `" + class_sessions_tb + 
-                    "` ADD PRIMARY KEY (`classid`);"
+                    "` ADD PRIMARY KEY (`class_id`);"
                 );
                 conn.query(
                     "ALTER TABLE `" + class_sessions_tb + 
-                    "` MODIFY `classid` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
+                    "` MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1;"
                 );
                 conn.query(
                     "ALTER TABLE `" + class_sessions_tb + 
                     "` ADD CONSTRAINT `fk" + class_sessions_tb + "_" + user_accounts_tb + "_userid` " + 
-                    "FOREIGN KEY (`userid`) " +
-                    "REFERENCES `" + user_accounts_tb + "`(`userid`) ON UPDATE CASCADE;"
+                    "FOREIGN KEY (`user_id`) " +
+                    "REFERENCES `" + user_accounts_tb + "`(`user_id`) ON UPDATE CASCADE;"
                 );
                 conn.query(
                     "ALTER TABLE `" + class_sessions_tb + 
                     "` ADD CONSTRAINT `fk" + class_sessions_tb + "_" + courses_tb + "_courseid` " + 
-                    "FOREIGN KEY (`courseid`) " +
-                    "REFERENCES `" + courses_tb + "`(`courseid`) ON UPDATE CASCADE;"
+                    "FOREIGN KEY (`course_id`) " +
+                    "REFERENCES `" + courses_tb + "`(`course_id`) ON UPDATE CASCADE;"
                 );
 
 
 
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + class_sessions_info_tb + "` ("+
-                        "`classid` int(11) NOT NULL, " + 
+                        "`class_id` int(11) NOT NULL, " + 
                         "`title` varchar(255) NULL, " +
                         "`description` mediumtext NULL" +                        
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
@@ -286,50 +286,50 @@ const initdb = () => {
                 conn.query(
                     "ALTER TABLE `" + class_sessions_info_tb + 
                     "` ADD CONSTRAINT `fk" + class_sessions_info_tb + "_" + class_sessions_tb + "_classid` " + 
-                    "FOREIGN KEY (`classid`) " +
-                    "REFERENCES `" + class_sessions_tb + "`(`classid`) ON UPDATE CASCADE;"
+                    "FOREIGN KEY (`class_id`) " +
+                    "REFERENCES `" + class_sessions_tb + "`(`class_id`) ON UPDATE CASCADE;"
                 );
 
 
 
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + class_sessions_contents_tb + "` ("+
-                        "`classid` int(11) NOT NULL, " + 
-                        "`contentid` int(11) NOT NULL" +                      
+                        "`class_id` int(11) NOT NULL, " + 
+                        "`content_id` int(11) NOT NULL" +                      
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
                 conn.query(
                     "ALTER TABLE `" + class_sessions_contents_tb + 
                     "` ADD CONSTRAINT `fk" + class_sessions_contents_tb + "_" + contents_tb + "_contentid` " + 
-                    "FOREIGN KEY (`contentid`) " +
-                    "REFERENCES `" + contents_tb + "`(`contentid`) ON UPDATE CASCADE;"
+                    "FOREIGN KEY (`content_id`) " +
+                    "REFERENCES `" + contents_tb + "`(`content_id`) ON UPDATE CASCADE;"
                 );
                 conn.query(
                     "ALTER TABLE `" + class_sessions_contents_tb + 
                     "` ADD CONSTRAINT `fk" + class_sessions_contents_tb + "_" + class_sessions_tb + "_classid` " + 
-                    "FOREIGN KEY (`classid`) " +
-                    "REFERENCES `" + class_sessions_tb + "`(`classid`) ON UPDATE CASCADE;"
+                    "FOREIGN KEY (`class_id`) " +
+                    "REFERENCES `" + class_sessions_tb + "`(`class_id`) ON UPDATE CASCADE;"
                 );
 
 
 
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + class_sessions_regis_tb + "` ("+
-                        "`userid` int(11) NOT NULL, " + 
-                        "`classid` int(11) NOT NULL" +                         
+                        "`user_id` int(11) NOT NULL, " + 
+                        "`class_id` int(11) NOT NULL" +                         
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
                 conn.query(
                     "ALTER TABLE `" + class_sessions_regis_tb + 
                     "` ADD CONSTRAINT `fk" + class_sessions_regis_tb + "_" + user_accounts_tb + "_userid` " + 
-                    "FOREIGN KEY (`userid`) " +
-                    "REFERENCES `" + user_accounts_tb + "`(`userid`) ON UPDATE CASCADE;"
+                    "FOREIGN KEY (`user_id`) " +
+                    "REFERENCES `" + user_accounts_tb + "`(`user_id`) ON UPDATE CASCADE;"
                 );
                 conn.query(
                     "ALTER TABLE `" + class_sessions_regis_tb + 
                     "` ADD CONSTRAINT `fk" + class_sessions_regis_tb + "_" + class_sessions_tb + "_classid` " + 
-                    "FOREIGN KEY (`classid`) " +
-                    "REFERENCES `" + class_sessions_tb + "`(`classid`) ON UPDATE CASCADE;"
+                    "FOREIGN KEY (`class_id`) " +
+                    "REFERENCES `" + class_sessions_tb + "`(`class_id`) ON UPDATE CASCADE;"
                 );
 
 

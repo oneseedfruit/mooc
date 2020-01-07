@@ -268,7 +268,7 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
                         <ListItemText primary="My Classes" />
                     </ListItem>
 
-                    { permissions !== null ? permissions.canManageUsers ?
+                    { permissions !== null ? permissions.can_manage_users ?
                         <>
                             <ListItem button key="User Admin" onClick={ handleGoToPage(3) }>
                                 <ListItemIcon><UserAdminIcon /></ListItemIcon>
@@ -278,7 +278,7 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
                         : '' : ''
                     }
 
-                    { permissions !== null ? permissions.canManageCourses ?
+                    { permissions !== null ? permissions.can_manage_courses ?
                         <>
                             <ListItem button key="Course Admin" onClick={ handleGoToPage(4) }>
                                 <ListItemIcon><CourseAdminIcon /></ListItemIcon>

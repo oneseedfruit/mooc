@@ -4,14 +4,14 @@ const permissions = async (req, res, next, conn, user_accounts_tb, user_permissi
     if (req.body.sessionId) {
         const data = await query.query(conn, 
                 'SELECT ' + 
-                    'ac.userid, ' +
-                    'p.canManageUsers, ' +
-                    'p.canModerateUsers, ' +
-                    'p.canManageCourses, ' +
-                    'p.canManageOwnClasses, ' +
-                    'p.canManageAllClasses ' +
+                    'ac.user_id, ' +
+                    'p.can_manage_users, ' +
+                    'p.can_moderate_users, ' +
+                    'p.can_manage_courses, ' +
+                    'p.can_manage_own_classes, ' +
+                    'p.can_manage_all_classes ' +
                 'FROM ' + user_accounts_tb + ' ac ' +
-                'JOIN ' + user_permissions_tb + ' p ON ac.userid = p.permid ' +
+                'JOIN ' + user_permissions_tb + ' p ON ac.user_id = p.perm_id ' +
                 'WHERE sessionId = ? ;', [req.body.sessionId]
             ).catch(console.log);
         
@@ -23,7 +23,7 @@ const permissions = async (req, res, next, conn, user_accounts_tb, user_permissi
         await query.query(conn, 
                 'UPDATE ' + user_permissions_tb + ' ' +
                 'SET ' + req.body.perm + ' = ' + req.body.isChecked + ' ' +
-                'WHERE userid = ' + req.body.userid + '; '
+                'WHERE user_id = ' + req.body.user_id + '; '
             ).catch(console.log);
         
         res.end();

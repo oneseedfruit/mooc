@@ -125,11 +125,11 @@ export default function CustomPaginationActionsTable({rows, retrieve, refresh}) 
     setPage(0);
   };
 
-  const handleCheck = ({ userid, perm, isChecked }) => async event => {    
+  const handleCheck = ({ user_id, perm, isChecked }) => async event => {    
     isChecked = isChecked <= 0 ? 1 : 0;
 
     try {                                    
-      await account.getPermissions({ userid, perm, isChecked });
+      await account.getPermissions({ user_id, perm, isChecked });
       retrieve();
       refresh();
     } catch (exception) {        
@@ -137,9 +137,9 @@ export default function CustomPaginationActionsTable({rows, retrieve, refresh}) 
     // setState({ ...state, [name]: event.target.checked });
   };
 
-  const checkbox = (isChecked, userid, perm) => {
+  const checkbox = (isChecked, user_id, perm) => {
     return (
-      <Checkbox checked={ isChecked > 0 ? true : false } onChange={ handleCheck({ userid, perm, isChecked })} value={ perm } />
+      <Checkbox checked={ isChecked > 0 ? true : false } onChange={ handleCheck({ user_id, perm, isChecked })} value={ perm } />
     );
   }
 
@@ -148,11 +148,11 @@ export default function CustomPaginationActionsTable({rows, retrieve, refresh}) 
     { id: 'name', label: 'name', minWidth: 10 },
     { id: 'username', label: 'username', minWidth: 10 },
     { id: 'email', label: 'email', minWidth: 10 },
-    { id: 'canManageUsers', label: 'can manage users', minWidth: 10 },
-    { id: 'canModerateUsers', label: 'can moderate users', minWidth: 10 },
-    { id: 'canManageCourses', label: 'can manage courses', minWidth: 10 },
-    { id: 'canManageOwnClasses', label: 'can manage own classes', minWidth: 10 },
-    { id: 'canManageAllClasses', label: 'can manage all classes', minWidth: 10 },
+    { id: 'can_manage_users', label: 'can manage users', minWidth: 10 },
+    { id: 'can_moderate_users', label: 'can moderate users', minWidth: 10 },
+    { id: 'can_manage_courses', label: 'can manage courses', minWidth: 10 },
+    { id: 'can_manage_own_classes', label: 'can manage own classes', minWidth: 10 },
+    { id: 'can_manage_all_classes', label: 'can manage all classes', minWidth: 10 },
   ];
 
   return (
@@ -176,17 +176,17 @@ export default function CustomPaginationActionsTable({rows, retrieve, refresh}) 
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
           ).map(row => (
-            <TableRow key={row.userid}>
-              <TableCell>{row.userid}</TableCell>
+            <TableRow key={row.user_id}>
+              <TableCell>{row.user_id}</TableCell>
               <TableCell>{row.name}</TableCell>
               <TableCell>{row.username}</TableCell>
               <TableCell>{row.email}</TableCell>
 
-              <TableCell>{checkbox(row.canManageUsers, row.userid, "canManageUsers")}</TableCell>
-              <TableCell>{checkbox(row.canModerateUsers, row.userid, "canModerateUsers")}</TableCell>
-              <TableCell>{checkbox(row.canManageCourses, row.userid, "canManageCourses")}</TableCell>
-              <TableCell>{checkbox(row.canManageOwnClasses, row.userid, "canManageOwnClasses")}</TableCell>
-              <TableCell>{checkbox(row.canManageAllClasses, row.userid, "canManageAllClasses")}</TableCell>
+              <TableCell>{checkbox(row.can_manage_users, row.user_id, "can_manage_users")}</TableCell>
+              <TableCell>{checkbox(row.can_moderate_users, row.user_id, "can_moderate_users")}</TableCell>
+              <TableCell>{checkbox(row.can_manage_courses, row.user_id, "can_manage_courses")}</TableCell>
+              <TableCell>{checkbox(row.can_manage_own_classes, row.user_id, "can_manage_own_classes")}</TableCell>
+              <TableCell>{checkbox(row.can_manage_all_classes, row.user_id, "can_manage_all_classes")}</TableCell>
             </TableRow>
           ))}
 
