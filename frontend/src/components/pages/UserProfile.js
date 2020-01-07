@@ -92,7 +92,7 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
         }
 
         try {             
-            const a = await account.updateAccount({       
+            await account.updateAccount({       
                 name: updateName,         
                 username: (profileData ? profileData.username : ''),
                 newEmail: updateEmail,
@@ -160,8 +160,7 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
                 </TabPanel>
 
                 <TabPanel value={value} index={1}>
-                    <Container component="main" maxWidth="sm">
-                    {/* <CssBaseline />  */}
+                    <Container component="main" maxWidth="sm">                    
                         <div className={classes.paper}>
                             <form className={classes.form} onSubmit={ handleUpdateAccount }>
                                 <Grid container>
