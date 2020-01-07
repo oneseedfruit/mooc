@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Grid, TextField, Tab, Container } from '@material-ui/core';
+import { Grid, Tab, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import HorizontalTabs from '../HorizontalTabs';
 import TabPanel from '../TabPanel';
 import PaginatedTable from '../CustomPaginationActionsTable';
 import TableCell from '@material-ui/core/TableCell';
+import Search from '../../components/SimpleSearchInArrayOfObjects';
 import account from '../../services/account';
-
 
 const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotification, setIsError}) => {
     const useStyles = makeStyles(theme => ({
@@ -47,30 +47,6 @@ const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotificatio
     useEffect(() => {         
         getAllAccounts();    
     }, [getAllAccounts]);
-
-    const handleSearch = event => {
-        const s = event.target.value.toLowerCase();
-
-        if (allAccounts) {
-            const filteredSearch = allAccounts.filter(a => {
-                const s1 = a.username.toLowerCase();
-                const s2 = a.email.toLowerCase();
-                const s3 = a.name.toLowerCase();
-
-                return s1.includes(s) ||
-                       s2.includes(s) ||
-                       s3.includes(s) ||
-                       s.includes(a.user_id);
-            });
-            setSearch(filteredSearch);
-        }
-
-        if (searchField === '') {
-            setSearch(allAccounts);
-        }
-
-        setSearchField(s);
-    };
 
     const columns = [
         { id: '#', label: '#', minWidth: 10 },    
@@ -124,22 +100,16 @@ const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotificatio
                 <TabPanel value={value} index={0}>
                     <Container component="main" maxWidth="xl">
                         <div className={classes.paper}>                        
-                            <Grid container>            
-                                <TextField  id="standard-basic" 
-                                            label="search" 
-                                            value={ searchField }
-                                            name="name"
-                                            onChange={ handleSearch }
-                                            margin="normal"                                                                                                                        
-                                            autoFocus
-                                            fullWidth
-                                />                                
-                            </Grid>
-                        
+                            <Grid container>
+                                <Search arrayOfObjects={ allAccounts }
+                                        searchField={ searchField }
+                                        setSearchField={ setSearchField }
+                                        setSearch={ setSearch } />
+                            </Grid>                        
                             <PaginatedTable rows={ search ? search : [] } 
                                             columns={ columns } 
                                             size="small"
-                                            customCells = { customCells }/>
+                                            customCells = { customCells } />
                         </div>
                     </Container>
                 </TabPanel>
