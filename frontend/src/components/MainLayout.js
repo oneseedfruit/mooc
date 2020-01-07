@@ -106,6 +106,7 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
     
     const [permissions, setPermissions] = useState(null);
     const [profileData, setProfileData] = useState(null);
+    const [allAccounts, setAllAccounts] = useState(null);
 
     const getProfileData = useCallback(async () => {        
         try {                                    
@@ -149,7 +150,10 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
         },
         {
             show:
-                <UserAdmin />
+                <UserAdmin allAccounts={ allAccounts }
+                           setAllAccounts={ setAllAccounts }
+                           setNotification={ setNotification }
+                           setIsError={ setIsError } />
         },
         {
             show:

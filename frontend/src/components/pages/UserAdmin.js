@@ -1,12 +1,15 @@
-import React from 'react';
-import { Tab, Grid, Container } from '@material-ui/core';
+import React, { useEffect, useCallback } from 'react';
+import { Tab, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import HorizontalTabs from '../HorizontalTabs';
 import TabPanel from '../TabPanel';
 
-import InfiniteScroll from "react-infinite-scroll-component";
+import account from '../../services/account';
 
-const UserAdmin = () => {
+import InfiniteScroll from "react-infinite-scroll-component";
+import PaginatedTable from '../CustomPaginationActionsTable';
+
+const UserAdmin = ({ allAccounts, setAllAccounts, setNotification, setIsError}) => {
     const useStyles = makeStyles(theme => ({
         paper: {        
             alignItems: 'left',
@@ -20,6 +23,29 @@ const UserAdmin = () => {
       }));
     const classes = useStyles();
 
+    
+
+    const getAllAccounts = useCallback(async () => {
+        try {                                    
+            const data = await account.getAllAccounts();            
+            
+            setAllAccounts(data);
+
+            return;                
+        } catch (exception) {
+            setNotification('Error acquiring user accounts.');
+            setIsError(true);
+            setTimeout(() => {
+                setNotification(null);
+                setIsError(false);
+            }, 5000);
+        }
+    }, [setAllAccounts, setNotification, setIsError]);
+
+    useEffect(() => {         
+        getAllAccounts();    
+    }, [getAllAccounts]);
+
     const Tabs = a11yProps => {
         return (
             [
@@ -32,11 +58,9 @@ const UserAdmin = () => {
         return (
             <>
                 <TabPanel value={value} index={0}>
-                    <Container component="main" maxWidth="sm">                    
+                    <Container component="main" maxWidth="xl">
                         <div className={classes.paper}>                            
-                            <Grid container>
-                                Manage users here.
-                            </Grid>
+                            <PaginatedTable rows={ allAccounts ? allAccounts : [] }/>
                         </div>
                     </Container>
                 </TabPanel>
