@@ -87,7 +87,7 @@ const useStyles2 = makeStyles({
   },
 });
 
-const CustomPaginationActionsTable = ({rows, columns, size, customCells}) => {
+const CustomPaginationActionsTable = ({rows, columns, size, customTable}) => {
   const classes = useStyles2();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -123,17 +123,7 @@ const CustomPaginationActionsTable = ({rows, columns, size, customCells}) => {
           {(rowsPerPage > 0
             ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             : rows
-          ).map(row => (
-            <TableRow key={row.user_id}>
-              <TableCell>{row.user_id}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.username}</TableCell>
-              <TableCell>{row.email}</TableCell>
-
-              { customCells(row) ? customCells(row) : '' }              
-
-            </TableRow>
-          ))}
+          ).map(row => customTable(row) ? customTable(row) : '')}
 
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>

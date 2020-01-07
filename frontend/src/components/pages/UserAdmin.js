@@ -5,6 +5,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import HorizontalTabs from '../HorizontalTabs';
 import TabPanel from '../TabPanel';
 import PaginatedTable from '../CustomPaginationActionsTable';
+import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Search from '../../components/SimpleSearchInArrayOfObjects';
 import account from '../../services/account';
@@ -77,14 +78,18 @@ const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotificatio
         );
     };
 
-    const customCells = row => 
-        <>
+    const customTable = row => 
+        <TableRow key={row.user_id}>
+            <TableCell>{row.user_id}</TableCell>
+            <TableCell>{row.name}</TableCell>
+            <TableCell>{row.username}</TableCell>
+            <TableCell>{row.email}</TableCell>
             <TableCell>{checkbox(row.can_manage_users, row.user_id, "can_manage_users")}</TableCell>
             <TableCell>{checkbox(row.can_moderate_users, row.user_id, "can_moderate_users")}</TableCell>
             <TableCell>{checkbox(row.can_manage_courses, row.user_id, "can_manage_courses")}</TableCell>
             <TableCell>{checkbox(row.can_manage_own_classes, row.user_id, "can_manage_own_classes")}</TableCell>
             <TableCell>{checkbox(row.can_manage_all_classes, row.user_id, "can_manage_all_classes")}</TableCell>
-        </>;
+        </TableRow>;
 
     const Tabs = a11yProps => {
         return (
@@ -109,7 +114,7 @@ const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotificatio
                             <PaginatedTable rows={ search ? search : [] } 
                                             columns={ columns } 
                                             size="small"
-                                            customCells = { customCells } />
+                                            customTable = { customTable } />
                         </div>
                     </Container>
                 </TabPanel>

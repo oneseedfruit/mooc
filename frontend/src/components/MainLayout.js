@@ -164,7 +164,11 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
         },
         {
             show:
-                <CourseAdmin />
+                <CourseAdmin allAccounts={ allAccounts }
+                             setAllAccounts={ setAllAccounts }
+                             getProfileData = { getProfileData }
+                             setNotification={ setNotification }
+                             setIsError={ setIsError } />
         }
     ];
 
