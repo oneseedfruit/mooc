@@ -22,7 +22,7 @@ const auth = async (req, res, next, conn, accountsTableName) => {
 		const reqPassword = req.body.password;
 		
 		if (reqUsername && reqPassword) {
-            const loginResults = await query.query(conn, 'SELECT password FROM accounts WHERE username = ?', [reqUsername]);
+            const loginResults = await query.query(conn, 'SELECT password FROM ' + accountsTableName + ' WHERE username = ?', [reqUsername]);
 			const isMatching = loginResults.length > 0 ? bcrypt.compareSync(reqPassword, loginResults[0].password, 10) : false;				
 									
             if (isMatching) {
