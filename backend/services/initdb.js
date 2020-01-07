@@ -36,6 +36,7 @@ const initdb = () => {
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + user_accounts_tb + "` ("+
                         "`user_id` int(11) NOT NULL DEFAULT 1, " + 
+                        "`member_id` varchar(255) NULL, " + 
                         "`username` varchar(255) NOT NULL, " + 
                         "`password` varchar(255) NOT NULL, " + 
                         "`email` varchar(100) NOT NULL, " +                         
@@ -189,6 +190,7 @@ const initdb = () => {
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + courses_tb + "` ("+
                         "`course_id` int(11) NOT NULL, " + 
+                        "`course_code` varchar(255) NULL, " +
                         "`title` varchar(255) NULL, " +
                         "`description` mediumtext NULL, " +                        
                         "`user_id` int(11) NOT NULL" +
@@ -284,6 +286,7 @@ const initdb = () => {
                 conn.query(
                     "CREATE TABLE IF NOT EXISTS `" + class_sessions_info_tb + "` ("+
                         "`class_id` int(11) NOT NULL, " + 
+                        "`class_code` varchar(255) NULL, " + 
                         "`title` varchar(255) NULL, " +
                         "`description` mediumtext NULL" +                        
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"

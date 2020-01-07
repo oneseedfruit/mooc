@@ -31,11 +31,11 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 
-app.post('/auth', (req, res, next) => auth(req, res, next, conn, user_accounts_tb));
-app.post('/register', (req, res, next) => register(req, res, next, conn, user_accounts_tb));
-app.post('/updateaccount', (req, res, next) => updateAccount(req, res, next, conn, user_accounts_tb));
-app.post('/profile', (req, res, next) => profile(req, res, next, conn, user_accounts_tb, user_permissions_tb));
-app.post('/permissions', (req, res, next) => permissions(req, res, next, conn, user_accounts_tb, user_permissions_tb));
-app.get('/listaccounts', (req, res, next) => listAccounts(req, res, next, conn, user_accounts_tb, user_permissions_tb));
+app.post('/auth/login', (req, res, next) => auth(req, res, next, conn, user_accounts_tb));
+app.post('/auth/register', (req, res, next) => register(req, res, next, conn, user_accounts_tb));
+app.post('/account/update', (req, res, next) => updateAccount(req, res, next, conn, user_accounts_tb));
+app.get('/account/get/all', (req, res, next) => listAccounts(req, res, next, conn, user_accounts_tb, user_permissions_tb));
+app.post('/profile/get', (req, res, next) => profile(req, res, next, conn, user_accounts_tb, user_permissions_tb));
+app.post('/profile/get/permissions', (req, res, next) => permissions(req, res, next, conn, user_accounts_tb, user_permissions_tb));
 
 app.listen(PORT, () => console.log('listening on: ', PORT));
