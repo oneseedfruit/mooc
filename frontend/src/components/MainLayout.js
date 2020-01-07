@@ -110,11 +110,16 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
 
     const getProfileData = useCallback(async () => {        
         try {                                    
-            const data = await account.getPermissions({
+
+            const profileData = await account.getProfile({
+                sessionId
+            });
+            const permData = await account.getPermissions({
                 sessionId
             });
             
-            setPermissions(data);
+            setProfileData(profileData);
+            setPermissions(permData);
 
             return;                
         } catch (exception) {
@@ -140,7 +145,8 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
             show:
                 <UserProfile sessionId={ sessionId }
                              profileData={ profileData }
-                             setProfileData={ setProfileData }
+                             permissions={ permissions }
+                             getProfileData = { getProfileData }                             
                              setNotification={ setNotification }
                              setIsError={ setIsError } />
         },
@@ -225,7 +231,7 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
                 <MenuIcon />
                 </IconButton>
                 <Typography variant="h6" noWrap>
-                    
+                    { profileData ? profileData.name : '' }
                 </Typography>
             </Toolbar>
             </AppBar>

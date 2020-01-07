@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Divider, Button, TextField, Grid, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import HorizontalTabs from '../HorizontalTabs';
@@ -7,41 +7,13 @@ import TabPanel from '../TabPanel';
 
 import account from '../../services/account';
 
-const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, setIsError }) => {
+const UserProfile = ({ sessionId, profileData, permissions, getProfileData, setNotification, setIsError }) => {
     const [oldPassword, setOldPassword] = useState('');
     const [updatePassword, setUpdatePassword] = useState('');
     const [updatePasswordConfirm, setUpdatePasswordConfirm] = useState('');
     const [updateEmail, setUpdateEmail] = useState('');
     const [updateName, setUpdateName] = useState('');
     
-    const getProfileData = useCallback(async () => {        
-        try {                                
-            const data1 = await account.getProfile({
-                sessionId
-            });
-
-            const data2 = await account.getPermissions({
-                sessionId
-            });
-
-            setProfileData({ ...data1, ...data2 });
-            
-            return;
-        
-        } catch (exception) {                
-            setNotification('Error acquiring user profile details.');
-            setIsError(true);
-            setTimeout(() => {
-                setNotification(null);
-                setIsError(false);
-            }, 5000);
-        }
-    }, [sessionId, setProfileData, setNotification, setIsError]);
-
-    useEffect(() => {         
-        getProfileData();    
-    }, [getProfileData]);
-
     const useStyles = makeStyles(theme => ({
         paper: {        
           alignItems: 'left',
@@ -148,11 +120,11 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
                             <div>Permissions:</div>
                             <div>
                                 <ul>
-                                    <li>Can manage users?:  {(profileData ? profileData.canManageUsers ? "Yes": "No" : '')}</li>
-                                    <li>Can moderate users?: {(profileData ? profileData.canModerateUsers ? "Yes": "No" : '')}</li>
-                                    <li>Can manage courses?: {(profileData ? profileData.canManageCourses ? "Yes": "No" : '')}</li>
-                                    <li>Can manage own classes?: {(profileData ? profileData.canManageOwnClasses ? "Yes": "No" : '')}</li>
-                                    <li>Can manage all classes?: {(profileData ? profileData.canManageAllClasses ? "Yes": "No" : '')}</li>
+                                    <li>Can manage users?:  {(permissions ? permissions.canManageUsers ? "Yes": "No" : '')}</li>
+                                    <li>Can moderate users?: {(permissions ? permissions.canModerateUsers ? "Yes": "No" : '')}</li>
+                                    <li>Can manage courses?: {(permissions ? permissions.canManageCourses ? "Yes": "No" : '')}</li>
+                                    <li>Can manage own classes?: {(permissions ? permissions.canManageOwnClasses ? "Yes": "No" : '')}</li>
+                                    <li>Can manage all classes?: {(permissions ? permissions.canManageAllClasses ? "Yes": "No" : '')}</li>
                                 </ul>                   
                             </div>                        
                     </Container>

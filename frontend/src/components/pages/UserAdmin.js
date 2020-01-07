@@ -20,8 +20,6 @@ const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotificatio
       }));
     const classes = useStyles();
 
-    
-
     const getAllAccounts = useCallback(async () => {
         try {                                    
             const data = await account.getAllAccounts();            
