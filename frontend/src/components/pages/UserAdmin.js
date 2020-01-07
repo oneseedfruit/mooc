@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import HorizontalTabs from '../HorizontalTabs';
 import TabPanel from '../TabPanel';
 
+import InfiniteScroll from "react-infinite-scroll-component";
+
 const UserAdmin = () => {
     const useStyles = makeStyles(theme => ({
         paper: {        

@@ -1,10 +1,7 @@
 const bcrypt = require('bcrypt');
-const crypto = require('crypto');
-const uuid = require('node-uuid');
 const query = require('./query');
 
-const updateAccount = async (req, res, next, conn, accountsTableName, permissionsTableName) => {
-	const reqNewUsername = req.body.username;
+const updateAccount = async (req, res, next, conn, accountsTableName) => {	
 	const reqNewName = req.body.name;
 	const reqNewEmail = req.body.newEmail;
 	const reqOldPassword = req.body.oldPassword;
@@ -41,7 +38,7 @@ const updateAccount = async (req, res, next, conn, accountsTableName, permission
 	}	
 	
 	if (!checkEmail[0] && matchSessionId && matchOldPassword) {
-		const updateAcc = await query.query(conn,
+		await query.query(conn,
 			"UPDATE " + accountsTableName + " " +
 			"SET " + 
 				"name = '" + reqNewName + "' ," +
