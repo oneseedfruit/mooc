@@ -16,7 +16,11 @@ const HorizontalTabs = ({ tabs, tabPanels }) => {
       flexGrow: 1,
       width: '100%',
       backgroundColor: theme.palette.background.paper,      
-    }  
+    },
+    tabs: {
+      justifyContent: 'center',
+      alignItems: 'center',
+    }
   }));
   const classes = useStyles();
   const [value, setValue] = useState(0);
@@ -34,7 +38,7 @@ const HorizontalTabs = ({ tabs, tabPanels }) => {
           value={value}
           onChange={handleChange}        
           scrollButtons="on"
-          className={classes.tabs}
+          className={classes.tabs}         
         >
           { tabs(a11yProps) }
         </Tabs>

@@ -141,8 +141,7 @@ const UserProfile = ({ sessionId, profileData, setProfileData, setNotification, 
         return (
             <>                
                 <TabPanel value={value} index={0}>
-                    <Container component="main" maxWidth="sm">                    
-
+                    <Container component="main" maxWidth="sm">
                         <Grid container>Username: { profileData ? profileData.username : '' }</Grid>
                         <Grid container>Email: { profileData ? profileData.email : '' }</Grid>
                         <Divider />

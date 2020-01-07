@@ -6,18 +6,14 @@ import TabPanel from '../TabPanel';
 
 const UserAdmin = () => {
     const useStyles = makeStyles(theme => ({
-        paper: {
-          marginTop: theme.spacing(8),
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-        },
-        form: {
-          width: '100%', // Fix IE 11 issue.
-          marginTop: theme.spacing(1),
-        },
-        submit: {
-          margin: theme.spacing(3, 0, 2),
+        paper: {        
+            alignItems: 'left',
+          },
+          form: {
+            width: '100%', // Fix IE 11 issue.        
+          },
+          submit: {
+            margin: theme.spacing(3, 0, 2),
         },
       }));
     const classes = useStyles();
@@ -36,9 +32,9 @@ const UserAdmin = () => {
                 <TabPanel value={value} index={0}>
                     <Container component="main" maxWidth="sm">                    
                         <div className={classes.paper}>                            
-                                <Grid container>
-                                    Manage users here.
-                                </Grid>
+                            <Grid container>
+                                Manage users here.
+                            </Grid>
                         </div>
                     </Container>
                 </TabPanel>

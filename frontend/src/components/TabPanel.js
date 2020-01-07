@@ -13,7 +13,8 @@ const TabPanel = props => {
             hidden={value !== index}
             id={`scrollable-auto-tabpanel-${index}`}
             aria-labelledby={`scrollable-auto-tab-${index}`}
-            {...other}            
+            {...other}  
+            variant="h6"
             gutterBottom
             >
             {value === index && <Box p={3}>{children}</Box>}
