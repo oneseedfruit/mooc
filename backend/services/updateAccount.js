@@ -1,14 +1,14 @@
 const bcrypt = require('bcrypt');
 const query = require('./query');
 
-const updateAccount = async (req, res, next, conn, accountsTableName) => {	
+const updateAccount = async (req, res, next, conn, user_accounts_tb) => {	
 	const reqNewName = req.body.name;
 	const reqNewEmail = req.body.newEmail;
 	const reqOldPassword = req.body.oldPassword;
 	const reqSessionId = req.body.sessionId;	
 	
 	const matchSessionId = await query.query(conn, 
-		"SELECT username, password FROM " + accountsTableName + " " +
+		"SELECT username, password FROM " + user_accounts_tb + " " +
 		"WHERE sessionId = '" + reqSessionId + "';"
 	).catch(console.log);
 		
@@ -20,7 +20,7 @@ const updateAccount = async (req, res, next, conn, accountsTableName) => {
 	}
 
 	const checkEmail = await query.query(conn,
-		'SELECT email FROM ' + accountsTableName + 
+		'SELECT email FROM ' + user_accounts_tb + 
 		' WHERE email = "' + reqNewEmail + '"' + 
 		' AND sessionId != "' + reqSessionId + '"; '		
 	).catch(console.log);
@@ -39,7 +39,7 @@ const updateAccount = async (req, res, next, conn, accountsTableName) => {
 	
 	if (!checkEmail[0] && matchSessionId && matchOldPassword) {
 		await query.query(conn,
-			"UPDATE " + accountsTableName + " " +
+			"UPDATE " + user_accounts_tb + " " +
 			"SET " + 
 				"name = '" + reqNewName + "' ," +
 				"email = '" + reqNewEmail + "', " +

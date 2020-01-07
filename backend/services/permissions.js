@@ -1,6 +1,6 @@
 const query = require('./query');
 
-const permissions = async (req, res, next, conn, accountsTableName, permissionsTableName) => {    
+const permissions = async (req, res, next, conn, user_accounts_tb, user_permissions_tb) => {    
     if (req.body.sessionId) {
         const data = await query.query(conn, 
                 'SELECT ' + 
@@ -10,8 +10,8 @@ const permissions = async (req, res, next, conn, accountsTableName, permissionsT
                     'p.canManageCourses, ' +
                     'p.canManageOwnClasses, ' +
                     'p.canManageAllClasses ' +
-                'FROM ' + accountsTableName + ' ac ' +
-                'JOIN ' + permissionsTableName + ' p ON ac.userid = p.permid ' +
+                'FROM ' + user_accounts_tb + ' ac ' +
+                'JOIN ' + user_permissions_tb + ' p ON ac.userid = p.permid ' +
                 'WHERE sessionId = ? ;', [req.body.sessionId]
             ).catch(console.log);
         
@@ -21,7 +21,7 @@ const permissions = async (req, res, next, conn, accountsTableName, permissionsT
     }
     if (req.body.perm && req.body.isChecked != undefined && req.body.isChecked != null) {
         await query.query(conn, 
-                'UPDATE ' + permissionsTableName + ' ' +
+                'UPDATE ' + user_permissions_tb + ' ' +
                 'SET ' + req.body.perm + ' = ' + req.body.isChecked + ' ' +
                 'WHERE userid = ' + req.body.userid + '; '
             ).catch(console.log);

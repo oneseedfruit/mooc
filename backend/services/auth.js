@@ -3,14 +3,14 @@ const crypto = require('crypto');
 const uuid = require('node-uuid');
 const query = require('./query');
 
-const auth = async (req, res, next, conn, accountsTableName) => {
+const auth = async (req, res, next, conn, user_accounts_tb) => {
 	const isLogout = req.body.isLogout;
 
 	if (isLogout) {
 		const sessionId = req.body.sessionId;		
 
 		await query.query(conn, 
-			'UPDATE ' + accountsTableName +
+			'UPDATE ' + user_accounts_tb +
 			' SET sessionid = "' + 0 +
 			'" WHERE sessionId = "' + sessionId + '";'
 		);
@@ -22,7 +22,7 @@ const auth = async (req, res, next, conn, accountsTableName) => {
 		const reqPassword = req.body.password;
 		
 		if (reqUsername && reqPassword) {
-            const loginResults = await query.query(conn, 'SELECT password FROM ' + accountsTableName + ' WHERE username = ?', [reqUsername]);
+            const loginResults = await query.query(conn, 'SELECT password FROM ' + user_accounts_tb + ' WHERE username = ?', [reqUsername]);
 			const isMatching = loginResults.length > 0 ? bcrypt.compareSync(reqPassword, loginResults[0].password, 10) : false;				
 									
             if (isMatching) {
@@ -30,7 +30,7 @@ const auth = async (req, res, next, conn, accountsTableName) => {
 
                 const sessionId = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
 				await query.query(conn, 
-					'UPDATE ' + accountsTableName +
+					'UPDATE ' + user_accounts_tb +
                     ' SET sessionid = "' + sessionId +
 					'" WHERE username = "' + reqUsername + '";'
 				);

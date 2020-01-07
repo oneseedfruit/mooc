@@ -3,14 +3,14 @@ const crypto = require('crypto');
 const uuid = require('node-uuid');
 const query = require('./query');
 
-const register = async (req, res, next, conn, accountsTableName) => {
+const register = async (req, res, next, conn, user_accounts_tb) => {
 	const reqNewUsername = req.body.newUsername;
 	const reqNewPassword = req.body.newPassword;
 	const reqNewEmail = req.body.newEmail;
 	const reqNewName = req.body.newName;
 	
 	const checkUsername = await query.query(conn, 
-		'SELECT username FROM ' + accountsTableName + ' WHERE username = "' + reqNewUsername + '";'
+		'SELECT username FROM ' + user_accounts_tb + ' WHERE username = "' + reqNewUsername + '";'
 	).catch(console.log);
 
 	if (checkUsername[0]) {
@@ -19,7 +19,7 @@ const register = async (req, res, next, conn, accountsTableName) => {
 	}
 
 	const checkEmail = await query.query(conn,
-		'SELECT email FROM ' + accountsTableName + ' WHERE email = "' + reqNewEmail + '";'
+		'SELECT email FROM ' + user_accounts_tb + ' WHERE email = "' + reqNewEmail + '";'
 	).catch(console.log);
 
 	if(checkEmail[0]) {
@@ -30,7 +30,7 @@ const register = async (req, res, next, conn, accountsTableName) => {
 	const sessionId = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
 	
 	const insertNewUser = await query.query(conn,
-			"INSERT INTO `" + accountsTableName + "` (" +                     
+			"INSERT INTO `" + user_accounts_tb + "` (" +                     
 				"`username`, " + 
 				"`password`, " + 
 				"`email`, " +                         
