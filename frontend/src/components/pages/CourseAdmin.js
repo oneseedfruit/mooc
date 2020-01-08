@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Search from '../../components/SimpleSearchInArrayOfObjects';
 import courses from '../../services/courses';
+import account from '../../services/account';
 import CourseAdminForm from './subcomponents/CourseAdminForm';
 
 const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, setNotification, setIsError}) => {
@@ -26,7 +27,7 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
     const classes = useStyles();
 
     const [searchField, setSearchField] = useState('');
-    const [search, setSearch] = useState(null);
+    const [search, setSearch] = useState(null);    
 
     const getAllCourses = useCallback(async () => {
         try {                                    
@@ -85,15 +86,18 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
         { id: 'is_available', label: 'is available', minWidth: 10 },
     ];
 
-    const customTable = row => 
-        <TableRow key={ row.course_id }>
-            <TableCell>{row.course_id}</TableCell>
-            <TableCell>{row.course_code}</TableCell>
-            <TableCell>{row.title}</TableCell>
-            <TableCell>{row.description}</TableCell>
-            <TableCell>{row.user_id}</TableCell>
-            <TableCell>{checkbox(row.is_available, row.course_id, profileData.user_id)}</TableCell>
-        </TableRow>;
+    const customTable = row => {
+        return (
+            <TableRow key={ row.course_id }>            
+                <TableCell>{row.course_id}</TableCell>
+                <TableCell>{row.course_code}</TableCell>
+                <TableCell>{row.title}</TableCell>
+                <TableCell>{row.description}</TableCell>
+                <TableCell> {row.username}</TableCell>
+                <TableCell>{checkbox(row.is_available, row.course_id, profileData.user_id)}</TableCell>
+            </TableRow>
+        );
+    }
 
     const Tabs = a11yProps => {
         return (
