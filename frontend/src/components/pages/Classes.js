@@ -9,6 +9,7 @@ import PaginatedTable from '../CustomPaginationActionsTable';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Search from '../../components/SimpleSearchInArrayOfObjects';
+import ClassesAdminForm from './subcomponents/ClassesAdminForm';
 import courses from '../../services/courses';
 import classSessions from '../../services/classSessions';
 
@@ -28,6 +29,16 @@ const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permi
 
     const [searchField, setSearchField] = useState('');
     const [search, setSearch] = useState(null);    
+
+    const [expandedForm, setExpandedForm] = useState('');
+    const [showForm, setShowForm] = useState(false);
+
+    const [course_id, setCourseId] = useState('');
+    const [user_id, setUserId] = useState('');
+    const [start_date, setStartDate] = useState('');
+    const [end_date, setEndDate] = useState('');
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
 
     const getAllCourses = useCallback(async () => {
         setNotification('Retrieving courses...');
@@ -64,28 +75,32 @@ const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permi
     }, [getAllCourses]);
 
 
-    const handleAddClass = (course_id, user_id) => async event => {     
-        try {
-            const r = await classSessions.addClass({ course_id, user_id }).catch(console.log);
-            getAllCourses();
+    const handleAddClass = (course_id, user_id) => event => {
+        setCourseId(course_id);
+        setUserId(user_id);
+        setShowForm(true);
+        setExpandedForm('panel1');
+        // try {
+        //     const r = await classSessions.addClass({ course_id, user_id }).catch(console.log);
+        //     getAllCourses();
 
-            if (r) {
-                setNotification(r);
-                setIsError(true);
-                setTimeout(() => {
-                    setNotification(null);
-                    setIsError(false);
-                }, 5000);
-            }
-        }
-        catch (exception) {
-            setNotification('Failed to add a class!');
-            setIsError(true);
-            setTimeout(() => {
-                setNotification(null);
-                setIsError(false);
-            }, 5000);
-        }
+        //     if (r) {
+        //         setNotification(r);
+        //         setIsError(true);
+        //         setTimeout(() => {
+        //             setNotification(null);
+        //             setIsError(false);
+        //         }, 5000);
+        //     }
+        // }
+        // catch (exception) {
+        //     setNotification('Failed to add a class!');
+        //     setIsError(true);
+        //     setTimeout(() => {
+        //         setNotification(null);
+        //         setIsError(false);
+        //     }, 5000);
+        // }
     };
 
     const columns = [        
@@ -140,6 +155,28 @@ const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permi
                         <>
                             <TabPanel value={value} index={1}>                
                                 <Container component="main" maxWidth="xl">
+                                    <ClassesAdminForm 
+                                        profileData={ profileData }
+                                        getAllCourses={ getAllCourses }
+                                        setNotification={ setNotification }
+                                        setIsError={ setIsError }
+                                        expanded={ expandedForm }
+                                        setExpanded={ setExpandedForm }
+                                        showForm={ showForm }
+                                        setShowForm={ setShowForm }
+                                        course_id={ course_id}
+                                        setCourseId={ setCourseId }
+                                        user_id={ user_id }
+                                        setUserId={ setUserId }
+                                        start_date={ start_date }
+                                        setStartDate={ setStartDate }
+                                        end_date={ end_date }
+                                        setEndDate={ setEndDate }
+                                        title={ title }
+                                        setTitle={ setTitle }
+                                        description={ description }
+                                        setDescription={ setDescription }
+                                    />
                                     <div className={classes.paper}>                             
                                         <Grid container>
                                             <Search arrayOfObjects={ allCourses }

@@ -13,12 +13,23 @@ const addClass = async (req, res, next, conn,
         return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
     };
 
-    const start_date = escapeQuotes(req.body.start_date);
-    const end_date = escapeQuotes(req.body.end_date);
     const course_id = escapeQuotes(req.body.course_id);
     const user_id = escapeQuotes(req.body.user_id);
+    const start_date = escapeQuotes(req.body.start_date);
+    const end_date = escapeQuotes(req.body.end_date);
+    const title = escapeQuotes(req.body.title);
+    const description = escapeQuotes(req.body.description);
 
-    console.log(user_id);
+    console.log("\n");
+    console.log("A new class has been added!");
+    console.log("course_id: " + course_id);
+    console.log("user_id: " + user_id);
+    console.log("start_date: " + start_date);
+    console.log("end_date: " + end_date);
+    console.log("title: " + title);
+    console.log("description: " + description);
+    console.log("\n");
+
 
     if (course_id != null && user_id!= null)  {
             
