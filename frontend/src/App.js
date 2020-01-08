@@ -15,14 +15,22 @@ const App = () => {
 
     if (!unmounted) {     
       const loggedUserJSON = window.localStorage.getItem('loggedUser');
-      if (loggedUserJSON) {
+      
+      if (loggedUserJSON === "undefined") {
+        window.localStorage.removeItem('loggedUser');
+        setUser(null);
+        setSessionId(null);
+      }
+      else {
         const user = JSON.parse(loggedUserJSON);
-        if (user == undefined) {
-          setSessionId(null);
+        if (!user) {          
           setUser(null);
+          setSessionId(null);
         }
-        setUser(user);      
-        setSessionId(user.session_id);        
+        else {
+          setUser(user);      
+          setSessionId(user.session_id);        
+        }
       }
     }
     

@@ -31,16 +31,24 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
     const [search, setSearch] = useState(null);    
 
     const getAllCourses = useCallback(async () => {
-        try {                                    
-            const data = await courses.getAllCourses({ user_id: profileData.user_id }).catch(console.log);            
+        setNotification('Retrieving courses...');
+        setIsError(false);
+        setTimeout(() => {
+            setNotification(null);
+            setIsError(false);
+        }, 5000);
+
+        try {
+            const data = await courses.getAllCourses({ user_id: profileData.user_id }).catch(console.log);    
             
+            setNotification(null);
             setAllCourses(data);
             getProfileData();
             setSearch(data);
 
             return;                
         } catch (exception) {
-            setNotification('Error acquiring courses.');
+            setNotification('Error acquiring courses!');
             setIsError(true);
             setTimeout(() => {
                 setNotification(null);

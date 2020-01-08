@@ -194,7 +194,8 @@ const MainLayout = ({ session_id, setNotification, setIsError, setUser }) => {
     const handleLogout = async event => { 
         event.preventDefault();        
         try { 
-            const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'));  
+            const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'));
+
             await account.login({
                 isLogout: true, session_id
             }).catch(console.log);

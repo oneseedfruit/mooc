@@ -34,27 +34,50 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
 
     const handleLogin = async event => {
         event.preventDefault();
+
+        setNotification(`Attempting to login...`);
+        setIsError(false);
+        setTimeout(() => {
+            setNotification(null);                
+        }, 5000);
         
         try { 
             const user = await account.login({
                 username, password, isLogout: false
             }).catch(console.log);
 
-            window.localStorage.setItem(
-                'loggedUser', JSON.stringify(user)
-            );
-            
-            setUser(user);
-            setSessionId(user.session_id);
-            setUsername('');
-            setPassword('');
+            if (user===undefined) {
+                if (username !== '' && password !== '') {
+                    setNotification("Login failed!");
+                    setIsError(true);
+                    setTimeout(() => {
+                        setNotification(null);
+                        setIsError(false);
+                    }, 5000);
+                }
 
-            setNotification(`${ username } login successfully.`);
-            setIsError(false);
-            setTimeout(() => {
-                setNotification(null);                
-            }, 5000);
-        } catch (exception) {           
+                window.localStorage.removeItem('loggedUser');            
+                setUser(null);
+                setSessionId(null);
+            }
+            else {
+                window.localStorage.setItem(
+                    'loggedUser', JSON.stringify(user)
+                );            
+            
+                setUser(user);
+                setSessionId(user.session_id);
+                setUsername('');
+                setPassword('');
+
+                setNotification(`${ username } login successfully.`);
+                setIsError(false);
+                setTimeout(() => {
+                    setNotification(null);                
+                }, 5000);
+            }
+        } catch (exception) {
+            console.log(exception);
             if (exception.response === undefined) 
                 setNotification("Can't connect to backend! Server down?");
             else
@@ -149,9 +172,11 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
                 newUsername, newPassword, newEmail, newName
             }).catch(console.log);
 
-            window.localStorage.setItem(
-                'loggedUser', JSON.stringify(regUser)
-            );
+            if (regUser) {
+                window.localStorage.setItem(
+                    'loggedUser', JSON.stringify(regUser)
+                );
+            }
             
             setUser(regUser);
             setSessionId(regUser.session_id);
@@ -166,7 +191,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
             }, 5000);
         } catch (exception) {
             if (exception.response === undefined)
-                setNotification("Can't connect to backend! Server down?");
+                setNotification("Can't connect to backend! Server down or lagging. Please try again!");
             else
                 setNotification(exception.response.data);
             setIsError(true);
@@ -174,6 +199,9 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
                 setNotification(null);
                 setIsError(false);
             }, 5000);
+
+            setUser(null);
+            setSessionId(null);
         }
     };
 
