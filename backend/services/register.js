@@ -4,10 +4,14 @@ const uuid = require('node-uuid');
 const query = require('./query');
 
 const register = async (req, res, next, conn, user_accounts_tb) => {
-	const reqNewUsername = req.body.newUsername;
-	const reqNewPassword = req.body.newPassword;
-	const reqNewEmail = req.body.newEmail;
-	const reqNewName = req.body.newName;
+	const escapeQuotes = (str) => {
+        return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+	};
+	
+	const reqNewUsername = escapeQuotes(req.body.newUsername);
+	const reqNewPassword = escapeQuotes(req.body.newPassword);
+	const reqNewEmail = escapeQuotes(req.body.newEmail);
+	const reqNewName = escapeQuotes(req.body.newName);
 	
 	const checkUsername = await query.query(conn, 
 		'SELECT username FROM ' + user_accounts_tb + ' WHERE username = "' + reqNewUsername + '";'

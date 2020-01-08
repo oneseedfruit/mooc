@@ -4,6 +4,10 @@ const uuid = require('node-uuid');
 const query = require('./query');
 
 const auth = async (req, res, next, conn, user_accounts_tb) => {
+	const escapeQuotes = (str) => {
+        return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+    };
+
 	const isLogout = req.body.isLogout;
 
 	if (isLogout) {
@@ -23,8 +27,8 @@ const auth = async (req, res, next, conn, user_accounts_tb) => {
 		res.status(200).end();
 	}
 	else if (!isLogout) {
-		const reqUsername = req.body.username;
-		const reqPassword = req.body.password;
+		const reqUsername = escapeQuotes(req.body.username);
+		const reqPassword = escapeQuotes(req.body.password);
 		
 		if (reqUsername && reqPassword) {
             const loginResults = await query.query(conn, 'SELECT password FROM ' + user_accounts_tb + ' WHERE username = ?', [reqUsername]);

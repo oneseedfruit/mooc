@@ -2,17 +2,23 @@ const bcrypt = require('bcrypt');
 const query = require('./query');
 
 const updateAccount = async (req, res, next, conn, user_accounts_tb) => {	
-	const reqNewName = req.body.name;
-	const reqNewEmail = req.body.newEmail;
-	const reqOldPassword = req.body.oldPassword;
-	const reqSessionId = req.body.session_id;	
+	const escapeQuotes = (str) => {
+        return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+	};
+	
+	const reqNewName = escapeQuotes(req.body.name);
+	const reqNewEmail = escapeQuotes(req.body.newEmail);
+	const reqOldPassword = escapeQuotes(req.body.oldPassword);
+	const reqSessionId = escapeQuotes(req.body.session_id);
 	
 	const matchSessionId = await query.query(conn, 
 		"SELECT username, password FROM " + user_accounts_tb + " " +
 		"WHERE session_id = '" + reqSessionId + "';"
 	).catch(console.log);
 		
-	const reqNewPassword = req.body.newPassword != '' ? bcrypt.hashSync(req.body.newPassword, 10) : matchSessionId[0].password;
+	const reqNewPassword = escapeQuotes(req.body.newPassword) != '' ? 
+						   bcrypt.hashSync(escapeQuotes(req.body.newPassword), 10) : 
+						   matchSessionId[0].password;
 
 	if (!matchSessionId) {
 		res.status(401).send('Session lost! Please logout and login again.');

@@ -1,10 +1,14 @@
 const query = require('./query');
 
 const addCourse = async (req, res, next, conn, courses_tb, user_permissions_tb) => {
-    const course_code = req.body.course_code;
-    const title = req.body.title;
-    const description = req.body.description;
-    const user_id = req.body.user_id;    
+    const escapeQuotes = (str) => {
+        return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
+    };
+
+    const course_code = escapeQuotes(req.body.course_code);
+    const title = escapeQuotes(req.body.title);
+    const description = escapeQuotes(req.body.description);
+    const user_id = escapeQuotes(req.body.user_id);
 
     if (req.body.title != null && 
         req.body.user_id != null)  {            
@@ -46,7 +50,7 @@ const addCourse = async (req, res, next, conn, courses_tb, user_permissions_tb) 
                     "1" + ", " +
                     user_id +                         
                 ");"
-            );
+            ).catch(console.log);
 
             res.status(200);
         
