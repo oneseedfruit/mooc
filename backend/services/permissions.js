@@ -27,6 +27,8 @@ const permissions = async (req, res, next, conn, user_accounts_tb, user_permissi
                 'WHERE user_id = ' + req.body.user_id + '; '
             ).catch(console.log);
         
+        res.status(200);
+        res.send(`Permission change successfully saved!`);
         res.end();
     }    
     res.end();

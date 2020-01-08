@@ -21,8 +21,8 @@ const updateAccount = async (req, res, next, conn, user_accounts_tb) => {
 						   matchSessionId[0].password;
 
 	if (!matchSessionId) {
-		res.status(401).send('Session lost! Please logout and login again.');
-		return;
+		res.status(500);
+		res.send('Session lost! Please logout and login again.');		
 	}
 
 	const checkEmail = await query.query(conn,
@@ -32,15 +32,15 @@ const updateAccount = async (req, res, next, conn, user_accounts_tb) => {
 	).catch(console.log);
 
 	if (checkEmail[0]) {
-		res.status(401).send(`Email address "${reqNewEmail}" has already been taken!`);
-		return;	
+		res.status(500);
+		res.send(`Email address "${reqNewEmail}" has already been taken!`);		
 	}
 	
 	const matchOldPassword = bcrypt.compareSync(reqOldPassword, matchSessionId[0].password, 10);
 
 	if (!matchOldPassword) {
-		res.status(401).send("Incorrect password!");
-		return;
+		res.status(401);
+		res.send("Incorrect password!");		
 	}	
 	
 	if (!checkEmail[0] && matchSessionId && matchOldPassword) {
@@ -53,8 +53,8 @@ const updateAccount = async (req, res, next, conn, user_accounts_tb) => {
 			"WHERE session_id = '" + reqSessionId + "';"
 		).catch(console.log);
 
-		res.status(200).send("Account updated successfully!");
-		return;
+		res.status(200);
+		res.send("Account updated successfully!");		
 	}
 
 	res.end();

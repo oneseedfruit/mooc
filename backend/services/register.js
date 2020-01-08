@@ -18,7 +18,8 @@ const register = async (req, res, next, conn, user_accounts_tb) => {
 	).catch(console.log);
 
 	if (checkUsername[0]) {
-		res.status(401).send(`Username "${reqNewUsername}" has already been taken!`);		
+		res.status(500);
+		res.send(`Username "${reqNewUsername}" has already been taken!`);		
 		return;
 	}
 
@@ -27,7 +28,8 @@ const register = async (req, res, next, conn, user_accounts_tb) => {
 	).catch(console.log);
 
 	if(checkEmail[0]) {
-		res.status(401).send(`Email address "${reqNewEmail}" has already been taken!`);		
+		res.status(500);
+		res.send(`Email address "${reqNewEmail}" has already been taken!`);		
 		return;
 	}
 

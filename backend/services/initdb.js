@@ -145,8 +145,6 @@ const initdb = () => {
                     "WHERE user_id = 1;"
                 );                
                 
-
-
                 conn.query(
                     "INSERT INTO `" + user_accounts_tb + "` (" +                     
                         "`username`, " + 
@@ -156,14 +154,12 @@ const initdb = () => {
                         "`session_id`" + 
                     ") VALUES (" +                     
                         "'" + "ranmaru90" + "', "+ 
-                        "'"+ bcrypt.hashSync("NotVerySecure", 10) + "', "+ 
+                        "'"+ bcrypt.hashSync("password", 10) + "', "+ 
                         "'"+ "oneseedfruit@gmail.com" + "', "+                     
                         "'"+ "Randy Tan" + "', "+    
                         "0 "+
                     ");"
                 );
-
-
 
                 conn.query(
                     "INSERT INTO `" + user_accounts_tb + "` (" +                     
@@ -174,9 +170,25 @@ const initdb = () => {
                         "`session_id`" + 
                     ") VALUES (" +                     
                         "'" + "chichiko90" + "', "+ 
-                        "'"+ bcrypt.hashSync("NotVerySecure", 10) + "', "+ 
+                        "'"+ bcrypt.hashSync("password", 10) + "', "+ 
                         "'"+ "chichiko90@gmail.com" + "', "+                     
                         "'"+ "Charlene Andrew" + "', "+        
+                        "0 "+
+                    ");"
+                );
+
+                conn.query(
+                    "INSERT INTO `" + user_accounts_tb + "` (" +                     
+                        "`username`, " + 
+                        "`password`, " + 
+                        "`email`, " +
+                        "`name`, " +
+                        "`session_id`" + 
+                    ") VALUES (" +                     
+                        "'" + "bbb" + "', "+ 
+                        "'"+ bcrypt.hashSync("password", 10) + "', "+ 
+                        "'"+ "bbb@bbb.bbb" + "', "+                     
+                        "'"+ "Bbb Bbbbbbb" + "', "+        
                         "0 "+
                     ");"
                 );
@@ -389,6 +401,21 @@ const initdb = () => {
                         "'Our high standards are difficult to satisfy.', " +
                         "'0', "+
                         "'3'"+
+                    ");"
+                );
+                conn.query(
+                    "INSERT INTO `" + courses_tb + "` (" +                        
+                        "`course_code`, " +
+                        "`title`, " +
+                        "`description`, " + 
+                        "`is_available`, " +  
+                        "`user_id`" +                        
+                    ") VALUES (" +                     
+                        "'" + "SICP666" + "', " + 
+                        "'Structure and Interpretation of Computer Programs', " + 
+                        "'For all its power, the computer is a harsh taskmaster. Its programs must be correct, and what we wish to say must be said accurately in every detail.', " +
+                        "'0', "+
+                        "'1'"+
                     ");"
                 );
             }

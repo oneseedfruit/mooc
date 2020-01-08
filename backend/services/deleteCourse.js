@@ -92,7 +92,8 @@ const deleteCourse = async (req, res, next, conn,
         }
     }
     
-    res.status(200).send("You are not authorized to delete this!");
+    res.status(401);
+    res.send("You are not authorized to delete this!");
 	res.end();
 };
 

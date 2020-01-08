@@ -21,7 +21,8 @@ const addCourse = async (req, res, next, conn, courses_tb, user_permissions_tb) 
 
             if (perm && perm.length > 0 && perm[0].can_manage_own_courses <= 0 &&
                 perm[0].can_manage_all_coures <= 0) {
-                res.status(200).send("You are not authorized to add a course!");
+                res.status(401);
+                res.send("You are not authorized to add a course!");
                 return;
             }
 
@@ -32,7 +33,8 @@ const addCourse = async (req, res, next, conn, courses_tb, user_permissions_tb) 
             ).catch(console.log);
 
             if (duplicateTitle && duplicateTitle.length > 0) {
-                res.status(200).send("A duplicate/similarly titled course exists!");
+                res.status(500);
+                res.send("A duplicate/similarly titled course exists!");
                 return;
             }
 

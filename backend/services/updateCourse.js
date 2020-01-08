@@ -20,19 +20,23 @@ const updateCourse = async (req, res, next, conn, courses_tb, user_permissions_t
                     andUserId = '';
             
                 if (data[0].can_manage_own_courses === 1 || data[0].can_manage_all_courses === 1)
-                await query.query(conn, 
-                        'UPDATE ' + courses_tb + ' ' +
-                        'SET is_available = ' + req.body.isChecked + ' ' +
-                        'WHERE course_id = ' + req.body.course_id + ' ' +
-                        andUserId +
-                        '; '
-                    ).catch(console.log);
-                
-                res.status(200).send(`The change is successfully saved!`);
+                {
+                    await query.query(conn, 
+                            'UPDATE ' + courses_tb + ' ' +
+                            'SET is_available = ' + req.body.isChecked + ' ' +
+                            'WHERE course_id = ' + req.body.course_id + ' ' +
+                            andUserId +
+                            '; '
+                        ).catch(console.log);
+                    
+                    res.status(200);
+                    res.send(`The change is successfully saved!`);
+                }
             }    
         }
         else {
-            res.status(201).send(`You are not authroized to make this change!`);		
+            res.status(401);
+            res.send(`You are not authroized to make this change!`);		
         }
     }
 

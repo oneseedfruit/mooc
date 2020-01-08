@@ -35,8 +35,7 @@ const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, s
             
             setAllAccounts(data);
             setSearch(data);
-
-            return;                
+            
         } catch (exception) {
             setNotification('Error acquiring user accounts.');
             setIsError(true);
@@ -56,12 +55,22 @@ const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, s
 
     const handleDelete = (user_id, session_id) => async event => {        
         try {
-            await account.deleteAccount({ user_id, session_id }).catch(console.log);
+            const r = await account.deleteAccount({ user_id, session_id }).catch(console.log);
             getAllAccounts();
             getProfileData();
+
+            if (r) {
+                setNotification(r);
+                setIsError(true);
+                setTimeout(() => {
+                    setNotification(null);
+                    setIsError(false);
+                }, 5000);
+            }
         }
         catch (exception) {
-            setNotification('Can\'t delete!');
+            if (exception.response !== undefined)
+                setNotification(exception.response.data);
             setIsError(true);
             setTimeout(() => {
                 setNotification(null);
@@ -74,11 +83,27 @@ const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, s
         isChecked = isChecked <= 0 ? 1 : 0;
     
         try {                                    
-            await account.getPermissions({ user_id, perm, isChecked }).catch(console.log);
+            const r = await account.getPermissions({ user_id, perm, isChecked }).catch(console.log);
             getAllAccounts();
             getProfileData();
+
+            if (r) {
+                setNotification(r);
+                setIsError(true);
+                setTimeout(() => {
+                    setNotification(null);
+                    setIsError(false);
+                }, 5000);
+            }
         } 
-        catch (exception) {        
+        catch (exception) {       
+            if (exception.response !== undefined)
+                setNotification(exception.response.data);
+            setIsError(true);
+            setTimeout(() => {
+                setNotification(null);
+                setIsError(false);
+            }, 5000);        
         }
     };    
 
@@ -92,12 +117,12 @@ const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, s
         { id: 'name', label: 'name', minWidth: 10 },
         { id: 'username', label: 'username', minWidth: 10 },
         { id: 'email', label: 'email', minWidth: 10 },
-        { id: 'can_manage_users', label: 'can manage users', minWidth: 10 },
-        { id: 'can_moderate_users', label: 'can moderate users', minWidth: 10 },
-        { id: 'can_manage_own_courses', label: 'can manage own courses', minWidth: 10 },
-        { id: 'can_manage_all_courses', label: 'can manage all courses', minWidth: 10 },
-        { id: 'can_manage_own_classes', label: 'can manage own classes', minWidth: 10 },
-        { id: 'can_manage_all_classes', label: 'can manage all classes', minWidth: 10 },
+        { id: 'can_manage_users', label: 'manage users', minWidth: 10 },
+        { id: 'can_moderate_users', label: 'moderate users', minWidth: 10 },
+        { id: 'can_manage_own_courses', label: 'manage own courses', minWidth: 10 },
+        { id: 'can_manage_all_courses', label: 'manage all courses', minWidth: 10 },
+        { id: 'can_manage_own_classes', label: 'manage own classes', minWidth: 10 },
+        { id: 'can_manage_all_classes', label: 'manage all classes', minWidth: 10 },
         { id: 'delete account', label: 'delete account', minWidth: 10 },
     ];
 

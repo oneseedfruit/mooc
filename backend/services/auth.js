@@ -50,12 +50,14 @@ const auth = async (req, res, next, conn, user_accounts_tb) => {
 				}
                 res.send({ username: reqUsername, session_id });
             } else {
-                res.status(401).send('Incorrect username and/or password!');
+				res.status(401);
+				res.send('Incorrect username and/or password!');
             }			
             res.end();
 			
 		} else {
-			res.status(401).send('Please enter username and password!');			
+			res.status(401);
+			res.send('Please enter username and password!');			
 		}
 	}
 };

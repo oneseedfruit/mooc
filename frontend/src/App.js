@@ -13,12 +13,16 @@ const App = () => {
   useEffect(() => {
     let unmounted = false;
 
-    if (!unmounted) {
+    if (!unmounted) {     
       const loggedUserJSON = window.localStorage.getItem('loggedUser');
       if (loggedUserJSON) {
         const user = JSON.parse(loggedUserJSON);
+        if (user == undefined) {
+          setSessionId(null);
+          setUser(null);
+        }
         setUser(user);      
-        setSessionId(user.session_id);
+        setSessionId(user.session_id);        
       }
     }
     

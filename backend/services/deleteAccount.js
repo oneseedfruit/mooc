@@ -54,10 +54,13 @@ const deleteAccount = async (req, res, next, conn, user_accounts_tb, user_permis
                 'SET FOREIGN_KEY_CHECKS=1;'
             ).catch(console.log);
 
+            res.status(200);
+            res.send(`Account successfully deleted!`);
             res.end();
         }
         else {
-            res.status(401).send(`You are not authroized to make this change.`);
+            res.status(401);
+            res.send(`You are not authroized to make this change.`);
         }
     }
 

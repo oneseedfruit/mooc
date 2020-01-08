@@ -96,8 +96,9 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
                 }, 5000);
             }
         } 
-        catch (exception) { 
-            setNotification(exception.response.data);
+        catch (exception) {
+            if (exception.response !== undefined)
+                setNotification(exception.response.data);
             setIsError(true);
             setTimeout(() => {
                 setNotification(null);
