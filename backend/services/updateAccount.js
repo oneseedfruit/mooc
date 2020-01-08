@@ -5,11 +5,11 @@ const updateAccount = async (req, res, next, conn, user_accounts_tb) => {
 	const reqNewName = req.body.name;
 	const reqNewEmail = req.body.newEmail;
 	const reqOldPassword = req.body.oldPassword;
-	const reqSessionId = req.body.sessionId;	
+	const reqSessionId = req.body.session_id;	
 	
 	const matchSessionId = await query.query(conn, 
 		"SELECT username, password FROM " + user_accounts_tb + " " +
-		"WHERE sessionId = '" + reqSessionId + "';"
+		"WHERE session_id = '" + reqSessionId + "';"
 	).catch(console.log);
 		
 	const reqNewPassword = req.body.newPassword != '' ? bcrypt.hashSync(req.body.newPassword, 10) : matchSessionId[0].password;
@@ -22,7 +22,7 @@ const updateAccount = async (req, res, next, conn, user_accounts_tb) => {
 	const checkEmail = await query.query(conn,
 		'SELECT email FROM ' + user_accounts_tb + 
 		' WHERE email = "' + reqNewEmail + '"' + 
-		' AND sessionId != "' + reqSessionId + '"; '		
+		' AND session_id != "' + reqSessionId + '"; '		
 	).catch(console.log);
 
 	if (checkEmail[0]) {
@@ -44,7 +44,7 @@ const updateAccount = async (req, res, next, conn, user_accounts_tb) => {
 				"name = '" + reqNewName + "' ," +
 				"email = '" + reqNewEmail + "', " +
 				"password = '" + reqNewPassword + "' " +
-			"WHERE sessionId = '" + reqSessionId + "';"
+			"WHERE session_id = '" + reqSessionId + "';"
 		).catch(console.log);
 
 		res.status(200).send("Account updated successfully!");

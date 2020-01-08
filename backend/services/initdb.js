@@ -41,7 +41,7 @@ const initdb = () => {
                         "`password` varchar(255) NOT NULL, " + 
                         "`email` varchar(100) NOT NULL, " +                         
                         "`name` varchar(255) NULL, " +        
-                        "`sessionid` nvarchar(256) DEFAULT 0"+
+                        "`session_id` nvarchar(256) DEFAULT 0"+
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
                 conn.query(
@@ -124,7 +124,7 @@ const initdb = () => {
                         "`password`, " +
                         "`email`, " +
                         "`name`, " +
-                        "`sessionid`" + 
+                        "`session_id`" + 
                     ") VALUES (" +                     
                         "'" + firstUserName + "', "+ 
                         "'"+ firstUserPassword + "', "+ 
@@ -153,7 +153,7 @@ const initdb = () => {
                         "`password`, " + 
                         "`email`, " +
                         "`name`, " +           
-                        "`sessionid`" + 
+                        "`session_id`" + 
                     ") VALUES (" +                     
                         "'" + "ranmaru90" + "', "+ 
                         "'"+ bcrypt.hashSync("NotVerySecure", 10) + "', "+ 
@@ -171,7 +171,7 @@ const initdb = () => {
                         "`password`, " + 
                         "`email`, " +
                         "`name`, " +
-                        "`sessionid`" + 
+                        "`session_id`" + 
                     ") VALUES (" +                     
                         "'" + "chichiko90" + "', "+ 
                         "'"+ bcrypt.hashSync("NotVerySecure", 10) + "', "+ 

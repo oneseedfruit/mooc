@@ -8,7 +8,7 @@ const App = () => {
   const [isError, setIsError] = useState(false);
 
   const [user, setUser] = useState(null);   
-  const [sessionId, setSessionId] = useState(null);
+  const [session_id, setSessionId] = useState(null);
 
   useEffect(() => {
     let unmounted = false;
@@ -18,7 +18,7 @@ const App = () => {
       if (loggedUserJSON) {
         const user = JSON.parse(loggedUserJSON);
         setUser(user);      
-        setSessionId(user.sessionId);
+        setSessionId(user.session_id);
       }
     }
     
@@ -33,7 +33,7 @@ const App = () => {
                  setSessionId={ setSessionId }
                  setNotification={ setNotification } 
                  setIsError={ setIsError }
-                 onLoggedIn={ MainLayout({ sessionId,
+                 onLoggedIn={ MainLayout({ session_id,
                                            setNotification, 
                                            setIsError, 
                                            setUser }) } />

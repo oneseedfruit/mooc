@@ -27,7 +27,7 @@ const register = async (req, res, next, conn, user_accounts_tb) => {
 		return;
 	}
 
-	const sessionId = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
+	const session_id = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
 	
 	const insertNewUser = await query.query(conn,
 			"INSERT INTO `" + user_accounts_tb + "` (" +                     
@@ -35,18 +35,18 @@ const register = async (req, res, next, conn, user_accounts_tb) => {
 				"`password`, " + 
 				"`email`, " +                         
 				"`name`, " +  
-				"`sessionid`" + 
+				"`session_id`" + 
 			") VALUES (" +                     
 				"'" + reqNewUsername + "', "+ 
 				"'" + bcrypt.hashSync(reqNewPassword, 10) + "', "+ 
 				"'"+ reqNewEmail + "', "+ 
 				"'"+ reqNewName + "', "+ 
-				"'" + sessionId + "'" +
+				"'" + session_id + "'" +
 			");"
 		).catch(console.log);
 
 	if (insertNewUser) {
-		res.status(200).send({ username: reqNewUsername, sessionId });		
+		res.status(200).send({ username: reqNewUsername, session_id });		
 	}
 
 	res.end();

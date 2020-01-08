@@ -73,7 +73,12 @@ const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, s
             getProfileData();
         }
         catch (exception) {
-
+            setNotification('Can\'t delete!');
+            setIsError(true);
+            setTimeout(() => {
+                setNotification(null);
+                setIsError(false);
+            }, 5000);
         }
     };
 
@@ -110,7 +115,7 @@ const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, s
             <TableCell>{checkbox(row.can_manage_own_classes, row.user_id, "can_manage_own_classes")}</TableCell>
             <TableCell>{checkbox(row.can_manage_all_classes, row.user_id, "can_manage_all_classes")}</TableCell>
             <TableCell><IconButton aria-label="delete" onClick={ handleDelete(row.user_id, 
-                JSON.parse(window.localStorage.getItem('loggedUser')).sessionId) }><DeleteIcon /></IconButton></TableCell>
+                JSON.parse(window.localStorage.getItem('loggedUser')).session_id) }><DeleteIcon /></IconButton></TableCell>
         </TableRow>;
 
     const Tabs = a11yProps => {

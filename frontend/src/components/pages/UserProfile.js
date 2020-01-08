@@ -11,7 +11,7 @@ import TabPanel from '../TabPanel';
 
 import account from '../../services/account';
 
-const UserProfile = ({ sessionId, profileData, permissions, getProfileData, setNotification, setIsError }) => {
+const UserProfile = ({ session_id, profileData, permissions, getProfileData, setNotification, setIsError }) => {
     const [oldPassword, setOldPassword] = useState('');
     const [updatePassword, setUpdatePassword] = useState('');
     const [updatePasswordConfirm, setUpdatePasswordConfirm] = useState('');
@@ -74,7 +74,7 @@ const UserProfile = ({ sessionId, profileData, permissions, getProfileData, setN
                 newEmail: updateEmail,
                 oldPassword,
                 newPassword: updatePassword, 
-                sessionId, 
+                session_id, 
             });
 
             getProfileData();

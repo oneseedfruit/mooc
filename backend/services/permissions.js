@@ -1,7 +1,7 @@
 const query = require('./query');
 
 const permissions = async (req, res, next, conn, user_accounts_tb, user_permissions_tb) => {    
-    if (req.body.sessionId) {
+    if (req.body.session_id) {
         const data = await query.query(conn, 
                 'SELECT ' + 
                     'ac.user_id, ' +
@@ -13,7 +13,7 @@ const permissions = async (req, res, next, conn, user_accounts_tb, user_permissi
                     'p.can_manage_all_classes ' +
                 'FROM ' + user_accounts_tb + ' ac ' +
                 'JOIN ' + user_permissions_tb + ' p ON ac.user_id = p.perm_id ' +
-                'WHERE sessionId = ? ;', [req.body.sessionId]
+                'WHERE session_id = ? ;', [req.body.session_id]
             ).catch(console.log);
         
         res.send(data[0]);

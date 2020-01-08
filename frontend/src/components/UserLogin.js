@@ -45,7 +45,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
             );
             
             setUser(user);
-            setSessionId(user.sessionId);
+            setSessionId(user.session_id);
             setUsername('');
             setPassword('');
 
@@ -154,7 +154,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
             );
             
             setUser(regUser);
-            setSessionId(regUser.sessionId);
+            setSessionId(regUser.session_id);
             setUsername('');
             setPassword('');
             setReg(false);

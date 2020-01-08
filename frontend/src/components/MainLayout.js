@@ -34,7 +34,7 @@ import Classes from './pages/Classes';
 import UserAdmin from './pages/UserAdmin';
 import CourseAdmin from './pages/CourseAdmin';
 
-const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
+const MainLayout = ({ session_id, setNotification, setIsError, setUser }) => {
     const drawerWidth = 200;
 
     const useStyles = makeStyles(theme => ({
@@ -113,10 +113,10 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
         try {                                    
 
             const profileData = await account.getProfile({
-                sessionId
+                session_id
             });
             const permData = await account.getPermissions({
-                sessionId
+                session_id
             });
             
             setProfileData(profileData);
@@ -131,7 +131,7 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
                 setIsError(false);
             }, 5000);
         }
-    }, [sessionId, setNotification, setIsError]);
+    }, [session_id, setNotification, setIsError]);
 
     useEffect(() => {
         let unmounted = false;
@@ -147,7 +147,7 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
         },
         {             
             show:
-                <UserProfile sessionId={ sessionId }
+                <UserProfile session_id={ session_id }
                              profileData={ profileData }
                              permissions={ permissions }
                              getProfileData = { getProfileData }                             
@@ -196,7 +196,7 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
         try { 
             const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'));  
             await account.login({
-                isLogout: true, sessionId
+                isLogout: true, session_id
             });
   
             window.localStorage.removeItem('loggedUser');

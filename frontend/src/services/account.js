@@ -11,8 +11,8 @@ const register = async details => {
   return response.data;
 };
 
-const getPermissions = async sessionId => {
-  const response = await axios.post(`${baseUrl}/account/permissions`, sessionId);  
+const getPermissions = async session_id => {
+  const response = await axios.post(`${baseUrl}/account/permissions`, session_id);  
   return response.data;
 };
 
@@ -32,8 +32,8 @@ const getAllAccounts = async details => {
 };
 
 
-const getProfile = async sessionId => {
-  const response = await axios.post(`${baseUrl}/profile/get`, sessionId);  
+const getProfile = async session_id => {
+  const response = await axios.post(`${baseUrl}/profile/get`, session_id);  
   return response.data;
 };
 

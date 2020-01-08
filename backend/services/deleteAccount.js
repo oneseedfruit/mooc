@@ -15,7 +15,7 @@ const deleteAccount = async (req, res, next, conn, user_accounts_tb, user_permis
                     'p.can_manage_users ' +
                 'FROM ' + user_accounts_tb + ' ac ' +
                 'JOIN ' + user_permissions_tb + ' p ON ac.user_id = p.perm_id ' +
-                'WHERE sessionId = ? ;', [session_id]
+                'WHERE session_id = ? ;', [session_id]
             ).catch(console.log);
         
         if (data && data[0].can_manage_users === 1) {

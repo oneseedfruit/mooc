@@ -7,13 +7,13 @@ const auth = async (req, res, next, conn, user_accounts_tb) => {
 	const isLogout = req.body.isLogout;
 
 	if (isLogout) {
-		const sessionId = req.body.sessionId;		
+		const session_id = req.body.session_id;		
 
 		try {
 			await query.query(conn, 
 				'UPDATE ' + user_accounts_tb +
-				' SET sessionid = "' + 0 +
-				'" WHERE sessionId = "' + sessionId + '";'
+				' SET session_id = "' + 0 +
+				'" WHERE session_id = "' + session_id + '";'
 			);
 		}
 		catch (exception) {
@@ -33,18 +33,18 @@ const auth = async (req, res, next, conn, user_accounts_tb) => {
             if (isMatching) {
                 req.session.loggedin = true;
 
-				const sessionId = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
+				const session_id = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
 				try {
 					await query.query(conn, 
 						'UPDATE ' + user_accounts_tb +
-						' SET sessionid = "' + sessionId +
+						' SET session_id = "' + session_id +
 						'" WHERE username = "' + reqUsername + '";'
 					);
 				}
 				catch (exception) {
 
 				}
-                res.send({ username: reqUsername, sessionId });
+                res.send({ username: reqUsername, session_id });
             } else {
                 res.status(401).send('Incorrect username and/or password!');
             }			
