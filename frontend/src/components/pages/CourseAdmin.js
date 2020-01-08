@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Grid, Tab, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Checkbox from '@material-ui/core/Checkbox';
 import HorizontalTabs from '../HorizontalTabs';
 import TabPanel from '../TabPanel';
@@ -9,7 +11,6 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Search from '../../components/SimpleSearchInArrayOfObjects';
 import courses from '../../services/courses';
-import account from '../../services/account';
 import CourseAdminForm from './subcomponents/CourseAdminForm';
 
 const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, setNotification, setIsError}) => {
@@ -55,13 +56,29 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
         return () => { unmounted = true }
     }, [getAllCourses]);
 
+    const handleDelete = (course_id, user_id) => async event => {        
+        try {
+            await courses.deleteCourse({ course_id, user_id });
+            getAllCourses();
+        }
+        catch (exception) {
+            setNotification('Can\'t delete!');
+            setIsError(true);
+            setTimeout(() => {
+                setNotification(null);
+                setIsError(false);
+            }, 5000);
+        }
+    };
+
     const handleCheck = (isChecked, course_id, user_id) => async event => {    
         isChecked = isChecked <= 0 ? 1 : 0;
     
         try {                                    
             await courses.updateCourse({ isChecked, course_id, user_id });
             getAllCourses();            
-        } catch (exception) { 
+        } 
+        catch (exception) { 
             setNotification(exception.response.data);
             setIsError(true);
             setTimeout(() => {
@@ -84,17 +101,19 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
         { id: 'description', label: 'description', minWidth: 10 },
         { id: 'added_by', label: 'added by', minWidth: 10 },
         { id: 'is_available', label: 'is available', minWidth: 10 },
+        { id: 'delete course', label: ' ', minWidth: 10 },
     ];
 
     const customTable = row => {
         return (
-            <TableRow key={ row.course_id }>            
+            <TableRow key={row.course_id}>
                 <TableCell>{row.course_id}</TableCell>
                 <TableCell>{row.course_code}</TableCell>
                 <TableCell>{row.title}</TableCell>
                 <TableCell>{row.description}</TableCell>
                 <TableCell> {row.username}</TableCell>
                 <TableCell>{checkbox(row.is_available, row.course_id, profileData.user_id)}</TableCell>
+                <TableCell><IconButton aria-label="delete" onClick={ handleDelete(row.course_id, row.user_id) }><DeleteIcon /></IconButton></TableCell>
             </TableRow>
         );
     }

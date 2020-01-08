@@ -54,18 +54,6 @@ const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, s
         return () => { unmounted = true }
     }, [getAllAccounts]);
 
-    const handleCheck = ({ user_id, perm, isChecked }) => async event => {    
-        isChecked = isChecked <= 0 ? 1 : 0;
-    
-        try {                                    
-            await account.getPermissions({ user_id, perm, isChecked });
-            getAllAccounts();
-            getProfileData();
-        } 
-        catch (exception) {        
-        }
-    };
-
     const handleDelete = (user_id, session_id) => async event => {        
         try {
             await account.deleteAccount({ user_id, session_id });
@@ -81,6 +69,18 @@ const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, s
             }, 5000);
         }
     };
+
+    const handleCheck = ({ user_id, perm, isChecked }) => async event => {    
+        isChecked = isChecked <= 0 ? 1 : 0;
+    
+        try {                                    
+            await account.getPermissions({ user_id, perm, isChecked });
+            getAllAccounts();
+            getProfileData();
+        } 
+        catch (exception) {        
+        }
+    };    
 
     const checkbox = (isChecked, user_id, perm) => {
         return (
