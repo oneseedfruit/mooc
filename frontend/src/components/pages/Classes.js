@@ -11,7 +11,6 @@ import TableCell from '@material-ui/core/TableCell';
 import Search from '../../components/SimpleSearchInArrayOfObjects';
 import ClassesAdminForm from './subcomponents/ClassesAdminForm';
 import courses from '../../services/courses';
-import classSessions from '../../services/classSessions';
 
 const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permissions, setNotification, setIsError}) => {
     const useStyles = makeStyles(theme => ({
@@ -164,6 +163,7 @@ const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permi
                                         setExpanded={ setExpandedForm }
                                         showForm={ showForm }
                                         setShowForm={ setShowForm }
+                                        allCourses={ allCourses }
                                         course_id={ course_id}
                                         setCourseId={ setCourseId }
                                         user_id={ user_id }

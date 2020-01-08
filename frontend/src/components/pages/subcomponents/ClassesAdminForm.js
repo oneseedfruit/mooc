@@ -54,6 +54,7 @@ const ClassesAdminForm = ({
       setExpanded,
         showForm,
       setShowForm,
+        allCourses,
         course_id,
       setCourseId,
         user_id,
@@ -109,7 +110,14 @@ const ClassesAdminForm = ({
     }
   };
 
-
+  const getCourse = course_id => allCourses.find(course => course.course_id === course_id);
+  const getCourseCode = course_id => {
+    const c = getCourse(course_id).course_code;
+    if (c !== "")
+      return c;
+    return "-";
+  };
+  const getCourseTitle = course_id => getCourse(course_id).title;  
 
   const handleChange = panel => (event, newExpanded) => {      
     setExpanded(newExpanded ? panel : false);
@@ -131,12 +139,21 @@ const ClassesAdminForm = ({
                   >
                       <Grid container>
                           <TextField  id="standard-basic" 
-                                      label="course title" 
-                                      value={ course_id }
-                                      name="course_code"
+                                      label="course code" 
+                                      value={ getCourseCode(course_id) }
+                                      name="course code"
                                       disabled
                                       margin="normal"                                    
-                                      autoComplete="course_id"                                                    
+                                      autoComplete="course_code"                              
+                          /> 
+                          <TextField  id="standard-basic" 
+                                      label="course title" 
+                                      value={ getCourseTitle(course_id) }
+                                      name="course title"
+                                      disabled
+                                      margin="normal"                                    
+                                      autoComplete="course_title" 
+                                      fullWidth                                         
                           />                    
                           <TextField  id="standard-basic" 
                                       label="class title" 
