@@ -22,6 +22,8 @@ const conn = initdb();
 const user_accounts_tb = 'user_accounts';
 const user_permissions_tb = 'user_permissions';
 const courses_tb = "courses";
+const class_sessions_tb = "class_sessions";
+const class_sessions_regis_tb = "class_sessions_regis";
 
 const PORT = 3001;
 
@@ -41,7 +43,7 @@ try {
 
 	app.post('/account/permissions', (req, res, next) => permissions(req, res, next, conn, user_accounts_tb, user_permissions_tb));
 	app.post('/account/update', (req, res, next) => updateAccount(req, res, next, conn, user_accounts_tb));
-	app.post('/account/delete', (req, res, next) => deleteAccount(req, res, next, conn, user_accounts_tb, user_permissions_tb));
+	app.post('/account/delete', (req, res, next) => deleteAccount(req, res, next, conn, user_accounts_tb, user_permissions_tb, courses_tb, class_sessions_tb, class_sessions_regis_tb));
 	app.get('/account/get/all', (req, res, next) => listAccounts(req, res, next, conn, user_accounts_tb, user_permissions_tb));
 
 	app.post('/profile/get', (req, res, next) => profile(req, res, next, conn, user_accounts_tb, user_permissions_tb));

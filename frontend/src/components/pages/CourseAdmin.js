@@ -85,7 +85,7 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
     ];
 
     const customTable = row => 
-        <TableRow key={ row.user_id }>
+        <TableRow key={ row.course_id }>
             <TableCell>{row.course_id}</TableCell>
             <TableCell>{row.course_code}</TableCell>
             <TableCell>{row.title}</TableCell>

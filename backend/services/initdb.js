@@ -376,6 +376,21 @@ const initdb = () => {
                         "'2'"+
                     ");"
                 );
+                conn.query(
+                    "INSERT INTO `" + courses_tb + "` (" +                        
+                        "`course_code`, " +
+                        "`title`, " +
+                        "`description`, " + 
+                        "`is_available`, " +  
+                        "`user_id`" +                        
+                    ") VALUES (" +                     
+                        "'" + "3XT1NCT" + "', " + 
+                        "'Cooking With Dinosaurs', " + 
+                        "'Our high standards are difficult to satisfy.', " +
+                        "'0', "+
+                        "'3'"+
+                    ");"
+                );
             }
     });
     return conn;
