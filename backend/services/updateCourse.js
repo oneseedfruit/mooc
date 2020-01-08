@@ -1,7 +1,6 @@
 const query = require('./query');
 
-const updateCourse = async (req, res, next, conn, courses_tb, user_permissions_tb) => {   
-    console.log(req.body); 
+const updateCourse = async (req, res, next, conn, courses_tb, user_permissions_tb) => {       
     if (req.body.user_id != null)  {
         const data = await query.query(conn, 
             'SELECT c.user_id, p.can_manage_own_courses, p.can_manage_all_courses ' +
@@ -11,8 +10,6 @@ const updateCourse = async (req, res, next, conn, courses_tb, user_permissions_t
             '; '
         ).catch(console.log);
 
-        console.log(data);
-        
         if (data && (data[0].user_id === req.body.user_id)) {            
             if (req.body.course_id !== null && 
                 (req.body.isChecked === 0 || req.body.isChecked === 1) && 

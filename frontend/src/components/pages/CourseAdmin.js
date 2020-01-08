@@ -57,8 +57,8 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
         isChecked = isChecked <= 0 ? 1 : 0;
     
         try {                                    
-            const data = await courses.updateCourse({ isChecked, course_id, user_id });            
-            getAllCourses();   
+            await courses.updateCourse({ isChecked, course_id, user_id });
+            getAllCourses();            
         } catch (exception) { 
             setNotification(exception.response.data);
             setIsError(true);

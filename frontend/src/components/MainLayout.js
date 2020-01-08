@@ -162,6 +162,7 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
             show:
                 <UserAdmin allAccounts={ allAccounts }
                            setAllAccounts={ setAllAccounts }
+                           permissions={ permissions }
                            getProfileData={ getProfileData }
                            setNotification={ setNotification }
                            setIsError={ setIsError } />

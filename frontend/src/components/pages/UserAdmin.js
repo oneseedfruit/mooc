@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Grid, Tab, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Checkbox from '@material-ui/core/Checkbox';
 import HorizontalTabs from '../HorizontalTabs';
 import TabPanel from '../TabPanel';
@@ -10,7 +12,7 @@ import TableCell from '@material-ui/core/TableCell';
 import Search from '../../components/SimpleSearchInArrayOfObjects';
 import account from '../../services/account';
 
-const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotification, setIsError}) => {
+const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, setNotification, setIsError}) => {
     const useStyles = makeStyles(theme => ({
         paper: {        
             alignItems: 'left',
@@ -43,7 +45,7 @@ const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotificatio
                 setIsError(false);
             }, 5000);
         }
-    }, [setAllAccounts, setNotification, setIsError]);
+    }, [setSearch, setAllAccounts, setNotification, setIsError]);
 
     useEffect(() => {       
         let unmounted = false;
@@ -59,7 +61,19 @@ const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotificatio
             await account.getPermissions({ user_id, perm, isChecked });
             getAllAccounts();
             getProfileData();
-        } catch (exception) {        
+        } 
+        catch (exception) {        
+        }
+    };
+
+    const handleDelete = (user_id, session_id) => async event => {        
+        try {
+            await account.deleteAccount({ user_id, session_id });
+            getAllAccounts();
+            getProfileData();
+        }
+        catch (exception) {
+
         }
     };
 
@@ -80,6 +94,7 @@ const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotificatio
         { id: 'can_manage_all_courses', label: 'can manage all courses', minWidth: 10 },
         { id: 'can_manage_own_classes', label: 'can manage own classes', minWidth: 10 },
         { id: 'can_manage_all_classes', label: 'can manage all classes', minWidth: 10 },
+        { id: 'delete account', label: 'delete account', minWidth: 10 },
     ];
 
     const customTable = row => 
@@ -94,6 +109,8 @@ const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotificatio
             <TableCell>{checkbox(row.can_manage_all_courses, row.user_id, "can_manage_all_courses")}</TableCell>
             <TableCell>{checkbox(row.can_manage_own_classes, row.user_id, "can_manage_own_classes")}</TableCell>
             <TableCell>{checkbox(row.can_manage_all_classes, row.user_id, "can_manage_all_classes")}</TableCell>
+            <TableCell><IconButton aria-label="delete" onClick={ handleDelete(row.user_id, 
+                JSON.parse(window.localStorage.getItem('loggedUser')).sessionId) }><DeleteIcon /></IconButton></TableCell>
         </TableRow>;
 
     const Tabs = a11yProps => {

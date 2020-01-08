@@ -18,12 +18,17 @@ const getPermissions = async sessionId => {
 
 const updateAccount = async details => {
   const response = await axios.post(`${baseUrl}/account/update`, details);
-  return response.data
+  return response.data;
+};
+
+const deleteAccount = async details => {
+  const response = await axios.post(`${baseUrl}/account/delete`, details);
+  return response.data;
 };
 
 const getAllAccounts = async details => {
   const response = await axios.get(`${baseUrl}/account/get/all`);
-  return response.data
+  return response.data;
 };
 
 
@@ -32,4 +37,4 @@ const getProfile = async sessionId => {
   return response.data;
 };
 
-export default { login, register, updateAccount, getAllAccounts, getProfile, getPermissions };
+export default { login, register, updateAccount, deleteAccount, getAllAccounts, getProfile, getPermissions };
