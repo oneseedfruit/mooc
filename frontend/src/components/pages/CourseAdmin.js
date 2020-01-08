@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Grid, Tab, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Checkbox from '@material-ui/core/Checkbox';
 import HorizontalTabs from '../HorizontalTabs';
 import TabPanel from '../TabPanel';
 import PaginatedTable from '../CustomPaginationActionsTable';
@@ -9,7 +10,7 @@ import TableCell from '@material-ui/core/TableCell';
 import Search from '../../components/SimpleSearchInArrayOfObjects';
 import courses from '../../services/courses';
 
-const CourseAdmin = ({ allCourses, setAllCourses, setNotification, setIsError}) => {
+const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, setNotification, setIsError}) => {
     const useStyles = makeStyles(theme => ({
         paper: {        
             alignItems: 'left',
@@ -31,6 +32,7 @@ const CourseAdmin = ({ allCourses, setAllCourses, setNotification, setIsError}) 
             const data = await courses.getAllCourses();            
             
             setAllCourses(data);
+            getProfileData();
             setSearch(data);
 
             return;                
@@ -42,7 +44,7 @@ const CourseAdmin = ({ allCourses, setAllCourses, setNotification, setIsError}) 
                 setIsError(false);
             }, 5000);
         }
-    }, [setAllCourses, setNotification, setIsError]);
+    }, [setAllCourses, getProfileData, setNotification, setIsError]);
 
     useEffect(() => {
         let unmounted = false;
@@ -51,12 +53,35 @@ const CourseAdmin = ({ allCourses, setAllCourses, setNotification, setIsError}) 
         return () => { unmounted = true }
     }, [getAllCourses]);
 
+    const handleCheck = (isChecked, course_id, user_id) => async event => {    
+        isChecked = isChecked <= 0 ? 1 : 0;
+    
+        try {                                    
+            const data = await courses.updateCourse({ isChecked, course_id, user_id });            
+            getAllCourses();   
+        } catch (exception) { 
+            setNotification(exception.response.data);
+            setIsError(true);
+            setTimeout(() => {
+                setNotification(null);
+                setIsError(false);
+            }, 5000);       
+        }
+    };
+
+    const checkbox = (isChecked, course_id, user_id) => {
+        return (
+            <Checkbox checked={ isChecked > 0 ? true : false } onChange={ handleCheck(isChecked, course_id, user_id)} value={ course_id } />
+        );
+    };
+
     const columns = [
         { id: '#', label: '#', minWidth: 10 },    
         { id: 'course_code', label: 'course code', minWidth: 10 },
         { id: 'title', label: 'title', minWidth: 10 },
         { id: 'description', label: 'description', minWidth: 10 },
-        { id: 'added_by', label: 'added by', minWidth: 10 }        
+        { id: 'added_by', label: 'added by', minWidth: 10 },
+        { id: 'is_available', label: 'is available', minWidth: 10 },
     ];
 
     const customTable = row => 
@@ -65,7 +90,8 @@ const CourseAdmin = ({ allCourses, setAllCourses, setNotification, setIsError}) 
             <TableCell>{row.course_code}</TableCell>
             <TableCell>{row.title}</TableCell>
             <TableCell>{row.description}</TableCell>
-            <TableCell>{row.user_id}</TableCell>            
+            <TableCell>{row.user_id}</TableCell>
+            <TableCell>{checkbox(row.is_available, row.course_id, profileData.user_id)}</TableCell>
         </TableRow>;
 
     const Tabs = a11yProps => {

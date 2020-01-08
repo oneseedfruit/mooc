@@ -64,7 +64,8 @@ const initdb = () => {
                         "`perm_id` int(11) NOT NULL, " + 
                         "`can_manage_users` bool NOT NULL DEFAULT 0, " +
                         "`can_moderate_users` bool NOT NULL DEFAULT 0, " +
-                        "`can_manage_courses` bool NOT NULL DEFAULT 0, " +
+                        "`can_manage_own_courses` bool NOT NULL DEFAULT 0, " +
+                        "`can_manage_all_courses` bool NOT NULL DEFAULT 0, " +
                         "`can_manage_own_classes` bool NOT NULL DEFAULT 0, " +
                         "`can_manage_all_classes` bool NOT NULL DEFAULT 0, " +
                         "`user_id` int(11) NOT NULL DEFAULT 1" + 
@@ -94,10 +95,12 @@ const initdb = () => {
                             "INSERT INTO `" + user_permissions_tb + "` (" +                                 
                                 "`can_manage_users`, " +  
                                 "`can_moderate_users`, " +
-                                "`can_manage_courses`,  " +
+                                "`can_manage_own_courses`,  " +
+                                "`can_manage_all_courses`,  " +
                                 "`can_manage_own_classes`, " +
                                 "`can_manage_all_classes` " +
                             ") VALUES (" +                                 
+                                "0, "+
                                 "0, "+
                                 "0, "+
                                 "0, "+
@@ -135,7 +138,8 @@ const initdb = () => {
                     "SET " + 
                         "can_manage_users = 1, "+
                         "can_moderate_users = 1, "+
-                        "can_manage_courses = 1, "+
+                        "can_manage_own_courses = 1, "+
+                        "can_manage_all_courses = 1, "+
                         "can_manage_own_classes = 1, "+
                         "can_manage_all_classes = 1 "+
                     "WHERE user_id = 1;"
@@ -192,7 +196,8 @@ const initdb = () => {
                         "`course_id` int(11) NOT NULL, " + 
                         "`course_code` varchar(255) NULL, " +
                         "`title` varchar(255) NULL, " +
-                        "`description` mediumtext NULL, " +                        
+                        "`description` mediumtext NULL, " + 
+                        "`is_available` bool NOT NULL DEFAULT 1, " +  
                         "`user_id` int(11) NOT NULL" +
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
@@ -345,12 +350,14 @@ const initdb = () => {
                     "INSERT INTO `" + courses_tb + "` (" +                        
                         "`course_code`, " +
                         "`title`, " +
-                        "`description`, " +                        
+                        "`description`, " + 
+                        "`is_available`, " +                  
                         "`user_id`" +
                     ") VALUES (" +                     
-                        "'" + "SCSD2523" + "', "+ 
-                        "'Database', "+ 
-                        "'Counter-action rising! Are you ready for the punchline?!!', "+                     
+                        "'" + "SCSD2523" + "', " + 
+                        "'Database', " + 
+                        "'Counter-action rising! Are you ready for the punchline?!!', " +          
+                        "'1', "+
                         "'1'"+
                     ");"
                 );
@@ -358,12 +365,14 @@ const initdb = () => {
                     "INSERT INTO `" + courses_tb + "` (" +                        
                         "`course_code`, " +
                         "`title`, " +
-                        "`description`, " +                        
-                        "`user_id`" +
+                        "`description`, " + 
+                        "`is_available`, " +  
+                        "`user_id`" +                        
                     ") VALUES (" +                     
-                        "'" + "SCSJ1023" + "', "+ 
-                        "'Programming Techniques II', "+ 
-                        "'See plus plus? See plus plus!! OOP!!', "+                     
+                        "'" + "SCSJ1023" + "', " + 
+                        "'Programming Techniques II', " + 
+                        "'See plus plus? See plus plus!! OOP!!', " +
+                        "'0', "+
                         "'2'"+
                     ");"
                 );

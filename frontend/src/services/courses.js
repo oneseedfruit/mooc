@@ -6,4 +6,9 @@ const getAllCourses = async details => {
   return response.data
 };
 
-export default { getAllCourses };
+const updateCourse = async details => {
+    const response = await axios.post(`${baseUrl}/courses/update`, details);
+    return response.data
+};
+
+export default { getAllCourses, updateCourse };

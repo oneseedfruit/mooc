@@ -151,8 +151,12 @@ const UserProfile = ({ sessionId, profileData, permissions, getProfileData, setN
                                     <TableCell align="left">{(permissions ? permissions.can_moderate_users ? "Yes": "No" : '')}</TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell>Can manage courses?:  </TableCell>
-                                    <TableCell align="left">{(permissions ? permissions.can_manage_courses ? "Yes": "No" : '')}</TableCell>
+                                    <TableCell>Can manage own courses?:  </TableCell>
+                                    <TableCell align="left">{(permissions ? permissions.can_manage_own_courses ? "Yes": "No" : '')}</TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell>Can manage all courses?:  </TableCell>
+                                    <TableCell align="left">{(permissions ? permissions.can_manage_all_courses ? "Yes": "No" : '')}</TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell>Can manage own classes?:  </TableCell>

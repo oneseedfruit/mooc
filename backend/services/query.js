@@ -5,9 +5,16 @@ const query = async (conn, q, params) => new Promise(
             reject(error);
             return;
         }
-        resolve(result);
-    }
-    conn.query(q, params, handler);
+        resolve(result);        
+    }    
+    conn.query(q, params, handler)
+});
+
+query().then(() => {
+    console.log("Promise resolved.");
+})
+.catch(() => {
+    console.log("Promise rejected.");
 });
 
 module.exports = { query };

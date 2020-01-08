@@ -52,24 +52,12 @@ const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotificatio
         return () => { unmounted = true }
     }, [getAllAccounts]);
 
-    const columns = [
-        { id: '#', label: '#', minWidth: 10 },    
-        { id: 'name', label: 'name', minWidth: 10 },
-        { id: 'username', label: 'username', minWidth: 10 },
-        { id: 'email', label: 'email', minWidth: 10 },
-        { id: 'can_manage_users', label: 'can manage users', minWidth: 10 },
-        { id: 'can_moderate_users', label: 'can moderate users', minWidth: 10 },
-        { id: 'can_manage_courses', label: 'can manage courses', minWidth: 10 },
-        { id: 'can_manage_own_classes', label: 'can manage own classes', minWidth: 10 },
-        { id: 'can_manage_all_classes', label: 'can manage all classes', minWidth: 10 },
-    ];
-
     const handleCheck = ({ user_id, perm, isChecked }) => async event => {    
         isChecked = isChecked <= 0 ? 1 : 0;
     
         try {                                    
             await account.getPermissions({ user_id, perm, isChecked });
-            getAllAccounts()
+            getAllAccounts();
             getProfileData();
         } catch (exception) {        
         }
@@ -81,6 +69,19 @@ const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotificatio
         );
     };
 
+    const columns = [
+        { id: '#', label: '#', minWidth: 10 },    
+        { id: 'name', label: 'name', minWidth: 10 },
+        { id: 'username', label: 'username', minWidth: 10 },
+        { id: 'email', label: 'email', minWidth: 10 },
+        { id: 'can_manage_users', label: 'can manage users', minWidth: 10 },
+        { id: 'can_moderate_users', label: 'can moderate users', minWidth: 10 },
+        { id: 'can_manage_own_courses', label: 'can manage own courses', minWidth: 10 },
+        { id: 'can_manage_all_courses', label: 'can manage all courses', minWidth: 10 },
+        { id: 'can_manage_own_classes', label: 'can manage own classes', minWidth: 10 },
+        { id: 'can_manage_all_classes', label: 'can manage all classes', minWidth: 10 },
+    ];
+
     const customTable = row => 
         <TableRow key={row.user_id}>
             <TableCell>{row.user_id}</TableCell>
@@ -89,7 +90,8 @@ const UserAdmin = ({ allAccounts, setAllAccounts, getProfileData, setNotificatio
             <TableCell>{row.email}</TableCell>
             <TableCell>{checkbox(row.can_manage_users, row.user_id, "can_manage_users")}</TableCell>
             <TableCell>{checkbox(row.can_moderate_users, row.user_id, "can_moderate_users")}</TableCell>
-            <TableCell>{checkbox(row.can_manage_courses, row.user_id, "can_manage_courses")}</TableCell>
+            <TableCell>{checkbox(row.can_manage_own_courses, row.user_id, "can_manage_own_courses")}</TableCell>
+            <TableCell>{checkbox(row.can_manage_all_courses, row.user_id, "can_manage_all_courses")}</TableCell>
             <TableCell>{checkbox(row.can_manage_own_classes, row.user_id, "can_manage_own_classes")}</TableCell>
             <TableCell>{checkbox(row.can_manage_all_classes, row.user_id, "can_manage_all_classes")}</TableCell>
         </TableRow>;

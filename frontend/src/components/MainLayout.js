@@ -162,14 +162,16 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
             show:
                 <UserAdmin allAccounts={ allAccounts }
                            setAllAccounts={ setAllAccounts }
-                           getProfileData = { getProfileData }
+                           getProfileData={ getProfileData }
                            setNotification={ setNotification }
                            setIsError={ setIsError } />
         },
         {
             show:
                 <CourseAdmin allCourses={ allCourses }
-                             setAllCourses={ setAllCourses }                             
+                             setAllCourses={ setAllCourses }
+                             profileData={ profileData }
+                             getProfileData={ getProfileData }
                              setNotification={ setNotification }
                              setIsError={ setIsError } />
         }
@@ -285,7 +287,7 @@ const MainLayout = ({ sessionId, setNotification, setIsError, setUser }) => {
                         : '' : ''
                     }
 
-                    { permissions !== null ? permissions.can_manage_courses ?
+                    { permissions !== null ? permissions.can_manage_own_courses || permissions.can_manage_all_courses  ?
                         <>
                             <ListItem button key="Course Admin" onClick={ handleGoToPage(4) }>
                                 <ListItemIcon><CourseAdminIcon /></ListItemIcon>

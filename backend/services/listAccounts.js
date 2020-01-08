@@ -8,7 +8,8 @@ const listAccounts = async (req, res, next, conn, user_accounts_tb, user_permiss
                    "ac.name, " + 
                    "p.can_manage_users, " +
                    "p.can_moderate_users, " +
-                   "p.can_manage_courses, " +
+                   "p.can_manage_own_courses, " +
+                   "p.can_manage_all_courses, " +
                    "p.can_manage_own_classes, " +
                    "p.can_manage_all_classes " +
             "FROM " + user_accounts_tb + " ac " +
