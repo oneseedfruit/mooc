@@ -15,6 +15,7 @@ const deleteAccount = require('./services/deleteAccount');
 const listAccounts = require('./services/listAccounts');
 const profile = require('./services/profile');
 const listCourses = require('./services/listCourses');
+const addCourse = require('./services/addCourse');
 const updateCourse = require('./services/updateCourse');
 
 const conn = initdb();
@@ -48,8 +49,9 @@ try {
 
 	app.post('/profile/get', (req, res, next) => profile(req, res, next, conn, user_accounts_tb, user_permissions_tb));
 
-	app.get('/courses/get/all', (req, res, next) => listCourses(req, res, next, conn, courses_tb));
-	app.post('/courses/update', (req, res, next) => updateCourse(req, res, next, conn, courses_tb, user_permissions_tb));
+	app.get('/course/get/all', (req, res, next) => listCourses(req, res, next, conn, courses_tb));
+	app.post('/course/add', (req, res, next) => addCourse(req, res, next, conn, courses_tb, user_permissions_tb));
+	app.post('/course/update', (req, res, next) => updateCourse(req, res, next, conn, courses_tb, user_permissions_tb));
 }
 catch {
 	console.log("Promises are broken.");

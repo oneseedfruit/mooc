@@ -5,6 +5,8 @@ import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
+import courses from '../../../services/courses';
+
 const ExpansionPanel = withStyles({
   root: {        
     boxShadow: 'none',
@@ -42,21 +44,25 @@ const ExpansionPanelDetails = withStyles(theme => ({
   },
 }))(MuiExpansionPanelDetails);
 
-const CourseAdminForm = ({setNotification, setIsError}) => {
+const CourseAdminForm = ({profileData, getAllCourses, setNotification, setIsError}) => {
   
   const [courseCode, setCourseCode] = useState('');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   
   const handleAddCourse = async event => {
-    event.preventDefault();
-
-    console.log(title);    
+    event.preventDefault();    
     
     try {             
-        // const regUser = await account.register({
-        //     newUsername, newPassword, newEmail, newName
-        // });
+        await courses.addCourse({
+            course_code: courseCode, 
+            title, 
+            
+            description, 
+            user_id: profileData.user_id
+        });
+
+        getAllCourses();
 
         setNotification(`Course successfully added!`);
         setIsError(false);
@@ -90,8 +96,8 @@ const CourseAdminForm = ({setNotification, setIsError}) => {
     <div>
       <ExpansionPanel square expanded={expanded === 'panel1'} onChange={ handleChange('panel1') }>
         <ExpansionPanelSummary aria-controls="panel1d-content" id="panel1d-header">          
-            <Button variant="outlined" color="primary" fullWidth={ true } >
-                { expanded === 'panel1' ? "Close" : "Add Course" }
+            <Button variant="outlined" color={ expanded === 'panel1' ? "secondary" : "primary" } fullWidth={ true } >
+                { expanded === 'panel1' ? "Cancel" : "Add Course" }
             </Button>          
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>

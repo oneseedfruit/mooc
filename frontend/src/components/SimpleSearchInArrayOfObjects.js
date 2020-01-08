@@ -36,8 +36,7 @@ const SimpleSearchInArrayOfObjects = ({ arrayOfObjects, searchField, setSearchFi
                     value={ searchField }
                     name="name"
                     onChange={ handleSearch }
-                    margin="normal"                                                                                                                        
-                    autoFocus
+                    margin="normal"                    
                     fullWidth
             />
         </>

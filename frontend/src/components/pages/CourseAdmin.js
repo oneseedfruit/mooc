@@ -109,6 +109,8 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
                 <TabPanel value={value} index={0}>                
                     <Container component="main" maxWidth="xl">
                         <CourseAdminForm 
+                            profileData={ profileData }
+                            getAllCourses={ getAllCourses }
                             setNotification={ setNotification }
                             setIsError={ setIsError }
                         />
