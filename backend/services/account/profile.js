@@ -1,4 +1,4 @@
-const query = require('./query');
+const query = require('../query');
 
 const profile = async (req, res, next, conn, user_accounts_tb, user_permissions_tb) => {
     if (req.body.user_id && !req.body.session_id) {

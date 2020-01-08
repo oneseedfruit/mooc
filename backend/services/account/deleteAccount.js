@@ -1,4 +1,4 @@
-const query = require('./query');
+const query = require('../query');
 
 const deleteAccount = async (req, res, next, conn, user_accounts_tb, user_permissions_tb, courses_tb, class_sessions_tb, class_sessions_regis_tb) => {	
     const user_id = req.body.user_id;    

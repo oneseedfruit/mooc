@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
 const uuid = require('node-uuid');
-const query = require('./query');
+const query = require('../query');
 
 const register = async (req, res, next, conn, user_accounts_tb) => {
 	const escapeQuotes = (str) => {

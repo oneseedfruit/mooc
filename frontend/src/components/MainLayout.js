@@ -156,7 +156,13 @@ const MainLayout = ({ session_id, setNotification, setIsError, setUser }) => {
         },
         {
             show:
-                <Classes />
+                <Classes allCourses={ allCourses }
+                         setAllCourses={ setAllCourses }
+                         profileData={ profileData }
+                         getProfileData={ getProfileData }
+                         permissions={ permissions }
+                         setNotification={ setNotification }
+                         setIsError={ setIsError } />
         },
         {
             show:

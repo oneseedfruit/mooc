@@ -1,4 +1,4 @@
-const query = require('./query');
+const query = require('../query');
 
 const addCourse = async (req, res, next, conn, courses_tb, user_permissions_tb) => {
     const escapeQuotes = (str) => {

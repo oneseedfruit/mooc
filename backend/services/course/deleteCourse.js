@@ -1,4 +1,4 @@
-const query = require('./query');
+const query = require('../query');
 
 const deleteCourse = async (req, res, next, conn, 
         user_accounts_tb, 
@@ -9,9 +9,6 @@ const deleteCourse = async (req, res, next, conn,
     
     const course_id = req.body.course_id;    
     const user_id = req.body.user_id;
-
-    console.log("deleteCourse.js: course_id: " + course_id);
-    console.log("deleteCourse.js: user_id: " + user_id);
 
     if (course_id != undefined) {
         const addedBy = await query.query(conn, 

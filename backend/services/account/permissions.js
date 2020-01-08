@@ -1,4 +1,4 @@
-const query = require('./query');
+const query = require('../query');
 
 const permissions = async (req, res, next, conn, user_accounts_tb, user_permissions_tb) => {    
     if (req.body.session_id) {

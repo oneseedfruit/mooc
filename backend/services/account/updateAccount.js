@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const query = require('./query');
+const query = require('../query');
 
 const updateAccount = async (req, res, next, conn, user_accounts_tb) => {	
 	const escapeQuotes = (str) => {

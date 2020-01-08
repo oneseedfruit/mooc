@@ -1,4 +1,4 @@
-const query = require('./query');
+const query = require('../query');
 
 const listCourses = async (req, res, next, conn, courses_tb, user_permissions_tb, user_accounts_tb) => {
     if (req.body.user_id != undefined) {

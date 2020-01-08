@@ -1,4 +1,4 @@
-const query = require('./query');
+const query = require('../query');
 
 const listAccounts = async (req, res, next, conn, user_accounts_tb, user_permissions_tb) => {
     const data = await query.query(conn,
