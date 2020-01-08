@@ -10,7 +10,7 @@ const updateCourse = async (req, res, next, conn, courses_tb, user_permissions_t
             '; '
         ).catch(console.log);
 
-        if (data && (data[0].user_id === req.body.user_id)) {            
+        if (data && data.length > 0 && (data[0].user_id === req.body.user_id)) {            
             if (req.body.course_id !== null && 
                 (req.body.isChecked === 0 || req.body.isChecked === 1) && 
                 req.body.isChecked != null) {
@@ -26,11 +26,13 @@ const updateCourse = async (req, res, next, conn, courses_tb, user_permissions_t
                         'WHERE course_id = ' + req.body.course_id + ' ' +
                         andUserId +
                         '; '
-                    ).catch(console.log);        
+                    ).catch(console.log);
+                
+                res.status(200).send(`The change is successfully saved!`);
             }    
         }
         else {
-            res.status(401).send(`You are not authroized to make this change.`);		
+            res.status(201).send(`You are not authroized to make this change!`);		
         }
     }
 

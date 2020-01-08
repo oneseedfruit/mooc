@@ -58,8 +58,17 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
 
     const handleDelete = (course_id, user_id) => async event => {        
         try {
-            await courses.deleteCourse({ course_id, user_id }).catch(console.log);
+            const r = await courses.deleteCourse({ course_id, user_id }).catch(console.log);
             getAllCourses();
+
+            if (r) {
+                setNotification(r);
+                setIsError(true);
+                setTimeout(() => {
+                    setNotification(null);
+                    setIsError(false);
+                }, 5000);
+            }
         }
         catch (exception) {
             setNotification('Can\'t delete!');
@@ -75,8 +84,17 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
         isChecked = isChecked <= 0 ? 1 : 0;
     
         try {                                    
-            await courses.updateCourse({ isChecked, course_id, user_id }).catch(console.log);
-            getAllCourses();            
+            const r = await courses.updateCourse({ isChecked, course_id, user_id }).catch(console.log);
+            getAllCourses();
+            
+            if (r) {
+                setNotification(r);
+                setIsError(true);
+                setTimeout(() => {
+                    setNotification(null);
+                    setIsError(false);
+                }, 5000);
+            }
         } 
         catch (exception) { 
             setNotification(exception.response.data);
@@ -94,8 +112,7 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
         );
     };
 
-    const columns = [
-        { id: '#', label: '#', minWidth: 10 },    
+    const columns = [        
         { id: 'course_code', label: 'course code', minWidth: 10 },
         { id: 'title', label: 'title', minWidth: 10 },
         { id: 'description', label: 'description', minWidth: 10 },
@@ -106,14 +123,13 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
 
     const customTable = row => {
         return (
-            <TableRow key={row.course_id}>
-                <TableCell>{row.course_id}</TableCell>
+            <TableRow key={row.course_id}>                
                 <TableCell>{row.course_code}</TableCell>
                 <TableCell>{row.title}</TableCell>
                 <TableCell>{row.description}</TableCell>
                 <TableCell> {row.username}</TableCell>
                 <TableCell>{checkbox(row.is_available, row.course_id, profileData.user_id)}</TableCell>
-                <TableCell><IconButton aria-label="delete" onClick={ handleDelete(row.course_id, row.user_id) }><DeleteIcon /></IconButton></TableCell>
+                <TableCell><IconButton aria-label="delete" onClick={ handleDelete(row.course_id, profileData.user_id) }><DeleteIcon /></IconButton></TableCell>
             </TableRow>
         );
     }

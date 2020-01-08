@@ -54,7 +54,7 @@ const CourseAdminForm = ({profileData, getAllCourses, setNotification, setIsErro
     event.preventDefault();    
     
     try {             
-        await courses.addCourse({
+        const r = await courses.addCourse({
             course_code: courseCode, 
             title, 
             
@@ -64,11 +64,13 @@ const CourseAdminForm = ({profileData, getAllCourses, setNotification, setIsErro
 
         getAllCourses();
 
-        setNotification(`Course successfully added!`);
-        setIsError(false);
-        setTimeout(() => {
-            setNotification(null);                
-        }, 5000);        
+        if (r) {
+          setNotification(r);
+          setIsError(false);
+          setTimeout(() => {
+              setNotification(null);                
+          }, 5000);
+        }
 
         setCourseCode('');
         setTitle('');
