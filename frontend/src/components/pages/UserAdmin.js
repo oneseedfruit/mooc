@@ -30,9 +30,17 @@ const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, s
     const [search, setSearch] = useState(null);
 
     const getAllAccounts = useCallback(async () => {
+        setNotification("Retrieving user accounts...");
+        setIsError(false);
+        setTimeout(() => {
+            setNotification(null);
+            setIsError(false);
+        }, 5000);
+
         try {                                    
             const data = await account.getAllAccounts().catch(console.log);            
             
+            setNotification(null);
             setAllAccounts(data);
             setSearch(data);
             
