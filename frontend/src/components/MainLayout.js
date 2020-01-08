@@ -114,10 +114,10 @@ const MainLayout = ({ session_id, setNotification, setIsError, setUser }) => {
 
             const profileData = await account.getProfile({
                 session_id
-            });
+            }).catch(console.log);
             const permData = await account.getPermissions({
                 session_id
-            });
+            }).catch(console.log);
             
             setProfileData(profileData);
             setPermissions(permData);
@@ -197,7 +197,7 @@ const MainLayout = ({ session_id, setNotification, setIsError, setUser }) => {
             const loggedUser = JSON.parse(window.localStorage.getItem('loggedUser'));  
             await account.login({
                 isLogout: true, session_id
-            });
+            }).catch(console.log);
   
             window.localStorage.removeItem('loggedUser');
             window.localStorage.clear();

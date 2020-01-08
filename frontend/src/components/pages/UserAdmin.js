@@ -31,7 +31,7 @@ const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, s
 
     const getAllAccounts = useCallback(async () => {
         try {                                    
-            const data = await account.getAllAccounts();            
+            const data = await account.getAllAccounts().catch(console.log);            
             
             setAllAccounts(data);
             setSearch(data);
@@ -56,7 +56,7 @@ const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, s
 
     const handleDelete = (user_id, session_id) => async event => {        
         try {
-            await account.deleteAccount({ user_id, session_id });
+            await account.deleteAccount({ user_id, session_id }).catch(console.log);
             getAllAccounts();
             getProfileData();
         }
@@ -74,7 +74,7 @@ const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, s
         isChecked = isChecked <= 0 ? 1 : 0;
     
         try {                                    
-            await account.getPermissions({ user_id, perm, isChecked });
+            await account.getPermissions({ user_id, perm, isChecked }).catch(console.log);
             getAllAccounts();
             getProfileData();
         } 

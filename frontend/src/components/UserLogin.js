@@ -38,7 +38,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
         try { 
             const user = await account.login({
                 username, password, isLogout: false
-            });
+            }).catch(console.log);
 
             window.localStorage.setItem(
                 'loggedUser', JSON.stringify(user)
@@ -147,7 +147,7 @@ const UserLogin = ({ user, setUser, setSessionId, onLoggedIn, setNotification, s
         try {             
             const regUser = await account.register({
                 newUsername, newPassword, newEmail, newName
-            });
+            }).catch(console.log);
 
             window.localStorage.setItem(
                 'loggedUser', JSON.stringify(regUser)

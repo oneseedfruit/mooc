@@ -18,7 +18,7 @@ const auth = async (req, res, next, conn, user_accounts_tb) => {
 				'UPDATE ' + user_accounts_tb +
 				' SET session_id = "' + 0 +
 				'" WHERE session_id = "' + session_id + '";'
-			);
+			).catch(console.log);
 		}
 		catch (exception) {
 
@@ -43,7 +43,7 @@ const auth = async (req, res, next, conn, user_accounts_tb) => {
 						'UPDATE ' + user_accounts_tb +
 						' SET session_id = "' + session_id +
 						'" WHERE username = "' + reqUsername + '";'
-					);
+					).catch(console.log);
 				}
 				catch (exception) {
 

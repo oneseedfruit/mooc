@@ -60,7 +60,7 @@ const CourseAdminForm = ({profileData, getAllCourses, setNotification, setIsErro
             
             description, 
             user_id: profileData.user_id
-        });
+        }).catch(console.log);
 
         getAllCourses();
 

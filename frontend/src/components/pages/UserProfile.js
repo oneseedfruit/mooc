@@ -75,7 +75,7 @@ const UserProfile = ({ session_id, profileData, permissions, getProfileData, set
                 oldPassword,
                 newPassword: updatePassword, 
                 session_id, 
-            });
+            }).catch(console.log);
 
             getProfileData();
                         

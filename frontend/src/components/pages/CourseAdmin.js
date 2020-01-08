@@ -32,7 +32,7 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
 
     const getAllCourses = useCallback(async () => {
         try {                                    
-            const data = await courses.getAllCourses({ user_id: profileData.user_id });            
+            const data = await courses.getAllCourses({ user_id: profileData.user_id }).catch(console.log);            
             
             setAllCourses(data);
             getProfileData();
@@ -58,7 +58,7 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
 
     const handleDelete = (course_id, user_id) => async event => {        
         try {
-            await courses.deleteCourse({ course_id, user_id });
+            await courses.deleteCourse({ course_id, user_id }).catch(console.log);
             getAllCourses();
         }
         catch (exception) {
@@ -75,7 +75,7 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
         isChecked = isChecked <= 0 ? 1 : 0;
     
         try {                                    
-            await courses.updateCourse({ isChecked, course_id, user_id });
+            await courses.updateCourse({ isChecked, course_id, user_id }).catch(console.log);
             getAllCourses();            
         } 
         catch (exception) { 
