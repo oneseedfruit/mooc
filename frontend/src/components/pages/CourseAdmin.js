@@ -9,6 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 import Search from '../../components/SimpleSearchInArrayOfObjects';
 import courses from '../../services/courses';
+import CourseAdminForm from './subcomponents/CourseAdminForm';
 
 const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, setNotification, setIsError}) => {
     const useStyles = makeStyles(theme => ({
@@ -105,9 +106,13 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
     const TabPanels = value => {        
         return (
             <>
-                <TabPanel value={value} index={0}>
+                <TabPanel value={value} index={0}>                
                     <Container component="main" maxWidth="xl">
-                        <div className={classes.paper}>                        
+                        <CourseAdminForm 
+                            setNotification={ setNotification }
+                            setIsError={ setIsError }
+                        />
+                        <div className={classes.paper}>                             
                             <Grid container>
                                 <Search arrayOfObjects={ allCourses }
                                         searchField={ searchField }
