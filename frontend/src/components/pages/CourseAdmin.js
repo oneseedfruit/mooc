@@ -30,7 +30,7 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
 
     const getAllCourses = useCallback(async () => {
         try {                                    
-            const data = await courses.getAllCourses();            
+            const data = await courses.getAllCourses({ user_id: profileData.user_id });            
             
             setAllCourses(data);
             getProfileData();

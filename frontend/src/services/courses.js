@@ -2,7 +2,7 @@ import axios from 'axios';
 const baseUrl = 'http://deerclops.sytes.net:3001';
 
 const getAllCourses = async details => {
-  const response = await axios.get(`${baseUrl}/course/get/all`);
+  const response = await axios.post(`${baseUrl}/course/get/all`, details);
   return response.data
 };
 
