@@ -169,7 +169,7 @@ const ClassesAdminForm = ({
                           // onClick={ handleChange('panel1') }
                           fullWidth
                       >
-                          start a new class
+                          start a new class session
                       </Button>             
                   </form>
               </Container>          

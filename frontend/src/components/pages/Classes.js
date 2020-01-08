@@ -132,7 +132,7 @@ const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permi
             [
                 <Tab key={0} label="My Classes" {...a11yProps(1)} />,
                 ((permissions !== null) ? (permissions.can_manage_own_courses || permissions.can_manage_all_courses  ?        
-                    <Tab key={1} label="Available Courses" {...a11yProps(1)} />        
+                    <Tab key={1} label="Start a Class Session" {...a11yProps(1)} />        
                     : '') : ''),
             ]
         );
