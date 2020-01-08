@@ -16,6 +16,7 @@ const listAccounts = require('./services/listAccounts');
 const profile = require('./services/profile');
 const listCourses = require('./services/listCourses');
 const addCourse = require('./services/addCourse');
+const deleteCourse = require('./services/deleteCourse');
 const updateCourse = require('./services/updateCourse');
 
 const conn = initdb();
@@ -51,6 +52,7 @@ try {
 
 	app.post('/course/get/all', (req, res, next) => listCourses(req, res, next, conn, courses_tb, user_permissions_tb, user_accounts_tb));
 	app.post('/course/add', (req, res, next) => addCourse(req, res, next, conn, courses_tb, user_permissions_tb));
+	app.post('/course/delete', (req, res, next) => deleteCourse(req, res, next, conn, user_accounts_tb, user_permissions_tb, courses_tb, class_sessions_tb, class_sessions_regis_tb));
 	app.post('/course/update', (req, res, next) => updateCourse(req, res, next, conn, courses_tb, user_permissions_tb));
 }
 catch {
