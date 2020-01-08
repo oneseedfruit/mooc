@@ -10,6 +10,9 @@ const deleteCourse = async (req, res, next, conn,
     const course_id = req.body.course_id;    
     const user_id = req.body.user_id;
 
+    console.log("deleteCourse.js: course_id: " + course_id);
+    console.log("deleteCourse.js: user_id: " + user_id);
+
     if (course_id != undefined) {
         const addedBy = await query.query(conn, 
             'SELECT user_id ' +                
@@ -17,7 +20,8 @@ const deleteCourse = async (req, res, next, conn,
             'WHERE course_id = ? AND user_id = ? ;', [course_id, user_id]                
         ).catch(console.log);
         
-        const isOwner = user_id === addedBy[0].user_id;
+        const _a = addedBy ? addedBy.length > 0 : false;
+        const isOwner = _a && user_id === addedBy[0].user_id;
 
         const perm = await query.query(conn, 
             'SELECT can_manage_all_courses ' +
@@ -25,7 +29,8 @@ const deleteCourse = async (req, res, next, conn,
             'WHERE user_id = ? ;', [user_id]                
         ).catch(console.log);
 
-        const all = perm[0].can_manage_all_courses > 0;
+        const _b = perm ? perm.length > 0 : false;
+        const all = _b && perm[0].can_manage_all_courses > 0;
 
         if (!all && isOwner) {
             const class_id = await query.query(conn, 
@@ -53,7 +58,8 @@ const deleteCourse = async (req, res, next, conn,
                 'WHERE course_id = ? AND user_id = ? ;', [course_id, user_id]
             ).catch(console.log);
 
-            res.status(200);
+            res.status(200).send("Course successfully deleted!");
+            return;
         }
         else if (all) {
             const class_id = await query.query(conn, 
@@ -81,10 +87,12 @@ const deleteCourse = async (req, res, next, conn,
                 'WHERE course_id = ? ;', [course_id]
             ).catch(console.log);
 
-            res.status(200);
+            res.status(200).send("Course successfully deleted!");
+            return;
         }
     }
-
+    
+    res.status(200).send("You are not authorized to delete this!");
 	res.end();
 };
 

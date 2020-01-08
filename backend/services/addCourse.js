@@ -19,9 +19,9 @@ const addCourse = async (req, res, next, conn, courses_tb, user_permissions_tb) 
                 'WHERE user_id = ' + user_id + ';'
             ).catch(console.log);;
 
-            if (perm[0].can_manage_own_courses <= 0 &&
+            if (perm && perm.length > 0 && perm[0].can_manage_own_courses <= 0 &&
                 perm[0].can_manage_all_coures <= 0) {
-                res.status(401).send("You are not authorized to add a course!");
+                res.status(200).send("You are not authorized to add a course!");
                 return;
             }
 
@@ -32,11 +32,11 @@ const addCourse = async (req, res, next, conn, courses_tb, user_permissions_tb) 
             ).catch(console.log);
 
             if (duplicateTitle && duplicateTitle.length > 0) {
-                res.status(401).send("A duplicate/similarly titled course exists!");
+                res.status(200).send("A duplicate/similarly titled course exists!");
                 return;
             }
 
-            const d = await query.query(conn, 
+            await query.query(conn, 
                 "INSERT INTO `" + courses_tb + "` (" +                     
                     "`course_code`, " + 
                     "`title`, " + 
@@ -52,7 +52,7 @@ const addCourse = async (req, res, next, conn, courses_tb, user_permissions_tb) 
                 ");"
             ).catch(console.log);
 
-            res.status(200);
+            res.status(200).send("Course successfully added!");
         
     }
 

@@ -88,8 +88,7 @@ const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, s
         );
     };
 
-    const columns = [
-        { id: '#', label: '#', minWidth: 10 },    
+    const columns = [        
         { id: 'name', label: 'name', minWidth: 10 },
         { id: 'username', label: 'username', minWidth: 10 },
         { id: 'email', label: 'email', minWidth: 10 },
@@ -103,8 +102,7 @@ const UserAdmin = ({ allAccounts, setAllAccounts, permissions, getProfileData, s
     ];
 
     const customTable = row => 
-        <TableRow key={row.user_id}>
-            <TableCell>{row.user_id}</TableCell>
+        <TableRow key={row.user_id}>            
             <TableCell>{row.name}</TableCell>
             <TableCell>{row.username}</TableCell>
             <TableCell>{row.email}</TableCell>
