@@ -67,7 +67,7 @@ try {
 		contents_tb,
 		courses_tb, 
 		user_permissions_tb
-	));
+	).catch(console.log));
 }
 catch {
 	console.log("Promises are broken.");

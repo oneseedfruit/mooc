@@ -45,10 +45,6 @@ const listCourses = async (req, res, next, conn, courses_tb, user_permissions_tb
         }        
     }
 
-    if (req.body.course_id != undefined) {
-        
-    }
-
     res.end();
 };
 

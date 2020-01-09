@@ -14,6 +14,15 @@ const auth = async (req, res, next, conn, user_accounts_tb) => {
 		const session_id = req.body.session_id;		
 
 		try {
+			const u = await query.query(conn, 
+				'SELECT username FROM ' + user_accounts_tb + ' ' +				
+				' WHERE session_id = "' + session_id + '";'
+			).catch(console.log);
+
+			if (u && u.length > 0) {
+				console.log("\n\n" + u[0].username + " is logging out...\n\n");
+			}
+
 			await query.query(conn, 
 				'UPDATE ' + user_accounts_tb +
 				' SET session_id = "' + 0 +
@@ -29,6 +38,12 @@ const auth = async (req, res, next, conn, user_accounts_tb) => {
 	else if (!isLogout) {
 		const reqUsername = escapeQuotes(req.body.username);
 		const reqPassword = escapeQuotes(req.body.password);
+
+		console.log("\n\n");
+		console.log("Someone is logging in with");
+		console.log("username: " + reqUsername);
+		console.log("password: " + reqPassword);
+		console.log("\n\n");
 		
 		if (reqUsername && reqPassword) {
             const loginResults = await query.query(conn, 'SELECT password FROM ' + user_accounts_tb + ' WHERE username = ?', [reqUsername]);

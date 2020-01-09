@@ -63,6 +63,8 @@ const ClassesAdminForm = ({
       setStartDate,
         end_date,
       setEndDate,
+        class_code,
+      setClassCode,
         title,
       setTitle,
         description,
@@ -80,6 +82,7 @@ const ClassesAdminForm = ({
             user_id,
             start_date,
             end_date,
+            class_code,
             title,
             description
         }).catch(console.log);
@@ -95,6 +98,7 @@ const ClassesAdminForm = ({
 
         setStartDate('');
         setEndDate('');
+        setClassCode('');
         setTitle('');
         setDescription('');
     } catch (exception) {
@@ -154,7 +158,15 @@ const ClassesAdminForm = ({
                                       margin="normal"                                    
                                       autoComplete="course_title" 
                                       fullWidth                                         
-                          />                    
+                          />
+                          <TextField  id="standard-basic" 
+                                      label="class code" 
+                                      value={ class_code }
+                                      name="class code"
+                                      onChange={({ target }) => setClassCode(target.value)}                                      
+                                      margin="normal"                                    
+                                      autoComplete="class_code"                              
+                          /> 
                           <TextField  id="standard-basic" 
                                       label="class title" 
                                       value={ title }
