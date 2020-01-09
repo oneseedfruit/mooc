@@ -95,7 +95,8 @@ const ClassesAdminForm = ({
               setNotification(null);                
           }, 5000);
         }
-
+        setExpanded('');
+        setShowForm(false);
         setStartDate('');
         setEndDate('');
         setClassCode('');
@@ -194,8 +195,7 @@ const ClassesAdminForm = ({
                       <Button 
                           variant="contained" 
                           color="primary"                         
-                          type="submit" 
-                          // onClick={ handleChange('panel1') }
+                          type="submit"                           
                           fullWidth
                       >
                           start a new class session

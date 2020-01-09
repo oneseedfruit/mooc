@@ -18,8 +18,8 @@ const addClass = async (req, res, next, conn,
     let start_date = escapeQuotes(req.body.start_date);
     let end_date = escapeQuotes(req.body.end_date);
     const class_code = escapeQuotes(req.body.class_code);
-    const title = escapeQuotes(req.body.title);
-    const description = escapeQuotes(req.body.description);
+    const class_title = escapeQuotes(req.body.title);
+    const class_description = escapeQuotes(req.body.description);
 
     start_date = start_date === '' ? '1000-01-01' : start_date;
     end_date = end_date === '' ? '1000-01-01' : end_date;
@@ -31,8 +31,8 @@ const addClass = async (req, res, next, conn,
     console.log("start_date: " + start_date);
     console.log("end_date: " + end_date);
     console.log("class_code: " + class_code);
-    console.log("title: " + title);
-    console.log("description: " + description);
+    console.log("class_title: " + class_title);
+    console.log("class_description: " + class_description);
     console.log("\n\n");
 
     if (course_id != null && user_id!= null)  {
@@ -76,8 +76,8 @@ const addClass = async (req, res, next, conn,
                     "ON (i.class_id = cs.class_id) " +                    
                     "SET " +                         
                         "class_code = '" + class_code + "', " +                        
-                        "i.title = '" + title + "', " +
-                        "i.description = '" + description + "' " +
+                        "i.class_title = '" + class_title + "', " +
+                        "i.class_description = '" + class_description + "' " +
                     "WHERE i.class_id = LAST_INSERT_ID()" +
                     "; "
                 ).catch(console.log);
@@ -86,6 +86,8 @@ const addClass = async (req, res, next, conn,
                     "; "
                 ).catch(console.log);
             }
+
+            res.status(200).send("Class successfully added!");
         }
             
             // const perm = await query.query(conn,
@@ -102,9 +104,9 @@ const addClass = async (req, res, next, conn,
             // }
 
             // const duplicateTitle = await query.query(conn, 
-            //     "SELECT course_code, title FROM " + courses_tb + " " +
+            //     "SELECT course_code, course_title FROM " + courses_tb + " " +
             //     "WHERE course_code = " + (course_code === '' ? "null" : "'" + course_code + "'") + 
-            //         " OR title = '" + title + "';"
+            //         " OR course_title = '" + course_title + "';"
             // ).catch(console.log);
 
             // if (duplicateTitle && duplicateTitle.length > 0) {

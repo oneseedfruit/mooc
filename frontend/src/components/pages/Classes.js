@@ -11,8 +11,9 @@ import TableCell from '@material-ui/core/TableCell';
 import Search from '../../components/SimpleSearchInArrayOfObjects';
 import ClassesAdminForm from './subcomponents/ClassesAdminForm';
 import courses from '../../services/courses';
+import classSessions from '../../services/classSessions';
 
-const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permissions, setNotification, setIsError}) => {
+const Classes = ({ allCourses, setAllCourses, allClasses, setAllClasses, profileData, getProfileData, permissions, setNotification, setIsError}) => {
     const useStyles = makeStyles(theme => ({
         paper: {        
             alignItems: 'left',
@@ -26,8 +27,10 @@ const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permi
       }));
     const classes = useStyles();
 
-    const [searchField, setSearchField] = useState('');
-    const [search, setSearch] = useState(null);    
+    const [searchClassField, setSearchClassField] = useState('');
+    const [searchClass, setSearchClass] = useState('');
+    const [searchCourseField, setSearchCourseField] = useState('');
+    const [searchCourse, setSearchCourse] = useState(null);
 
     const [expandedForm, setExpandedForm] = useState('');
     const [showForm, setShowForm] = useState(false);
@@ -39,6 +42,8 @@ const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permi
     const [class_code, setClassCode] = useState('');
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+
+
 
     const getAllCourses = useCallback(async () => {
         setNotification('Retrieving courses...');
@@ -54,7 +59,7 @@ const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permi
             setNotification(null);
             setAllCourses(data);
             getProfileData();
-            setSearch(data);
+            setSearchCourse(data);
 
             return;                
         } catch (exception) {
@@ -75,11 +80,49 @@ const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permi
     }, [getAllCourses]);
 
 
+
+    const getAllClasses = useCallback(async () => {
+        setNotification('Retrieving classes...');
+        setIsError(false);
+        setTimeout(() => {
+            setNotification(null);
+            setIsError(false);
+        }, 5000);
+
+        try {
+            const data = await classSessions.getAllClasses({ user_id: profileData.user_id }).catch(console.log);    
+            
+            setNotification(null);
+            setAllClasses(data);
+            getProfileData();
+            setSearchClass(data);
+
+            return;                
+        } catch (exception) {
+            setNotification('Error acquiring classes!');
+            setIsError(true);
+            setTimeout(() => {
+                setNotification(null);
+                setIsError(false);
+            }, 5000);
+        }
+    }, [setAllClasses, getProfileData, setNotification, setIsError]);
+
+    useEffect(() => {
+        let unmounted = false;
+        if (!unmounted)
+            getAllClasses();
+        return () => { unmounted = true }
+    }, [getAllClasses]);
+
+
+    
     const handleAddClass = (course_id, user_id) => event => {
         setCourseId(course_id);
         setUserId(user_id);
         setShowForm(true);
         setExpandedForm('panel1');
+        getAllClasses();
         // try {
         //     const r = await classSessions.addClass({ course_id, user_id }).catch(console.log);
         //     getAllCourses();
@@ -103,7 +146,7 @@ const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permi
         // }
     };
 
-    const columns = [        
+    const columnsCourse = [        
         { id: 'course_code', label: 'course code', minWidth: 10 },
         { id: 'title', label: 'title', minWidth: 10 },
         { id: 'description', label: 'description', minWidth: 10 },
@@ -111,12 +154,12 @@ const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permi
         { id: 'add a class', label: 'start a class', minWidth: 10 },
     ];
 
-    const customTable = row => {
+    const customTableCourse = row => {
         return (
             <TableRow key={row.course_id}>                
                 <TableCell>{row.course_code}</TableCell>
-                <TableCell>{row.title}</TableCell>
-                <TableCell>{row.description}</TableCell>
+                <TableCell>{row.course_title}</TableCell>
+                <TableCell>{row.course_description}</TableCell>
                 <TableCell> {row.username}</TableCell>
                 <TableCell>
                     <IconButton aria-label="add a class" onClick={ handleAddClass(row.course_id, profileData.user_id) }>
@@ -127,12 +170,35 @@ const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permi
         );
     }
 
+    const columnsClass = [        
+        { id: 'title', label: 'title', minWidth: 10 },
+        { id: 'description', label: 'description', minWidth: 100 },        
+        { id: 'by', label: 'by', minWidth: 10 },
+        // { id: 'start_date', label: 'start date', minWidth: 10 },
+        // { id: 'end_date', label: 'end date', minWidth: 10 },
+    ];
+
+    const customTableClass = row => {
+        return (
+            <TableRow key={row.class_id}>                
+                <TableCell>{row.class_title}</TableCell>         
+                <TableCell>{row.class_description}</TableCell>
+                <TableCell> {row.username}</TableCell>
+                {/* <TableCell>{row.start_date}</TableCell>
+                <TableCell>{row.end_date}</TableCell> */}
+            </TableRow>
+        );
+    }
+
     const Tabs = a11yProps => {
         return (
             [
                 <Tab key={0} label="My Classes" {...a11yProps(1)} />,
                 ((permissions !== null) ? (permissions.can_manage_own_courses || permissions.can_manage_all_courses  ?        
-                    <Tab key={1} label="Start a Class Session" {...a11yProps(1)} />        
+                    <Tab key={1} label="Instructing Classes" {...a11yProps(2)} />        
+                    : '') : ''),
+                ((permissions !== null) ? (permissions.can_manage_own_courses || permissions.can_manage_all_courses  ?        
+                    <Tab key={2} label="Start a Class Session" {...a11yProps(3)} />        
                     : '') : ''),
             ]
         );
@@ -157,7 +223,54 @@ const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permi
                                 <Container component="main" maxWidth="xl">
                                     <ClassesAdminForm 
                                         profileData={ profileData }
-                                        getAllCourses={ getAllCourses }
+                                        getAllCourses={ getAllClasses }
+                                        setNotification={ setNotification }
+                                        setIsError={ setIsError }
+                                            expanded={ expandedForm }
+                                        setExpanded={ setExpandedForm }
+                                            showForm={ showForm }
+                                        setShowForm={ setShowForm }
+                                            allCourses={ allCourses }
+                                            course_id={ course_id}
+                                        setCourseId={ setCourseId }
+                                            user_id={ user_id }
+                                        setUserId={ setUserId }
+                                            start_date={ start_date }
+                                        setStartDate={ setStartDate }
+                                            end_date={ end_date }
+                                        setEndDate={ setEndDate }
+                                            class_code={ class_code }
+                                        setClassCode={ setClassCode }
+                                            title={ title }
+                                        setTitle={ setTitle }
+                                            description={ description }
+                                        setDescription={ setDescription }
+                                    />
+                                    <div className={classes.paper}>                             
+                                        <Grid container>
+                                            <Search arrayOfObjects={ allClasses }
+                                                    searchField={ searchClassField }
+                                                    setSearchField={ setSearchClassField }
+                                                    setSearch={ setSearchClass } />
+                                        </Grid>                        
+                                        <PaginatedTable rows={ searchClass ? searchClass : [] } 
+                                                        columns={ columnsClass } 
+                                                        size="small"
+                                                        customTable = { customTableClass } />
+                                    </div>
+                                </Container>
+                            </TabPanel>
+                            </>
+                                    : '' : ''
+                }
+
+                { permissions !== null ? permissions.can_manage_own_courses || permissions.can_manage_all_courses  ?
+                        <>
+                            <TabPanel value={value} index={2}>                
+                                <Container component="main" maxWidth="xl">
+                                    <ClassesAdminForm 
+                                        profileData={ profileData }
+                                        getAllCourses={ getAllClasses }
                                         setNotification={ setNotification }
                                         setIsError={ setIsError }
                                             expanded={ expandedForm }
@@ -183,14 +296,14 @@ const Classes = ({ allCourses, setAllCourses, profileData, getProfileData, permi
                                     <div className={classes.paper}>                             
                                         <Grid container>
                                             <Search arrayOfObjects={ allCourses }
-                                                    searchField={ searchField }
-                                                    setSearchField={ setSearchField }
-                                                    setSearch={ setSearch } />
+                                                    searchField={ searchCourseField }
+                                                    setSearchField={ setSearchCourseField }
+                                                    setSearch={ setSearchCourse } />
                                         </Grid>                        
-                                        <PaginatedTable rows={ search ? search : [] } 
-                                                        columns={ columns } 
+                                        <PaginatedTable rows={ searchCourse ? searchCourse : [] } 
+                                                        columns={ columnsCourse } 
                                                         size="small"
-                                                        customTable = { customTable } />
+                                                        customTable = { customTableCourse } />
                                     </div>
                                 </Container>
                             </TabPanel>

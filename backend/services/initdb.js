@@ -256,8 +256,8 @@ const initdb = () => {
                     "CREATE TABLE IF NOT EXISTS `" + courses_tb + "` ("+
                         "`course_id` int(11) NOT NULL DEFAULT 1, " + 
                         "`course_code` varchar(255) NULL, " +
-                        "`title` varchar(255) NULL, " +
-                        "`description` mediumtext NULL, " + 
+                        "`course_title` varchar(255) NULL, " +
+                        "`course_description` mediumtext NULL, " + 
                         "`is_available` bool NOT NULL DEFAULT 1, " +  
                         "`user_id` int(11) NOT NULL" +
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
@@ -409,8 +409,8 @@ const initdb = () => {
                         "`class_info_id` int(11) NOT NULL DEFAULT 1, " + 
                         "`class_id` int(11) NOT NULL DEFAULT 1, " + 
                         "`class_code` varchar(255) NULL, " + 
-                        "`title` varchar(255) NULL, " +
-                        "`description` mediumtext NULL" +                        
+                        "`class_title` varchar(255) NULL, " +
+                        "`class_description` mediumtext NULL" +                        
                     ") ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;"
                 );
                 conn.query(
@@ -436,8 +436,8 @@ const initdb = () => {
                         "BEGIN " +                             
                             "INSERT INTO `" + class_sessions_info_tb + "` (" +                                 
                                 "`class_code`, " +  
-                                "`title`, " +
-                                "`description`" +
+                                "`class_title`, " +
+                                "`class_description`" +
                             ") VALUES ( '" +                                 
                                  "default class code" + "', '" +
                                  "Untitled" + "', '" +
@@ -498,8 +498,8 @@ const initdb = () => {
                 conn.query(
                     "INSERT INTO `" + courses_tb + "` (" +                        
                         "`course_code`, " +
-                        "`title`, " +
-                        "`description`, " + 
+                        "`course_title`, " +
+                        "`course_description`, " + 
                         "`is_available`, " +                  
                         "`user_id`" +
                     ") VALUES (" +                     
@@ -513,8 +513,8 @@ const initdb = () => {
                 conn.query(
                     "INSERT INTO `" + courses_tb + "` (" +                        
                         "`course_code`, " +
-                        "`title`, " +
-                        "`description`, " + 
+                        "`course_title`, " +
+                        "`course_description`, " + 
                         "`is_available`, " +  
                         "`user_id`" +                        
                     ") VALUES (" +                     
@@ -528,8 +528,8 @@ const initdb = () => {
                 conn.query(
                     "INSERT INTO `" + courses_tb + "` (" +                        
                         "`course_code`, " +
-                        "`title`, " +
-                        "`description`, " + 
+                        "`course_title`, " +
+                        "`course_description`, " + 
                         "`is_available`, " +  
                         "`user_id`" +                        
                     ") VALUES (" +                     
@@ -543,8 +543,8 @@ const initdb = () => {
                 conn.query(
                     "INSERT INTO `" + courses_tb + "` (" +                        
                         "`course_code`, " +
-                        "`title`, " +
-                        "`description`, " + 
+                        "`course_title`, " +
+                        "`course_description`, " + 
                         "`is_available`, " +  
                         "`user_id`" +                        
                     ") VALUES (" +                     

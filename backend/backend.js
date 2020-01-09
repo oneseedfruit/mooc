@@ -18,6 +18,7 @@ const listCourses = require('./services/course/listCourses');
 const addCourse = require('./services/course/addCourse');
 const deleteCourse = require('./services/course/deleteCourse');
 const updateCourse = require('./services/course/updateCourse');
+const listClasses = require('./services/classSessions/listClasses');
 const addClass = require('./services/classSessions/addClass');
 
 const conn = initdb();
@@ -59,6 +60,7 @@ try {
 	app.post('/course/delete', (req, res, next) => deleteCourse(req, res, next, conn, user_accounts_tb, user_permissions_tb, courses_tb, class_sessions_tb, class_sessions_regis_tb));
 	app.post('/course/update', (req, res, next) => updateCourse(req, res, next, conn, courses_tb, user_permissions_tb));
 
+	app.post('/class/get/all', (req, res, next) => listClasses(req, res, next, conn, class_sessions_tb, class_sessions_info_tb, courses_tb, user_permissions_tb, user_accounts_tb));	
 	app.post('/class/add', (req, res, next) => addClass(req, res, next, conn, 
 		class_sessions_tb, 
 		class_sessions_info_tb, 

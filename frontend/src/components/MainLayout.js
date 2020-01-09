@@ -108,6 +108,7 @@ const MainLayout = ({ session_id, setNotification, setIsError, setUser }) => {
     const [permissions, setPermissions] = useState(null);
     const [profileData, setProfileData] = useState(null);
     const [allCourses, setAllCourses] = useState(null);
+    const [allClasses, setAllClasses] = useState(null);
 
     const getProfileData = useCallback(async () => {        
         try {                                    
@@ -158,6 +159,8 @@ const MainLayout = ({ session_id, setNotification, setIsError, setUser }) => {
             show:
                 <Classes allCourses={ allCourses }
                          setAllCourses={ setAllCourses }
+                         allClasses={ allClasses }
+                         setAllClasses={ setAllClasses }
                          profileData={ profileData }
                          getProfileData={ getProfileData }
                          permissions={ permissions }

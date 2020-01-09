@@ -123,8 +123,8 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
 
     const columns = [        
         { id: 'course_code', label: 'course code', minWidth: 10 },
-        { id: 'title', label: 'title', minWidth: 10 },
-        { id: 'description', label: 'description', minWidth: 10 },
+        { id: 'course_title', label: 'course title', minWidth: 10 },
+        { id: 'course_description', label: 'course description', minWidth: 10 },
         { id: 'added_by', label: 'added by', minWidth: 10 },
         { id: 'is_available', label: 'is available', minWidth: 10 },
         { id: 'delete course', label: ' ', minWidth: 10 },
@@ -134,8 +134,8 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
         return (
             <TableRow key={row.course_id}>                
                 <TableCell>{row.course_code}</TableCell>
-                <TableCell>{row.title}</TableCell>
-                <TableCell>{row.description}</TableCell>
+                <TableCell>{row.course_title}</TableCell>
+                <TableCell>{row.course_description}</TableCell>
                 <TableCell> {row.username}</TableCell>
                 <TableCell>{checkbox(row.is_available, row.course_id, profileData.user_id)}</TableCell>
                 <TableCell><IconButton aria-label="delete" onClick={ handleDelete(row.course_id, profileData.user_id) }><DeleteIcon /></IconButton></TableCell>

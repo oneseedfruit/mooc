@@ -47,8 +47,8 @@ const ExpansionPanelDetails = withStyles(theme => ({
 const CourseAdminForm = ({profileData, getAllCourses, setNotification, setIsError}) => {
   
   const [courseCode, setCourseCode] = useState('');
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [course_title, setTitle] = useState('');
+  const [course_description, setDescription] = useState('');
   
   const handleAddCourse = async event => {
     event.preventDefault();    
@@ -56,9 +56,8 @@ const CourseAdminForm = ({profileData, getAllCourses, setNotification, setIsErro
     try {             
         const r = await courses.addCourse({
             course_code: courseCode, 
-            title, 
-            
-            description, 
+            course_title,             
+            course_description, 
             user_id: profileData.user_id
         }).catch(console.log);
 
@@ -117,24 +116,24 @@ const CourseAdminForm = ({profileData, getAllCourses, setNotification, setIsErro
                                     autoComplete="course_code"                                                    
                         />                    
                         <TextField  id="standard-basic" 
-                                    label="title" 
-                                    value={ title }
-                                    name="title"
+                                    label="course title" 
+                                    value={ course_title }
+                                    name="course_title"
                                     onChange={({ target }) => setTitle(target.value)}
                                     margin="normal"
                                     required
-                                    autoComplete="title"
+                                    autoComplete="course_title"
                                     fullWidth                      
                         />
                     </Grid>
                     <Grid container>            
                         <TextField  id="standard-basic" 
-                                    label="description" 
-                                    value={ description }
-                                    name="description"
+                                    label="course_description" 
+                                    value={ course_description }
+                                    name="course description"
                                     onChange={({ target }) => setDescription(target.value)}
                                     margin="normal"                                    
-                                    autoComplete="description"
+                                    autoComplete="course_description"
                                     multiline={ true }
                                     rows="5"
                                     fullWidth
