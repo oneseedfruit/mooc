@@ -12,6 +12,7 @@ const updateCourse = async details => {
 };
 
 const addCourse = async details => {
+  console.log(details);
   const response = await axios.post(`${baseUrl}/course/add`, details).catch(console.log);
   return response.data;
 };
