@@ -5,7 +5,6 @@ import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
-import courses from '../../../services/courses';
 import classSessions from '../../../services/classSessions';
 
 const ExpansionPanel = withStyles({
@@ -47,7 +46,7 @@ const ExpansionPanelDetails = withStyles(theme => ({
 
 const ClassesAdminForm = ({
       profileData, 
-      getAllCourses, 
+      getAllClasses, 
       setNotification, 
       setIsError,
         expanded,
@@ -86,17 +85,23 @@ const ClassesAdminForm = ({
             title,
             description
         }).catch(console.log);
-        // getAllCourses();
+        // getAllClasses();
 
         if (r) {
-          setNotification(r);
           setIsError(false);
           setTimeout(() => {
-              setNotification(null);                
+            setNotification(null);                
           }, 5000);
+          
+          if (!r.error) {
+            setNotification(r);
+            setExpanded('');
+          }
+          else {
+            setNotification(r.error);
+          }
         }
-        setExpanded('');
-        setShowForm(false);
+        
         setStartDate('');
         setEndDate('');
         setClassCode('');

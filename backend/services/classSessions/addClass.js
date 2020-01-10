@@ -9,6 +9,7 @@ const addClass = async (req, res, next, conn,
         courses_tb, 
         user_permissions_tb
 ) => {
+    console.log("Adding class...");
     const escapeQuotes = (str) => {
         return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0');
     };
@@ -24,16 +25,16 @@ const addClass = async (req, res, next, conn,
     start_date = start_date === '' ? '1000-01-01' : start_date;
     end_date = end_date === '' ? '1000-01-01' : end_date;
 
-    console.log("\n\n");
-    console.log("A new class is being added!");
-    console.log("course_id: " + course_id);
-    console.log("user_id: " + user_id);
-    console.log("start_date: " + start_date);
-    console.log("end_date: " + end_date);
-    console.log("class_code: " + class_code);
-    console.log("class_title: " + class_title);
-    console.log("class_description: " + class_description);
-    console.log("\n\n");
+    // console.log("\n\n");
+    // console.log("A new class is being added!");
+    // console.log("course_id: " + course_id);
+    // console.log("user_id: " + user_id);
+    // console.log("start_date: " + start_date);
+    // console.log("end_date: " + end_date);
+    // console.log("class_code: " + class_code);
+    // console.log("class_title: " + class_title);
+    // console.log("class_description: " + class_description);
+    // console.log("\n\n");
 
     if (course_id != null && user_id!= null)  {
         const perm = await query.query(conn, 

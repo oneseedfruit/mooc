@@ -223,7 +223,7 @@ const Classes = ({ allCourses, setAllCourses, allClasses, setAllClasses, profile
                                 <Container component="main" maxWidth="xl">
                                     <ClassesAdminForm 
                                         profileData={ profileData }
-                                        getAllCourses={ getAllClasses }
+                                        getAllClasses={ getAllClasses }
                                         setNotification={ setNotification }
                                         setIsError={ setIsError }
                                             expanded={ expandedForm }
