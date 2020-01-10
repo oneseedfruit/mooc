@@ -28,7 +28,8 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
     const classes = useStyles();
 
     const [searchField, setSearchField] = useState('');
-    const [search, setSearch] = useState(null);    
+    const [search, setSearch] = useState(null);  
+    const [expanded, setExpanded] = useState('');
 
     const getAllCourses = useCallback(async () => {
         setNotification('Retrieving courses...');
@@ -159,6 +160,8 @@ const CourseAdmin = ({ allCourses, setAllCourses, profileData, getProfileData, s
                         <CourseAdminForm 
                             profileData={ profileData }
                             getAllCourses={ getAllCourses }
+                            expanded={ expanded }
+                            setExpanded={ setExpanded }
                             setNotification={ setNotification }
                             setIsError={ setIsError }
                         />

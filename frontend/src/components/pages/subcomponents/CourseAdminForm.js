@@ -44,7 +44,7 @@ const ExpansionPanelDetails = withStyles(theme => ({
   },
 }))(MuiExpansionPanelDetails);
 
-const CourseAdminForm = ({profileData, getAllCourses, setNotification, setIsError}) => {
+const CourseAdminForm = ({profileData, getAllCourses, expanded, setExpanded, setNotification, setIsError}) => {
   
   const [courseCode, setCourseCode] = useState('');
   const [course_title, setTitle] = useState('');
@@ -60,21 +60,27 @@ const CourseAdminForm = ({profileData, getAllCourses, setNotification, setIsErro
             course_description, 
             user_id: profileData.user_id
         }).catch(console.log);
-
         getAllCourses();
 
         if (r) {
-          setNotification(r);
           setIsError(false);
           setTimeout(() => {
-              setNotification(null);                
+            setNotification(null);                
           }, 5000);
+          
+          if (!r.error) {
+            setNotification(r);
+            setExpanded('');
+          }
+          else {
+            setNotification(r.error);
+          }
         }
 
         setCourseCode('');
         setTitle('');
         setDescription('');
-    } catch (exception) {
+    } catch (exception) {        
         if (exception.response === undefined)
             setNotification("Can't connect to backend! Server down?");
         else
@@ -87,7 +93,7 @@ const CourseAdminForm = ({profileData, getAllCourses, setNotification, setIsErro
     }
   };
 
-  const [expanded, setExpanded] = useState('');
+  
 
   const handleChange = panel => (event, newExpanded) => {      
     setExpanded(newExpanded ? panel : false);
