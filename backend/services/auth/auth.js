@@ -11,27 +11,21 @@ const auth = async (req, res, next, conn, user_accounts_tb) => {
 	const isLogout = req.body.isLogout;
 
 	if (isLogout) {
-		const session_id = req.body.session_id;		
+		const session_id = req.body.session_id;
+		const u = await query.query(conn, 
+			'SELECT username FROM ' + user_accounts_tb + ' ' +				
+			' WHERE session_id = "' + session_id + '";'
+		).catch(console.log);
 
-		try {
-			const u = await query.query(conn, 
-				'SELECT username FROM ' + user_accounts_tb + ' ' +				
-				' WHERE session_id = "' + session_id + '";'
-			).catch(console.log);
-
-			if (u && u.length > 0) {
-				console.log("\n\n" + u[0].username + " is logging out...\n\n");
-			}
-
-			await query.query(conn, 
-				'UPDATE ' + user_accounts_tb +
-				' SET session_id = "' + 0 +
-				'" WHERE session_id = "' + session_id + '";'
-			).catch(console.log);
+		if (u && u.length > 0) {
+			console.log("\n\n" + u[0].username + " is logging out...\n\n");
 		}
-		catch (exception) {
-
-		}
+		
+		await query.query(conn, 
+			'UPDATE ' + user_accounts_tb +
+			' SET session_id = "' + 0 +
+			'" WHERE session_id = "' + session_id + '";'
+		).catch(console.log);
 		
 		res.status(200).end();
 	}
@@ -46,23 +40,26 @@ const auth = async (req, res, next, conn, user_accounts_tb) => {
 		console.log("\n\n");
 		
 		if (reqUsername && reqPassword) {
-            const loginResults = await query.query(conn, 'SELECT password FROM ' + user_accounts_tb + ' WHERE username = ?', [reqUsername]);
-			const isMatching = loginResults.length > 0 ? bcrypt.compareSync(reqPassword, loginResults[0].password, 10) : false;				
+			let loginResults = [];			
+			loginResults = await query.query(conn, 
+				'SELECT password FROM ' + user_accounts_tb + ' WHERE username = ?', [reqUsername]
+			).catch(console.log);		
+            
+			const isMatching = loginResults.length > 0 ? 
+				bcrypt.compareSync(reqPassword, loginResults[0].password, 10) : 
+				false;				
 									
             if (isMatching) {
                 req.session.loggedin = true;
 
-				const session_id = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");
-				try {
-					await query.query(conn, 
-						'UPDATE ' + user_accounts_tb +
-						' SET session_id = "' + session_id +
-						'" WHERE username = "' + reqUsername + '";'
-					).catch(console.log);
-				}
-				catch (exception) {
-
-				}
+				const session_id = crypto.createHash('sha256').update(uuid.v1()).update(crypto.randomBytes(256)).digest("hex");				
+				
+				await query.query(conn, 
+					'UPDATE ' + user_accounts_tb +
+					' SET session_id = "' + session_id +
+					'" WHERE username = "' + reqUsername + '";'
+				).catch(console.log);
+				
                 res.send({ username: reqUsername, session_id });
             } else {
 				res.status(401);

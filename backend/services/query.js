@@ -1,14 +1,14 @@
-const query = async (conn, q, params) => new Promise(
+const query = async (conn, q, params) => await new Promise(
     (resolve, reject) => {
         const handler = (error, result) => {
             if (error) {
-            reject(error);
-            return;
+                reject(error);
+                return;
+            }
+            resolve(result);        
         }
-        resolve(result);        
-    }    
-    conn.query(q, params, handler)
-});
+        conn.query(q, params, handler);
+    });
 
 query().then(() => {
     console.log("Promise resolved.");

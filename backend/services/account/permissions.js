@@ -1,6 +1,6 @@
 const query = require('../query');
 
-const permissions = async (req, res, next, conn, user_accounts_tb, user_permissions_tb) => {    
+const permissions = async (req, res, next, conn, user_accounts_tb, user_permissions_tb) => {   
     if (req.body.session_id) {
         const data = await query.query(conn, 
                 'SELECT ' + 

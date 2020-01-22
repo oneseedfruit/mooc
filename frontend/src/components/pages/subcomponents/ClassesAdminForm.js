@@ -127,7 +127,7 @@ const ClassesAdminForm = ({
       return c;
     return "-";
   };
-  const getCourseTitle = course_id => getCourse(course_id).title;  
+  const getCourseTitle = course_id => getCourse(course_id).course_title;  
 
   const handleChange = panel => (event, newExpanded) => {      
     setExpanded(newExpanded ? panel : false);

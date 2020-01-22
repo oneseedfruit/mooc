@@ -10,7 +10,7 @@ const profile = async (req, res, next, conn, user_accounts_tb, user_permissions_
         if(data)
             res.send(data[0].username);
 
-        return;
+        return data;
     }
 
     const data = await query.query(conn, 
@@ -21,7 +21,7 @@ const profile = async (req, res, next, conn, user_accounts_tb, user_permissions_
 
     if (data) {
         res.send(data[0]);
-        return;
+        return data;
     }
 };
 

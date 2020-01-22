@@ -20,7 +20,7 @@ const addCourse = async (req, res, next, conn,
                 'SELECT can_manage_own_courses, can_manage_all_courses FROM ' +
                 user_permissions_tb + ' ' +
                 'WHERE user_id = ' + user_id + ';'
-            ).catch(console.log);;
+            ).catch(console.log);
 
             if (perm && perm.length > 0 && perm[0].can_manage_own_courses <= 0 &&
                 perm[0].can_manage_all_coures <= 0) {
