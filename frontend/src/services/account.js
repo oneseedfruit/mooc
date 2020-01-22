@@ -31,9 +31,8 @@ const getAllAccounts = async details => {
   return response.data;
 };
 
-
-const getProfile = async session_id => {
-  const response = await axios.post(`${baseUrl}/profile/get`, session_id).catch(console.log);  
+const getProfile = async details => {
+  const response = await axios.get(`${baseUrl}/profile/get?session_id=${details.session_id}&?user_id=${details.user_id}`).catch(console.log);  
   return response.data;
 };
 

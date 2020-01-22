@@ -84,8 +84,7 @@ const ClassesAdminForm = ({
             class_code,
             title,
             description
-        }).catch(console.log);
-        // getAllClasses();
+        }).catch(console.log);        
 
         if (r) {
           setIsError(false);
