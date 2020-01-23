@@ -10,7 +10,7 @@ const deleteCourse = async (req, res, next, conn,
     const course_id = req.body.course_id;    
     const user_id = req.body.user_id;
 
-    if (course_id != undefined) {
+    if (course_id !== undefined) {
         const addedBy = await query.query(conn, 
             'SELECT user_id ' +                
             'FROM ' + courses_tb + ' ' +            

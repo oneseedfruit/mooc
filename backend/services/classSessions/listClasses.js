@@ -1,7 +1,7 @@
 const query = require('../query');
 
 const listClasses = async (req, res, next, conn, class_sessions_tb, class_sessions_info_tb, courses_tb, user_permissions_tb, user_accounts_tb) => {
-    if (req.query.user_id != undefined) {
+    if (req.query.user_id !== undefined) {
         const data = await query.query(conn,
             'SELECT ' + 
                 'c.user_id, ' +

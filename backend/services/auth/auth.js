@@ -45,7 +45,7 @@ const auth = async (req, res, next, conn, user_accounts_tb) => {
 				'SELECT password FROM ' + user_accounts_tb + ' WHERE username = ?', [reqUsername]
 			).catch(console.log);		
             
-			const isMatching = loginResults.length > 0 ? 
+			const isMatching = loginResults !== undefined && loginResults.length > 0 ? 
 				bcrypt.compareSync(reqPassword, loginResults[0].password, 10) : 
 				false;				
 									

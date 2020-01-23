@@ -1,7 +1,7 @@
 const query = require('../query');
 
 const permissions = async (req, res, next, conn, user_accounts_tb, user_permissions_tb) => {   
-    if (req.body.session_id) {
+    if (req.body.session_id !== undefined) {
         const data = await query.query(conn, 
                 'SELECT ' + 
                     'ac.user_id, ' +
@@ -16,11 +16,12 @@ const permissions = async (req, res, next, conn, user_accounts_tb, user_permissi
                 'WHERE session_id = ? ;', [req.body.session_id]
             ).catch(console.log);
         
-        res.send(data[0]);
+        if (data !== undefined)
+            res.send(data[0]);
         res.end();
         return;
     }
-    if (req.body.perm && req.body.isChecked != undefined && req.body.isChecked != null) {
+    if (req.body.perm !== undefined && req.body.isChecked !== undefined && req.body.isChecked != null) {
         await query.query(conn, 
                 'UPDATE ' + user_permissions_tb + ' ' +
                 'SET ' + req.body.perm + ' = ' + req.body.isChecked + ' ' +

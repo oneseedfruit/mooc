@@ -1,7 +1,7 @@
 const query = require('../query');
 
 const listCourses = async (req, res, next, conn, courses_tb, user_permissions_tb, user_accounts_tb) => {
-    if (req.query.user_id != undefined) {
+    if (req.query.user_id !== undefined) {
         const data = await query.query(conn,
             'SELECT ' + 
                 'c.user_id, ' +
@@ -16,7 +16,7 @@ const listCourses = async (req, res, next, conn, courses_tb, user_permissions_tb
             'WHERE p.user_id = ? ;', [req.query.user_id]
         ).catch(console.log);
 
-        if (data.length > 0 && data[0]) {
+        if (data !== undefined && data.length > 0 && data[0]) {
             const own = data[0].can_manage_own_courses > 0;
             const all = data[0].can_manage_all_courses > 0;
 
